@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://api.cacdovale.com.br/api/v1",
+  baseURL: "http://localhost:3030/api/v1",
 });
 
 api.interceptors.request.use(
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/auth";
+      window.location.href = "/auth/login";
     }
 
     return Promise.reject(error);

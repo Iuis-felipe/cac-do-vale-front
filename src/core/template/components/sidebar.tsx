@@ -3,18 +3,47 @@ import { motion } from 'motion/react';
 import { ChartPieIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
+import userStore from '@/core/store/user';
 
 export const Sidebar = () => {
   const navigate = useNavigate()
+  const { user } = userStore()
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleClick = (url: string) => {
     navigate(url)
   }
 
+  const handleLabel = () => {
+    if(!user || !user.name) return "-"
+
+    const splitedName = user.name.split(" ")
+    
+    if(splitedName.length === 1) {
+      return `${splitedName[0][0].toUpperCase()}${splitedName[0][1].toUpperCase()}`;
+    }
+
+    return `${splitedName[0][0].toUpperCase()}${splitedName[1][0].toUpperCase()}`;
+  }
+
+  const handleName = () => {
+    if(!user || !user.name) {
+      return "-"
+    }
+
+    const splitedName = user.name.split(" ")
+    
+    if(splitedName.length === 1) {
+      return `${splitedName[0]}`;
+    }
+
+    return `${splitedName[0]} ${splitedName[splitedName.length - 1]}`;
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/auth/auth');
+    navigate('/auth/login');
   }
 
   return (
@@ -69,11 +98,11 @@ export const Sidebar = () => {
       </div>
       <div className={`w-full flex flex-row items-center gap-2 ${isExpanded ? 'p-4' : 'justify-center pb-4'}`}>
         <div className='p-2 rounded-full bg-purple-800 flex items-center justify-center'>
-          <p className='text-sm text-white'> AD </p>
+          <p className='text-sm text-white'> {handleLabel()} </p>
         </div>
         {isExpanded && (
           <div>
-            <p className='text-md font-medium text-white'> Admin Teste </p>
+            <p className='text-md font-medium text-white'> {handleName()} </p>
             <p className='text-sm text-white cursor-pointer' onClick={handleLogout}> Sair </p>
           </div>
         )}

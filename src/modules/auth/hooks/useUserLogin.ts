@@ -10,13 +10,14 @@ const useUserLogin = () => {
     mutationKey: ["login"],
     mutationFn: ({ email, password }: { email: string, password: string }) => login(email, password),
     onSuccess: (data: LoginResponse) => {
+      console.log('data', data);
       if(data.access_token) {
         localStorage.setItem("token", data.access_token);
       }
 
       setUser({
         id: data.user.id,
-        name: data.user.name,
+        name: data.user.nome,
         role: "admin",
         email: data.user.email,
       });

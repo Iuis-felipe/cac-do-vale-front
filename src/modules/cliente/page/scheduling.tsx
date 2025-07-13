@@ -52,8 +52,8 @@ const Scheduling = () => {
           {currentPage === 7 && <FinishFrame data={formData} />}
         </div>
         <button 
-          className={`cursor-pointer ${currentPage === 5 ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`} 
-          disabled={currentPage === 5} 
+          className={`cursor-pointer ${currentPage === 7 ? "opacity-50 cursor-not-allowed" : "opacity-100 cursor-pointer"}`} 
+          disabled={currentPage === 7} 
           onClick={() => currentPage < 7 && setCurrentPage(currentPage + 1)}
         >
           <ChevronRightIcon className="size-6 text-blue-800 stroke-3" />
