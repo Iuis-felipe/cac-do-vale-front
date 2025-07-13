@@ -1,42 +1,47 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { AuthRoutes } from "../../modules/auth/routes";
 import { DashboardRoutes } from "../../modules/dashboard/routes";
 import Template from "../template";
 import { ScheduleRoutes } from "../../modules/agendamento/routes";
 import { userRoutes } from "../../modules/user/routes";
 import clientRoutes from "@/modules/cliente/routes";
+import useLoggedBase from "../hooks";
+
+const LoggedBase = ({ children }: { children: React.ReactNode }) => {
+  const isLogged = useLoggedBase();
+
+  if (!isLogged) {
+    return <Navigate to="/auth/login" />;
+  }
+
+  return children;
+}
 
 const Router = createBrowserRouter([
   {
     path: "/auth",
-    element: <Outlet />,
+    element: <LoggedBase><Outlet /></LoggedBase>,
     children: [...AuthRoutes],
   },
   {
     path: "/",
     element: (
-      <Template>
-        <Outlet />
-      </Template>
+      <LoggedBase>
+        <Template>
+          <Outlet />
+        </Template>
+      </LoggedBase>
     ),
     children: [...DashboardRoutes]
   },
   {
     path: "agendamento",
-    element: (
-      <Template>
-        <Outlet />
-      </Template>
-    ),
+    element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
     children: [...ScheduleRoutes]
   },
   {
     path: "usuario",
-    element: (
-      <Template>
-        <Outlet />
-      </Template>
-    ),
+    element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
     children: [...userRoutes]
   },
   {
