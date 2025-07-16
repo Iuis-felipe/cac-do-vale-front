@@ -1,90 +1,106 @@
+import React, { useEffect, useState } from "react";
 import useCreateClientSchedule from "@/modules/cliente/hook/useCreateClientSchedule";
 import { set } from "date-fns";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 interface FinishFrameProps {
   data: any;
 }
 
-const FinishFrame = ({ data }: FinishFrameProps) => {
-  const { mutate, isPending, isSuccess, isError } = useCreateClientSchedule();
-  const [error, setError] = useState<string | null>(null);
+const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
+  const { mutate, isPending, isSuccess, isError: isMutationError } = useCreateClientSchedule();
+  const [validationError, setValidationError] = useState<string | null>(null);
 
-  const hasError = () => {
+  const handleValidation = () => {
     if (!data) {
-      setError("Houve um erro ao carregar os dados, tente novamente");
-      return true;
+      setValidationError("Houve um erro ao carregar os dados. Tente novamente.");
+      return false;
     }
-
-    if (!data.dia || !data.horario || !data.email || !data.telefone || !data.cpf || !data.nome_civil || !data.nome_social || !data.cep || !data.logradouro || !data.numero || !data.bairro || !data.cidade || !data.estado || !data.tipo_exame || !data.origem || !data.categoria || !data.forma_pagamento) {
-      setError("Que pena, algum campo obrigatório não foi preenchido, volte e preencha todos os campos obrigatórios");
-      return true;
+    const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'nome_social', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'origem', 'categoria', 'forma_pagamento'];
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        setValidationError("Algum campo obrigatório não foi preenchido. Volte e preencha todos os campos obrigatórios.");
+        return false;
+      }
     }
-
-    if (data.dia < new Date()) {
-      setError("Que pena, a data selecionada já passou, volte e selecione uma data futura");
-      return true;
+    if (new Date(data.dia) < new Date()) {
+      setValidationError("A data selecionada já passou. Volte e selecione uma data futura.");
+      return false;
     }
-
-    setError(null);
-    return false;
-  }
+    setValidationError(null);
+    return true;
+  };
 
   const handleCreateSchedule = () => {
-    if (hasError()) {
+    if (!handleValidation()) {
       return;
     }
-
-    const newSchedule = {...data};
-    
-    newSchedule.dia = set(new Date(data.dia), { hours: parseInt(data.horario?.split(':')[0] || '0'), minutes: parseInt(data.horario?.split(':')[1] || '0') });
-    newSchedule.horario = data.horario;
-
+    const newSchedule = { ...data };
+    const [hours, minutes] = data.horario.split(':').map(Number);
+    newSchedule.dia = set(new Date(data.dia), { hours, minutes });
     mutate(newSchedule);
-  }
-
-  const handleCloseModal = () => {
-    window.close();
-  }
+  };
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Houve um erro ao criar o agendamento, tente novamente");
+    if (isMutationError) {
+      toast.error("Houve um erro ao criar o agendamento. Tente novamente.");
     }
-  }, [isError]);
+  }, [isMutationError]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center">
-      {isSuccess && <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex flex-col justify-center items-center z-10">
-        <div className="w-[30%] h-fit p-5 bg-white rounded-md">
-          <p className="text-lg font-semibold">Agendamento realizado com sucesso!</p>
-          <p className="text-sm text-gray-500">
-            Esperamos você no dia e horario marcados!
-          </p>
-          <button 
-            className="w-full py-2 cursor-pointer bg-blue-800 text-white rounded-md flex flex-row items-center justify-center gap-2 mt-4"
-            onClick={handleCloseModal}
-          >
-            Fechar e voltar para a página inicial
-          </button>
+    <div className="w-full h-full flex flex-col justify-center items-center text-center p-4">
+      {isSuccess && (
+        <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-20 p-4">
+          <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-8 text-center">
+            <div className="flex justify-center">
+              <CheckCircleIcon className="size-16 text-green-500" />
+            </div>
+            <p className="text-2xl font-bold mt-4 text-gray-800">Agendamento realizado!</p>
+            <p className="text-base text-gray-500 mt-2">
+              Esperamos você no dia e horário marcados. Você pode fechar esta janela.
+            </p>
+            <button
+              className="w-full mt-6 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors"
+              onClick={() => window.close()}
+            >
+              Fechar
+            </button>
+          </div>
         </div>
-      </div>}
-      <h1 className="text-3xl font-bold mb-6">Pronto para finalizar?</h1>
-      <p className="text-sm text-gray-500">
-        Caso necessário volte e revise seus dados antes de finalizar.
-      </p>
-      <button 
-        className="w-[30%] py-2 bg-blue-800 text-white rounded-md mt-10 cursor-pointer" 
-        onClick={handleCreateSchedule}
-        disabled={isPending}
-      >
-        {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Finalizar agendamento"}
-      </button>
-      {error && <p className="text-sm text-red-500 mt-5">{error}</p>}
+      )}
+
+      <div className="w-full max-w-lg">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Pronto para finalizar?</h1>
+        <p className="mt-3 text-base text-gray-500">
+          Revise seus dados com atenção antes de confirmar o agendamento.
+        </p>
+
+        {validationError && (
+          <div className="flex items-center gap-3 mt-6 p-3 w-full rounded-lg bg-red-100 border border-red-300 text-red-800">
+            <ExclamationTriangleIcon className="size-6 flex-shrink-0" />
+            <p className="text-sm text-left">{validationError}</p>
+          </div>
+        )}
+
+        <button
+          className="w-full sm:w-auto mt-10 inline-flex items-center justify-center gap-2 px-8 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-colors cursor-pointer disabled:opacity-50"
+          onClick={handleCreateSchedule}
+          disabled={isPending}
+        >
+          {isPending ? (
+            <>
+              <Loader2 className="size-5 animate-spin" />
+              Finalizando...
+            </>
+          ) : (
+            "Confirmar Agendamento"
+          )}
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default FinishFrame;
