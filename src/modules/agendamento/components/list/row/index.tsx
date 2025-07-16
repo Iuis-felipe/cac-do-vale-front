@@ -29,7 +29,7 @@ const TableRow: React.FC<ITableRowProps> = ({ data, handleActions }) => {
       <CellItem text={cpf} />
       <CellItem text={categoria} />
       <CellItem text={origem} />
-      <CellItem text={format(addHours(new Date(dia), 3), "dd/MM/yyyy HH:mm")} />
+      <CellItem text={format(new Date(dia), "dd/MM/yyyy HH:mm")} />
       <CellItem text={status} textColor={statusColor(status)}/>
       <div className="flex flex-row items-center justify-center gap-3 p-2">
         <button className="p-0 cursor-pointer" onClick={() => handleActions(data.id)}>

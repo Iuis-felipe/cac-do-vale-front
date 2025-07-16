@@ -48,17 +48,17 @@ export const Sidebar = () => {
 
   return (
     <motion.aside
-      className="bg-blue-800 h-full flex flex-col items-start justify-between"
+      className="bg-[#101F59] h-full flex flex-col items-start justify-between"
       initial={{ width: "3.5rem" }}
-      animate={{ width: isExpanded ? "13rem" : "3.5rem" }}
+      animate={{ width: isExpanded ? "18rem" : "3.5rem" }}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div className='w-full flex flex-col gap-4'>
         {isExpanded ? (
-          <p className='text-center mt-4'> Agendamento </p>
+          <p className='text-center mt-4 text-white'> Agendamento </p>
         ) : (
-          <p className='text-center mt-4'> A </p>
+          <p className='text-center mt-4 text-white' > A </p>
         )}
       
         {isExpanded && (

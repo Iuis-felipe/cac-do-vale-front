@@ -32,17 +32,17 @@ const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) =
             <TableCell>{user.email}</TableCell>
             <TableCell>{user.ativo ? "Ativo" : "Inativo"}</TableCell>
             <TableCell className="flex items-center gap-4">
-              <button className="text-blue-500" onClick={() => handleEditUser(user)}>
+              <button className="text-blue-500 cursor-pointer" onClick={() => handleEditUser(user)}>
                 <PencilIcon className="size-5" />
               </button>
-              <button className="text-red-500">
+              <button className="text-red-500 cursor-pointer">
                 <TrashIcon className="size-5" />
               </button>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
-    </Table>   
+    </Table>
   )
 }
 

@@ -53,7 +53,7 @@ const Dashboard = () => {
         )}
         {schedules.pending.length > 0 && (
           <div className="flex flex-col gap-4">
-            <p className="text-lg font-medium"> Agendamentos pendentes </p>
+            <p className="text-lg font-medium"> Próximos atendimentos </p>
             <Carousel 
               opts={{
                 loop: false,
