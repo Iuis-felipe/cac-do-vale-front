@@ -3,16 +3,14 @@ import { Loader2 } from 'lucide-react';
 
 interface DaySelectorProps {
   loading: boolean;
-  days: string[]; // Horários já ocupados
+  days: string[]; 
   selectedDay: Date | undefined;
   selectedHour: string | undefined;
   setSelectedHour: (hour: string | undefined) => void;
 }
 
-// Gera a lista completa de horários do dia
 const generateTimeSlots = () => {
   const slots = [];
-  // Gera horários das 08:00 às 17:45
   for (let i = 0; i < 40; i++) {
     const hour = Math.floor(i / 4) + 8;
     const minute = (i % 4) * 15;
@@ -23,7 +21,7 @@ const generateTimeSlots = () => {
 };
 
 const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
-  const [visibleCount, setVisibleCount] = useState(12); // NOVO: Controla quantos horários são visíveis
+  const [visibleCount, setVisibleCount] = useState(12); 
 
   const allTimeSlots = useMemo(() => generateTimeSlots(), []);
   
@@ -55,12 +53,10 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
   const morningSlots = availableSlots.filter(time => parseInt(time.split(':')[0]) < 12);
   const afternoonSlots = availableSlots.filter(time => parseInt(time.split(':')[0]) >= 12);
 
-  // Combina os slots e limita a visibilidade
   const visibleSlots = [...morningSlots, ...afternoonSlots].slice(0, visibleCount);
   
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6">
-      {/* Horários da Manhã */}
       <div>
         <h3 className="font-semibold text-gray-700 mb-3 border-b pb-2">Manhã</h3>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
@@ -82,7 +78,6 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
         </div>
       </div>
       
-      {/* Horários da Tarde */}
       <div>
         <h3 className="font-semibold text-gray-700 mb-3 border-b pb-2">Tarde</h3>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
@@ -104,7 +99,6 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
         </div>
       </div>
 
-      {/* Botão de "Mostrar Mais" */}
       {visibleCount < availableSlots.length && (
         <div className="text-center mt-4">
           <button

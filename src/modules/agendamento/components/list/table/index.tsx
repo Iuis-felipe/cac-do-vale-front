@@ -35,7 +35,7 @@ const Table: React.FC<ITableProps> = ({ schedules, loading = false, totalPages, 
         <CellItem text='Documento' />
         <CellItem text='Categoria' />
         <CellItem text='Origem' />
-        <CellItem text='Horário' />
+        <CellItem text='Data e Horário' />
         <CellItem text='Status' />
         <CellItem text='Ações' hasBar={false} textAlign="center"/>
       </div>
