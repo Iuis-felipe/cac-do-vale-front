@@ -69,11 +69,11 @@ const Filter: React.FC<IFilterProps> = ({ setSearch, setOrder, setPage, order, h
             checked={order === "categoria"}
             onChange={() => setOrder(order === "categoria" ? undefined : "categoria")}
           />
-          <FilterCheckbox
+          {/* <FilterCheckbox
             label="Pagamento"
             checked={order === "forma_pagamento"}
             onChange={() => setOrder(order === "forma_pagamento" ? undefined : "forma_pagamento")}
-          />
+          /> */}
         </div>
       </Tooltip>
     </div>
