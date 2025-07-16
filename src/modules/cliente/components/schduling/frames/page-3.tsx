@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface DaySelectionFrameProps {
   data: any;
@@ -20,6 +21,7 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
     <div className="w-full h-full flex flex-col lg:flex-row gap-8 justify-center items-center p-4">
       <div className="w-full max-w-sm flex justify-center">
         <Calendar
+          locale={ptBR}
           mode="single"
           selected={selectedDay}
           onSelect={handleDaySelect}
