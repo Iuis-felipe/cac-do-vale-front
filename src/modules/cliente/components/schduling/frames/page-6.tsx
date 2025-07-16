@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { InputMask } from '@react-input/mask';
 
+// --- Componente Auxiliar ---
 const FormField = ({ id, label, children, required = true }: { id: string; label: string; children: React.ReactNode; required?: boolean }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
@@ -11,6 +13,7 @@ const FormField = ({ id, label, children, required = true }: { id: string; label
   </div>
 );
 
+// --- Componente Principal ---
 interface AddressPageProps {
   data: any;
   setData: (data: any) => void;
@@ -52,6 +55,13 @@ const AddressFrame: React.FC<AddressPageProps> = ({ data, setData, setCurrentPag
     }
   };
 
+  // Função para permitir apenas números no campo
+  const handleNumericInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    const numericValue = value.replace(/\D/g, ''); // Remove tudo que não for dígito
+    setData({ ...data, [id]: numericValue });
+  };
+
   const isFormValid = data.cep && data.logradouro && data.numero && data.cidade && data.estado && data.bairro;
 
   return (
@@ -69,8 +79,17 @@ const AddressFrame: React.FC<AddressPageProps> = ({ data, setData, setCurrentPag
 
         <div className="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-4">
           <div className="md:col-span-2">
+            {/* 1. Campo CEP com máscara numérica */}
             <FormField id="cep" label="CEP">
-              <input type="text" id="cep" placeholder="00000-000" className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" value={data.cep || ''} onChange={handleCepChange} maxLength={9} />
+              <InputMask
+                id="cep"
+                mask="_____-___"
+                replacement={{ _: /\d/ }}
+                value={data.cep || ''}
+                onChange={handleCepChange}
+                placeholder="00000-000"
+                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+              />
             </FormField>
           </div>
           <div className="md:col-span-4">
@@ -79,8 +98,17 @@ const AddressFrame: React.FC<AddressPageProps> = ({ data, setData, setCurrentPag
             </FormField>
           </div>
           <div className="md:col-span-2">
+            {/* 2. Campo Número com filtro para aceitar apenas números */}
             <FormField id="numero" label="Número">
-              <input type="text" id="numero" placeholder="Ex: 123" className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" value={data.numero || ''} onChange={(e) => setData({ ...data, numero: e.target.value })} />
+              <input
+                type="text"
+                id="numero"
+                inputMode="numeric" // Melhora a experiência em teclados mobile
+                placeholder="Ex: 123"
+                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+                value={data.numero || ''}
+                onChange={handleNumericInputChange}
+              />
             </FormField>
           </div>
           <div className="md:col-span-4">
