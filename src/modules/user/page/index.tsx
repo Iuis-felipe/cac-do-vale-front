@@ -35,21 +35,21 @@ const UserPage = () => {
 
   return (
     <div>
-      <UserFormModal 
-        user={user} 
-        isOpen={isOpen} 
-        handleCloseModalActions={handleCloseModal} 
-        reloadData={() => mutate({ page: 1, name: "" })} 
+      <UserFormModal
+        user={user}
+        isOpen={isOpen}
+        handleCloseModalActions={handleCloseModal}
+        reloadData={() => mutate({ page: 1, name: "" })}
       />
       <PageTitle title="Administradores" subtitle="Gerênciamento dos usuários" />
       <div className="flex flex-col gap-4 mt-10">
         <div className="flex flex-row items-center justify-between mb-10">
           <UserFilter search={search} setSearch={setSearch} setPage={setPage} handleSearch={handleSearch} />
-          <button 
-            className="py-2 px-4 cursor-pointer bg-blue-800 text-white rounded-md flex flex-row items-center gap-2"
+          <button
+            className="py-2 px-4 cursor-pointer bg-blue-700 hover:bg-blue-900 transition-colors text-white rounded-md flex flex-row items-center gap-2"
             onClick={() => setIsOpen(true)}
           >
-            <PlusIcon className="size-5"/>
+            <PlusIcon className="size-5" />
             <p className="text-sm font-semibold">Adicionar</p>
           </button>
         </div>
