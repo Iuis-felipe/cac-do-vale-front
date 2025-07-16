@@ -1,6 +1,6 @@
 import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 import CellItem from "../cell";
-import { addHours, format } from "date-fns";
+import { format } from "date-fns";
 
 interface ITableRowProps {
   data: any;
