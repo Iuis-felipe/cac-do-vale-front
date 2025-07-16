@@ -1,9 +1,9 @@
 import React from 'react';
 
-const FormField = ({ id, label, children }: { id: string; label: string; children: React.ReactNode }) => (
+const FormField = ({ id, label, children, required = true }: { id: string; label: string; children: React.ReactNode; required?: boolean }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
-      {label} <span className="text-red-500">*</span>
+      {label} {required && <span className="text-red-500">*</span>}
     </label>
     {children}
   </div>
@@ -18,7 +18,6 @@ interface PersonalDataFrameProps {
 const PersonalDataFrame: React.FC<PersonalDataFrameProps> = ({ data, setData, setCurrentPage }) => {
   const isFormValid =
     data.nome_civil &&
-    data.nome_social &&
     data.cpf &&
     data.email &&
     data.telefone &&
@@ -37,7 +36,7 @@ const PersonalDataFrame: React.FC<PersonalDataFrameProps> = ({ data, setData, se
           <FormField id="nome_civil" label="Nome Civil">
             <input type="text" id="nome_civil" placeholder="Seu nome completo" className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" value={data.nome_civil || ''} onChange={(e) => setData({ ...data, nome_civil: e.target.value })} />
           </FormField>
-          <FormField id="nome_social" label="Nome Social">
+          <FormField id="nome_social" label="Nome Social" required={false}>
             <input type="text" id="nome_social" placeholder="Como prefere ser chamado(a)" className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" value={data.nome_social || ''} onChange={(e) => setData({ ...data, nome_social: e.target.value })} />
           </FormField>
           <FormField id="cpf" label="CPF">
