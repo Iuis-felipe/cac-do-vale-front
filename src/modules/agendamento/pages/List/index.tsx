@@ -71,7 +71,7 @@ const AgendamentoList = () => {
         <Filter setSearch={setSearch} setOrder={setOrder} setPage={setPage} order={order} handleSearch={handleSearch} />
         <button 
           onClick={handleAddSchedule}
-          className="py-2 px-4 cursor-pointer bg-blue-800 text-white rounded-md flex flex-row items-center gap-2"
+          className="py-2 px-4 cursor-pointer bg-blue-700 hover:bg-blue-900 transition-colors text-white rounded-md flex flex-row items-center gap-2"
         >
           <PlusIcon className="size-5"/>
           <p className="text-sm font-semibold">Adicionar</p>
