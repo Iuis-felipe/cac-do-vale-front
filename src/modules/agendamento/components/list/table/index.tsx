@@ -11,7 +11,7 @@ interface ITableProps {
   page: number;
   setPage: (page: number) => void;
   handleActions: (id: string) => void;
-  orderBy?: string; // Nova prop para receber a chave de ordenação
+  orderBy?: string;
 }
 
 const Table: React.FC<ITableProps> = ({
