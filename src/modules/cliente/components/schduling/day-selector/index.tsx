@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
-import { isToday } from 'date-fns'; 
+import { isToday } from 'date-fns';
 
 interface DaySelectorProps {
   loading: boolean;
@@ -12,18 +12,31 @@ interface DaySelectorProps {
 
 const generateTimeSlots = () => {
   const slots = [];
-  for (let i = 0; i < 40; i++) {
-    const hour = Math.floor(i / 4) + 8;
-    const minute = (i % 4) * 15;
-    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-    slots.push(time);
+  const interval = 5;
+
+  for (let h = 8; h <= 11; h++) {
+    for (let m = 0; m < 60; m += interval) {
+      if (h === 11 && m > 45) continue;
+
+      const time = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      slots.push(time);
+    }
   }
+
+  for (let h = 13; h <= 17; h++) {
+    for (let m = 0; m < 60; m += interval) {
+      if (h === 13 && m < 30) continue;
+      if (h === 17 && m > 45) continue;
+
+      const time = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+      slots.push(time);
+    }
+  }
+
   return slots;
 };
 
 const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
-  const [] = useState(12);
-
   const allTimeSlots = useMemo(() => generateTimeSlots(), []);
 
   const availableSlots = useMemo(() => {
@@ -36,7 +49,6 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
 
       slots = slots.filter(time => {
         const [slotHour, slotMinute] = time.split(':').map(Number);
-
         return slotHour > currentHour || (slotHour === currentHour && slotMinute > currentMinute);
       });
     }
