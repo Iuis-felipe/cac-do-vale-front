@@ -14,46 +14,35 @@ const generateTimeSlots = () => {
   const slots = [];
   const interval = 5;
 
-  for (let h = 8; h <= 11; h++) {
+  for (let h = 9; h < 18; h++) {
     for (let m = 0; m < 60; m += interval) {
-      if (h === 11 && m > 45) continue;
-
       const time = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
       slots.push(time);
     }
   }
-
-  for (let h = 13; h <= 17; h++) {
-    for (let m = 0; m < 60; m += interval) {
-      if (h === 13 && m < 30) continue;
-      if (h === 17 && m > 45) continue;
-
-      const time = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-      slots.push(time);
-    }
-  }
-
   return slots;
 };
 
 const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
   const allTimeSlots = useMemo(() => generateTimeSlots(), []);
 
-  const availableSlots = useMemo(() => {
-    let slots = allTimeSlots.filter(time => !days?.includes(time));
+  const timeSlotsWithStatus = useMemo(() => {
+    if (!selectedDay) return [];
 
-    if (selectedDay && isToday(selectedDay)) {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const isDayToday = isToday(selectedDay);
 
-      slots = slots.filter(time => {
+    return allTimeSlots
+      .map(time => {
+        const isBooked = days?.includes(time);
         const [slotHour, slotMinute] = time.split(':').map(Number);
-        return slotHour > currentHour || (slotHour === currentHour && slotMinute > currentMinute);
-      });
-    }
+        const isPast = isDayToday && (slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute));
+        return { time, isBooked, isPast };
+      })
+      .filter(slot => !slot.isPast);
 
-    return slots;
   }, [allTimeSlots, days, selectedDay]);
 
   const handleTimeSelect = (time: string) => {
@@ -68,16 +57,49 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
     );
   }
 
-  if (!selectedDay || availableSlots.length === 0) {
+  if (!selectedDay) {
     return (
       <div className="text-center text-gray-500 bg-gray-100 p-4 rounded-lg">
-        <p>{!selectedDay ? "Selecione um dia para ver os horários." : "Não há horários disponíveis para este dia."}</p>
+        <p>Selecione um dia para ver os horários.</p>
       </div>
     );
   }
 
-  const morningSlots = availableSlots.filter(time => parseInt(time.split(':')[0]) < 12);
-  const afternoonSlots = availableSlots.filter(time => parseInt(time.split(':')[0]) >= 12);
+  if (timeSlotsWithStatus.length === 0) {
+    return (
+      <div className="text-center text-gray-500 bg-gray-100 p-4 rounded-lg">
+        <p>Não há mais horários disponíveis para este dia.</p>
+      </div>
+    );
+  }
+
+  const morningSlots = timeSlotsWithStatus.filter(slot => parseInt(slot.time.split(':')[0]) < 12);
+  const afternoonSlots = timeSlotsWithStatus.filter(slot => parseInt(slot.time.split(':')[0]) >= 12);
+
+  const renderSlotButton = (slot: { time: string; isBooked: boolean }) => {
+    const { time, isBooked } = slot;
+
+    let buttonClass = 'p-2 w-full rounded-lg text-sm font-medium transition-all duration-200 shadow-sm';
+
+    if (isBooked) {
+      buttonClass += ' bg-red-100 text-red-700 border border-red-200 cursor-not-allowed opacity-70';
+    } else if (selectedHour === time) {
+      buttonClass += ' bg-blue-800 text-white scale-105 shadow-lg';
+    } else {
+      buttonClass += ' bg-white border border-gray-300 text-gray-800 hover:border-blue-800 hover:bg-blue-50';
+    }
+
+    return (
+      <button
+        key={time}
+        onClick={() => handleTimeSelect(time)}
+        disabled={isBooked}
+        className={buttonClass}
+      >
+        {time}
+      </button>
+    );
+  };
 
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6">
@@ -85,15 +107,7 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
         <div>
           <h3 className="font-semibold text-gray-700 mb-3 border-b pb-2">Manhã</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-            {morningSlots.map(time => (
-              <button
-                key={time}
-                onClick={() => handleTimeSelect(time)}
-                className={`p-2 w-full rounded-lg text-sm font-medium transition-all duration-200 shadow-sm ${selectedHour === time ? 'bg-blue-800 text-white scale-105' : 'bg-white border border-gray-300 text-gray-800 hover:border-blue-800 hover:bg-blue-50'}`}
-              >
-                {time}
-              </button>
-            ))}
+            {morningSlots.map(renderSlotButton)}
           </div>
         </div>
       )}
@@ -102,15 +116,7 @@ const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour
         <div>
           <h3 className="font-semibold text-gray-700 mb-3 border-b pb-2">Tarde</h3>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-            {afternoonSlots.map(time => (
-              <button
-                key={time}
-                onClick={() => handleTimeSelect(time)}
-                className={`p-2 w-full rounded-lg text-sm font-medium transition-all duration-200 shadow-sm ${selectedHour === time ? 'bg-blue-800 text-white scale-105' : 'bg-white border border-gray-300 text-gray-800 hover:border-blue-800 hover:bg-blue-50'}`}
-              >
-                {time}
-              </button>
-            ))}
+            {afternoonSlots.map(renderSlotButton)}
           </div>
         </div>
       )}
