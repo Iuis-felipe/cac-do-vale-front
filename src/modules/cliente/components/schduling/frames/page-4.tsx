@@ -85,15 +85,6 @@ const PersonalDataFrame: React.FC<PersonalDataFrameProps> = ({ data, setData }) 
     }
   };
 
-  const isFormValid =
-    data.nome_civil &&
-    data.cpf && !errors.cpf &&
-    data.email && !errors.email &&
-    data.telefone && !errors.telefone &&
-    data.forma_pagamento &&
-    data.categoria &&
-    data.tipo_exame;
-
   return (
     <div className="w-full h-full flex flex-col justify-center items-center p-4">
       <div className="w-full max-w-3xl">
