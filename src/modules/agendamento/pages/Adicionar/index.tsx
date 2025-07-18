@@ -32,9 +32,9 @@ const AgendamentoForm = () => {
     bairro: '',
     cidade: '',
     estado: '',
-    tipo_exame: '',
+    tipo_exame: 'FirstLicense',
     origem: '',
-    categoria: '',
+    categoria: 'A',
     forma_pagamento: 'Pix'
   });
 

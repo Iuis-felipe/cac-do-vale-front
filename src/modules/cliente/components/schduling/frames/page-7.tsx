@@ -18,17 +18,26 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
       setValidationError("Houve um erro ao carregar os dados. Tente novamente.");
       return false;
     }
-    const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'nome_social', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'origem', 'categoria', 'forma_pagamento'];
+
+    const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'origem', 'categoria', 'forma_pagamento'];
+    const hasError = []
+
     for (const field of requiredFields) {
       if (!data[field]) {
-        setValidationError("Algum campo obrigatório não foi preenchido. Volte e preencha todos os campos obrigatórios.");
-        return false;
+        hasError.push(field)
       }
     }
+
+    if(hasError.length > 0) {
+      setValidationError(`Os campos ${hasError.join(', ')} são obrigatórios.`)
+      return false
+    }
+
     if (new Date(data.dia) < new Date()) {
       setValidationError("A data selecionada já passou. Volte e selecione uma data futura.");
       return false;
     }
+
     setValidationError(null);
     return true;
   };
@@ -62,8 +71,8 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
               Esperamos você no dia e horário marcados. Você pode fechar esta janela.
             </p>
             <button
-              className="w-full mt-6 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors"
-              onClick={() => window.close()}
+              className="w-full mt-6 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors cursor-pointer"
+              onClick={() => window.location.href = 'https://cacdovale.com.br'}
             >
               Fechar
             </button>

@@ -87,7 +87,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, isOpen, handleCl
               </button>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
+          {/* <AccordionItem value="item-2">
             <AccordionTrigger>Adicionar prontuário</AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-row items-center gap-2">
@@ -98,7 +98,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, isOpen, handleCl
                 </label>
               </div>
             </AccordionContent>
-          </AccordionItem>
+          </AccordionItem> */}
         </Accordion>
         <button 
           onClick={handleVisualizarAgendamento}
