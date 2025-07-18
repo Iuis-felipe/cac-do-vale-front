@@ -5,15 +5,18 @@ import { ClockIcon, Loader2, CalendarIcon } from "lucide-react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 const ScheduleCard = ({ schedule }: { schedule: any }) => {
+  const navigate = useNavigate(); 
+
   const appointmentDate = schedule.dia ? new Date(schedule.dia) : null;
 
   return (
-    <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-2 h-full text-sm">
+    <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-2 h-full text-sm cursor-pointer" onClick={() => navigate(`/agendamento/${schedule.id}`)}>
       <div className="flex items-center gap-2 font-medium text-gray-800">
         <UserCircleIcon className="size-4 flex-shrink-0" />
-        <p className="truncate">{schedule.nome_civil}</p> {/* Ajustar quando vier correto na API */}
+        <p className="truncate">{schedule.nome_civil || schedule.nome_social}</p> {/* Ajustar quando vier correto na API */}
       </div>
 
       {appointmentDate && (

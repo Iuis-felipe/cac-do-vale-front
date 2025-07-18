@@ -19,14 +19,6 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
 
   const { mutate: updateScheduleStatus, isPending, isSuccess } = useUpdateScheduleStatus()
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-row items-center justify-center">
-        <ArrowPathIcon className="size-6 text-slate-600 animate-spin"/>
-      </div>
-    )
-  }
-
   const statusColor = (status: string) => {
     switch (status) {
       case "guardando":
@@ -96,6 +88,14 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
     }
   }, [isSuccess])
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-row items-center justify-center">
+        <ArrowPathIcon className="size-6 text-slate-600 animate-spin"/>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <input type="file" ref={inputRef} className="hidden" />
@@ -130,13 +130,13 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
             <PencilIcon className="size-4" />
             <p className="text-sm font-semibold"> Editar </p>
           </button>
-          <button 
+          {/* <button 
             onClick={() => handleActions("prontuario")}
             className="bg-sky-700 text-white py-2 rounded-md flex flex-row items-center justify-center gap-2 w-full cursor-pointer"
           >
             <Upload className="size-4" />
             <p className="text-sm font-semibold"> Prontuario </p>
-          </button>
+          </button> */}
           {schedule.status !== "confirmado" && handleShowButtons() && (
             <button 
               onClick={() => handleActions("confirmar")}
