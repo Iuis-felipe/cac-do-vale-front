@@ -1,5 +1,8 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Loader2, PencilIcon, TrashIcon } from "lucide-react"
+import useDeleteUser from "../../hook/useDeleteUser";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface IUserTable {
   users: { id: string; nome: string; email: string; codigo: string, ativo: boolean }[];
@@ -7,7 +10,31 @@ interface IUserTable {
   handleEditUser: (user: { id: string; nome: string; email: string; codigo: string, ativo: boolean }) => void;
 }
 
-const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) => {
+const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) => {   
+  const { mutate, isSuccess, isError } = useDeleteUser()
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Usuário excluído com sucesso', {
+        duration: 1000,
+        onAutoClose: () => {
+          window.location.reload()
+        }
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error('Erro ao excluir usuário', {
+        duration: 5000,
+      });
+    }
+  }, [isError]);
+
+  const handleDeleteUser = (id: string) => {
+    mutate(id)
+  }
 
   if (isLoading) {
     return <Loader2 className="w-4 h-4 animate-spin" />
@@ -35,7 +62,7 @@ const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) =
               <button className="text-blue-500 cursor-pointer" onClick={() => handleEditUser(user)}>
                 <PencilIcon className="size-5" />
               </button>
-              <button className="text-red-500 cursor-pointer">
+              <button className="text-red-500 cursor-pointer" onClick={() => handleDeleteUser(user.id)}>
                 <TrashIcon className="size-5" />
               </button>
             </TableCell>
