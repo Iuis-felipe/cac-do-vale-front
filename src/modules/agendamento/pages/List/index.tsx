@@ -84,6 +84,7 @@ const AgendamentoList = () => {
         setPage={setPage} 
         loading={isPending} 
         handleActions={handleOpenModalActions} 
+        orderBy={order}
       />
     </div>
   )
