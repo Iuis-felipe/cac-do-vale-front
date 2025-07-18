@@ -1,6 +1,6 @@
 import { useState, ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { ChartPieIcon, UserGroupIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { ChartPieIcon, UserGroupIcon, CalendarIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 import userStore from '@/core/store/user';
 
@@ -16,7 +16,7 @@ const SidebarButton = ({ icon, text, isExpanded, onClick }: ISidebarButtonProps)
     <button
       onClick={onClick}
       className={`
-        flex items-center w-full text-white
+        flex items-center w-full text-white cursor-pointer
         py-3 px-4 // Padding consistente
         hover:bg-white/10 // Efeito de hover: fundo branco com 10% de opacidade
         transition-colors duration-200 // Transição suave da cor de fundo
@@ -95,6 +95,12 @@ export const Sidebar = () => {
             text="Agenda"
             isExpanded={isExpanded}
             onClick={() => navigate('/agendamento')}
+          />
+          <SidebarButton
+            icon={<ClockIcon className='size-7' />}
+            text="Horarios"
+            isExpanded={isExpanded}
+            onClick={() => navigate('/horario')}
           />
           <SidebarButton
             icon={<UserGroupIcon className='size-7' />}
