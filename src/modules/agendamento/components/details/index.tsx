@@ -1,7 +1,7 @@
 import { ISchedule } from "@/core/models"
 import { ArrowPathIcon, CheckIcon, PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { endOfDay, format, isAfter } from "date-fns";
-import { LoaderIcon, Upload } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useUpdateScheduleStatus from "../../hook/useUpdateScheduleStatus";
 import { useEffect, useRef } from "react";
@@ -163,8 +163,8 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
           <p className="text-lg font-bold"> Dados pessoais </p>
         </div>
         <div className="col-span-1 mt-2">
-          <p className="text-sm font-semibold"> Nome social </p>
-          <p className="text-md"> {schedule.nome_social} </p>
+          <p className="text-sm font-semibold"> Nome </p>
+          <p className="text-md"> {schedule.nome_civil} </p>
         </div>
         <div className="col-span-1 mt-2">
           <p className="text-sm font-semibold"> CPF </p>
