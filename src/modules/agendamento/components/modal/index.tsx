@@ -3,7 +3,6 @@ import Modal from "@/core/components/organism/Modal";
 import useUpdateScheduleStatus from "../../hook/useUpdateScheduleStatus";
 import { Eye, Loader2Icon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
