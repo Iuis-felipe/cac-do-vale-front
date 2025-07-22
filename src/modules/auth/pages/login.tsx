@@ -81,7 +81,7 @@ const Login = () => {
           </div>
 
           <p className="text-xs text-center text-gray-400 mt-8">
-            Desenvolvido por: <a href="https://novadevelopment.com.br/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#2F58FF] hover:underline">Nova Developments</a>
+            Desenvolvido por: <a href="https://novadevelopments.com.br/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#2F58FF] hover:underline">Nova Developments</a>
           </p>
         </div>
       </div>

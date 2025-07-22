@@ -100,7 +100,7 @@ const Scheduling = () => {
         <p className="text-xs text-gray-500">
           Sistema de Agendamento CAC do Vale &copy; {new Date().getFullYear()}<br /> Desenvolvido por:{" "}
           <a
-            href="https://novadevelopment.com.br/"
+            href="https://novadevelopments.com.br/"
             target="_blank"
             rel="noopener noreferrer"
             className=" font-semibold text-blue-800 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#20E673] hover:to-[#05E3EA] transition-all duration-300 ease-in-out">
