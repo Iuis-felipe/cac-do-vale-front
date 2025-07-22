@@ -47,7 +47,7 @@ const Scheduling = () => {
     switch (currentPage) {
       case 2: return !formData.dia;
       case 3: return !formData.horario;
-      case 4: return !(formData.nome_civil && formData.nome_social && formData.cpf && formData.email && formData.telefone && formData.forma_pagamento && formData.categoria && formData.tipo_exame);
+      case 4: return !(formData.nome_civil && formData.cpf && formData.telefone && formData.forma_pagamento && formData.categoria && formData.tipo_exame);
       case 5: return !(formData.cep && formData.logradouro && formData.numero && formData.cidade && formData.estado && formData.bairro);
       default: return false;
     }
