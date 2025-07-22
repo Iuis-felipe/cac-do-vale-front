@@ -100,7 +100,7 @@ export const Sidebar = () => {
             icon={<ClockIcon className='size-7' />}
             text="Horarios"
             isExpanded={isExpanded}
-            onClick={() => navigate('/horario')}
+            onClick={() => navigate('/horarios')}
           />
           <SidebarButton
             icon={<UserGroupIcon className='size-7' />}
