@@ -1,49 +1,38 @@
 import { useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
-import { isToday } from 'date-fns';
+import { generateTimeSlots } from '@/core/utils/time';
 
 interface DaySelectorProps {
   loading: boolean;
   days: string[];
+  availableHours?: {
+    horarioStart: string;
+    horarioEnd: string;
+    intervalo: string;
+    intervaloThreshold: string;
+  };
   selectedDay: Date | undefined;
   selectedHour: string | undefined;
   setSelectedHour: (hour: string | undefined) => void;
 }
 
-const generateTimeSlots = () => {
-  const slots = [];
-  const interval = 5;
-
-  for (let h = 9; h < 18; h++) {
-    for (let m = 0; m < 60; m += interval) {
-      const time = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-      slots.push(time);
-    }
-  }
-  return slots;
-};
-
-const DaySelector = ({ loading, days, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
-  const allTimeSlots = useMemo(() => generateTimeSlots(), []);
-
+const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
   const timeSlotsWithStatus = useMemo(() => {
-    if (!selectedDay) return [];
+    if (!selectedDay || !availableHours) return [];
 
-    const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
-    const isDayToday = isToday(selectedDay);
+    const threshold = "0"+availableHours.intervaloThreshold+":00"
+    const times = generateTimeSlots(availableHours.horarioStart, availableHours.horarioEnd, days, availableHours.intervalo, threshold)
 
-    return allTimeSlots
-      .map(time => {
-        const isBooked = days?.includes(time);
-        const [slotHour, slotMinute] = time.split(':').map(Number);
-        const isPast = isDayToday && (slotHour < currentHour || (slotHour === currentHour && slotMinute < currentMinute));
-        return { time, isBooked, isPast };
-      })
-      .filter(slot => !slot.isPast);
-
-  }, [allTimeSlots, days, selectedDay]);
+    return times.map(it => {
+      const isPast = it.time.split(':').map(Number)[0] < selectedDay.getHours() && it.time.split(':').map(Number)[1] < selectedDay.getMinutes()
+      
+      return {
+        time: it.time,
+        isBooked: !it.available,
+        isPast: isPast
+      }
+    })
+  }, [availableHours, selectedDay, days]);
 
   const handleTimeSelect = (time: string) => {
     setSelectedHour(time);
