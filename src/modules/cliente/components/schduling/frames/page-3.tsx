@@ -16,13 +16,9 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
 
   useEffect(() => {
-    console.log(data.dia)
     if (data.dia) {
-      console.log('3')
       mutate(format(data.dia, "yyyy-MM-dd"));
-      console.log('1')
       getAppointmentHours(format(data.dia, "yyyy-MM-dd"));
-      console.log('2')
     }
   }, [data.dia]);
 
