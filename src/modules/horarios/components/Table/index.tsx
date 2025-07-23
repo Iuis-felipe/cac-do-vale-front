@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Loader2, PencilIcon, TrashIcon } from "lucide-react"
-import { format } from "date-fns"
+import { addHours, format } from "date-fns"
 
 interface ISchedule {
   created_at: string;
@@ -41,7 +41,7 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
       <TableBody>
         {schedules.map((schedule) => (
           <TableRow key={schedule.id}>
-            <TableCell>{format(schedule.dia, "dd/MM/yyyy")}</TableCell>
+            <TableCell>{format(addHours(schedule.dia, 3), "dd/MM/yyyy")}</TableCell>
             <TableCell className="text-center">{schedule.horarioStart}</TableCell>
             <TableCell className="text-center">{schedule.horarioEnd}</TableCell>
             <TableCell className="text-center">{schedule.intervalo}</TableCell>
