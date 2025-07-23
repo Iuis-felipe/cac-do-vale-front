@@ -18,10 +18,10 @@ interface DaySelectorProps {
 
 const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
   const timeSlotsWithStatus = useMemo(() => {
-    if (!selectedDay || !availableHours) return [];
+    if (!selectedDay) return [];
 
-    const threshold = "0"+availableHours.intervaloThreshold+":00"
-    const times = generateTimeSlots(availableHours.horarioStart, availableHours.horarioEnd, days, availableHours.intervalo, threshold)
+    const threshold = availableHours?.intervaloThreshold ? "0"+availableHours?.intervaloThreshold+":00" : undefined
+    const times = generateTimeSlots(availableHours?.horarioStart, availableHours?.horarioEnd, days, availableHours?.intervalo, threshold)
 
     return times.map(it => {
       const isPast = it.time.split(':').map(Number)[0] < selectedDay.getHours() && it.time.split(':').map(Number)[1] < selectedDay.getMinutes()
