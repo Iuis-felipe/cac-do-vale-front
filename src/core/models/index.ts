@@ -25,3 +25,8 @@ export interface ISchedule {
   created_at: string;
   updated_at: string;
 }
+
+export interface TimeSlot {
+  time: string;
+  available: boolean;
+}
