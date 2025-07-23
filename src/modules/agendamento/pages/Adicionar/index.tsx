@@ -7,12 +7,15 @@ import useCreateSchedule from "../../hook/useCreateSchedule";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
+import DaySelector from "../../components/daySelector";
 
 const AgendamentoForm = () => {
   const navigate = useNavigate();
 
   const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useGetAvailableHours();
   const { mutate: createSchedule, isPending: loadingCreateSchedule, isSuccess } = useCreateSchedule();
+  const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
@@ -53,6 +56,7 @@ const AgendamentoForm = () => {
 
     if (date) {
       getAvailableHours(format(date, "yyyy-MM-dd"));
+      getAppointmentHours(format(date, "yyyy-MM-dd"));
     }
   }
 
@@ -87,33 +91,16 @@ const AgendamentoForm = () => {
           <p className="text-md font-semibold"> 
             Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
           </p>
-          { loadingHours && <Loader2 className="w-4 h-4 animate-spin" /> }
-          { !loadingHours && selectedDay && unavailableHours && (
-            <div className="flex flex-row flex-wrap items-center gap-2 mt-4">
-              {Array.from({ length: 37 }, (_, i) => {
-                const hour = Math.floor(i / 4) + 8;
-                const minute = (i % 4) * 15;
-                const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                
-                const isAvailable = !unavailableHours.includes(time);
-                
-                return (
-                  <div 
-                    onClick={() => isAvailable && handleTimeSelect(time)}
-                    key={time} 
-                    className={`
-                      w-16 h-10 
-                      ${selectedTime === time ? 'border-1 border-sky-600' : ''}
-                      ${isAvailable ? 'bg-gray-200 cursor-pointer hover:bg-gray-300' : 'bg-red-200'} 
-                      rounded-md flex items-center justify-center
-                    `}
-                  >
-                    <span className="text-sm">{time}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <DaySelector
+            loading={loadingHours || loadingAppointmentHours}
+            start={appointmentHours?.horarioStart}
+            end={appointmentHours?.horarioEnd}
+            interval={appointmentHours?.intervalo}
+            intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
+            unavailableHours={unavailableHours}
+            selectedTime={selectedTime}
+            setSelectedTime={handleTimeSelect}
+          />
         </div>
       </div>
       <div className="border-b border-gray-300 mt-8 mb-4"></div>
