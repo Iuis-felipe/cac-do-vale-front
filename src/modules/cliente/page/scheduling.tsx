@@ -53,14 +53,54 @@ const Scheduling = () => {
     }
   };
 
+  const BackButton = () => (
+    <button
+      className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100 cursor-pointer"
+      onClick={() => setCurrentPage(currentPage - 1)}
+    >
+      <ChevronLeftIcon className="size-4" />
+      Voltar
+    </button>
+  );
+
+  const NextButton = () => (
+    <button
+      className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+      onClick={() => setCurrentPage(currentPage + 1)}
+      disabled={isNextStepDisabled()}
+    >
+      Avançar
+      <ChevronRightIcon className="size-4" />
+    </button>
+  );
+
+
   return (
     <div className="bg-gray-100 min-h-screen w-full flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden">
-        <header className="p-6 border-b border-gray-200">
-          <h1 className="text-xl font-bold text-center text-gray-800 mb-6">
+
+        <header className="p-6 border-b border-gray-200 flex flex-col items-center gap-y-6">
+
+          <h1 className="text-xl font-bold text-center text-gray-800">
             {pageTitles[currentPage]}
           </h1>
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
+
+          <div className="w-full">
+            <Pagination currentPage={currentPage} totalPages={totalPages} />
+          </div>
+
+          {currentPage > 1 && (
+            <div className="w-full max-w-md grid grid-cols-2 gap-4">
+              <div>
+                {currentPage > 1 && <BackButton />}
+              </div>
+
+              <div>
+                {currentPage < totalPages && <NextButton />}
+              </div>
+            </div>
+          )}
+
         </header>
 
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
@@ -71,29 +111,6 @@ const Scheduling = () => {
           {currentPage === 5 && <AddressFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />}
           {currentPage === 6 && <FinishFrame data={formData} />}
         </main>
-
-        {currentPage > 1 && currentPage <= totalPages && (
-          <footer className="w-full flex justify-between items-center p-6 bg-gray-50 border-t border-gray-200">
-            <button
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer "
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              <ChevronLeftIcon className="size-4" />
-              Voltar
-            </button>
-
-            {currentPage < totalPages && (
-              <button
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-800 rounded-lg hover:bg-blue-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={isNextStepDisabled()}
-              >
-                Avançar
-                <ChevronRightIcon className="size-4" />
-              </button>
-            )}
-          </footer>
-        )}
       </div>
 
       <footer className="text-center mt-6">
