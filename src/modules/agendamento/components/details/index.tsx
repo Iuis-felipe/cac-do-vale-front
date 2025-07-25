@@ -1,12 +1,12 @@
 import { ISchedule } from "@/core/models"
 import { ArrowPathIcon, CheckIcon, PencilIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { endOfDay, format, isAfter } from "date-fns";
-import { LoaderIcon } from "lucide-react";
+import { Eye, Loader2Icon, LoaderIcon, Upload } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useUpdateScheduleStatus from "../../hook/useUpdateScheduleStatus";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-
+import { useUpload } from "../../hook/useUpload";
 
 interface IAgendamentoDetailsProps {
   schedule: ISchedule;
@@ -18,6 +18,7 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
   const navigate = useNavigate()
 
   const { mutate: updateScheduleStatus, isPending, isSuccess } = useUpdateScheduleStatus()
+  const { uploadScheduleFile, isPending: isUploading } = useUpload()
 
   const statusColor = (status: string) => {
     switch (status) {
@@ -78,6 +79,26 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
     }
   }
 
+  const handleUploadFile = (file: File | undefined) => {
+    if (!file || !schedule.id) return
+    
+    uploadScheduleFile({ file, scheduleId: schedule.id }, {
+      onSuccess: () => {
+        toast.success("Prontuário enviado com sucesso", {
+          duration: 2000,
+          onAutoClose: () => {
+            window.location.reload()
+          }
+        })
+      },
+      onError: () => {
+        toast.error("Erro ao enviar prontuário", {
+          description: "Por favor, tente novamente."
+        })
+      }
+    })
+  }
+
   useEffect(() => {
     if (isSuccess) {
       toast.success("Agendamento atualizado com sucesso", {
@@ -98,7 +119,7 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
 
   return (
     <div className="flex flex-col gap-8">
-      <input type="file" ref={inputRef} className="hidden" />
+      <input type="file" ref={inputRef} className="hidden" onChange={(e) => handleUploadFile(e.target.files?.[0])} />
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-start gap-8">
           <div className="border border-gray-200 rounded-lg shadow-md w-[200px]"> 
@@ -130,13 +151,25 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
             <PencilIcon className="size-4" />
             <p className="text-sm font-semibold"> Editar </p>
           </button>
-          {/* <button 
-            onClick={() => handleActions("prontuario")}
-            className="bg-sky-700 text-white py-2 rounded-md flex flex-row items-center justify-center gap-2 w-full cursor-pointer"
-          >
-            <Upload className="size-4" />
-            <p className="text-sm font-semibold"> Prontuario </p>
-          </button> */}
+          {schedule.prontuario ? (
+            <button 
+              onClick={() => window.open("http://localhost:3030"+schedule.prontuario, "_blank")}
+              className="bg-sky-700 text-white py-2 rounded-md flex flex-row items-center justify-center gap-2 w-full cursor-pointer"
+            >
+              <Eye className="size-4" />
+              <p className="text-sm font-semibold"> Prontuario </p>
+            </button>
+          ) : (
+            <button 
+              onClick={() => handleActions("prontuario")}
+              className="bg-sky-700 text-white py-2 rounded-md flex flex-row items-center justify-center gap-2 w-full cursor-pointer"
+            >
+              {isUploading && <Loader2Icon className="size-4 animate-spin" />}
+              <Upload className="size-4" />
+              <p className="text-sm font-semibold"> Prontuario </p>
+            </button>
+          )}
+          
           {schedule.status !== "confirmado" && handleShowButtons() && (
             <button 
               onClick={() => handleActions("confirmar")}

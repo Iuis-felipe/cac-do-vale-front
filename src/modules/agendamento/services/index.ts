@@ -70,3 +70,27 @@ export const updateSchedule = async (id: string, body: IScheduleBodyUpdate) => {
     throw new Error(e)
   }
 }
+
+export const deleteSchedule = async (id: string) => {
+  try {
+    const { data } = await api.delete(`/schedule/${id}/permanent`)
+
+    return data;
+  } catch(e: any) {
+    throw new Error(e)
+  }
+}
+
+export const uploadScheduleFile = async ({ file, scheduleId }: { file: File, scheduleId: string }) => {
+  try {
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    const { data } = await api.post(`/file/upload/${scheduleId}`, formData)
+
+    return data;
+  } catch(e: any) {
+    throw new Error(e)
+  }
+}
