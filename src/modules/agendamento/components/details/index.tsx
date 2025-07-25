@@ -153,7 +153,7 @@ const AgendamentoDetails: React.FC<IAgendamentoDetailsProps> = ({ schedule, isLo
           </button>
           {schedule.prontuario ? (
             <button 
-              onClick={() => window.open("http://localhost:3030"+schedule.prontuario, "_blank")}
+              onClick={() => window.open("https://api.cacdovale.com.br"+schedule.prontuario, "_blank")}
               className="bg-sky-700 text-white py-2 rounded-md flex flex-row items-center justify-center gap-2 w-full cursor-pointer"
             >
               <Eye className="size-4" />
