@@ -74,7 +74,7 @@ const PersonalDataFrame: React.FC<PersonalDataFrameProps> = ({ data, setData }) 
         setErrors(prev => ({ ...prev, cpf: isValidCpf(value) ? '' : 'CPF inválido.' }));
         break;
       case 'email':
-        setErrors(prev => ({ ...prev, email: isValidEmail(value) ? '' : 'Formato de e-mail inválido.' }));
+        setErrors(prev => ({ ...prev, email: value && !isValidEmail(value) ? 'Formato de e-mail inválido.' : '' }));
         break;
       case 'telefone':
         const phoneDigits = value.replace(/\D/g, '');
@@ -116,7 +116,7 @@ const PersonalDataFrame: React.FC<PersonalDataFrameProps> = ({ data, setData }) 
             {errors.cpf && <p className="text-xs text-red-600 mt-1">{errors.cpf}</p>}
           </FormField>
 
-          <FormField id="email" label="Email">
+          <FormField id="email" label="Email"  required={false}>
             <input type="email" id="email" placeholder="seu.email@exemplo.com" className={`w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 ${errors.email ? 'border-red-500 ring-red-500' : 'border-gray-300'}`} value={data.email || ''} onChange={(e) => setData({ ...data, email: e.target.value })} onBlur={handleBlur} />
             {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
           </FormField>

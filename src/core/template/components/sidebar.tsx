@@ -1,35 +1,51 @@
 import { useState, ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { ChartPieIcon, UserGroupIcon, CalendarIcon } from '@heroicons/react/24/outline';
-import { useNavigate } from 'react-router-dom';
+import {
+  ChartPieIcon,
+  UserGroupIcon,
+  CalendarIcon,
+  ClockIcon,
+  ArrowRightEndOnRectangleIcon,
+} from '@heroicons/react/24/outline';
+import { useNavigate, useLocation } from 'react-router-dom';
 import userStore from '@/core/store/user';
 
 interface ISidebarButtonProps {
   icon: ReactNode;
   text: string;
   isExpanded: boolean;
+  isActive: boolean;
   onClick: () => void;
 }
 
-const SidebarButton = ({ icon, text, isExpanded, onClick }: ISidebarButtonProps) => {
+const SidebarButton = ({ icon, text, isExpanded, isActive, onClick }: ISidebarButtonProps) => {
   return (
     <button
       onClick={onClick}
       className={`
-        flex items-center w-full text-white
-        py-3 px-4 // Padding consistente
-        hover:bg-white/10 // Efeito de hover: fundo branco com 10% de opacidade
-        transition-colors duration-200 // Transição suave da cor de fundo
+        flex items-center w-full text-white cursor-pointer rounded-md
+        relative py-3 px-4
+        transition-colors duration-200
+        ${isActive ? 'bg-white/15' : 'hover:bg-white/10'}
         ${isExpanded ? 'justify-start gap-4' : 'justify-center'}
       `}
     >
-      {icon}
+      {isActive && (
+        <motion.div
+          layoutId="active-pill"
+          className="absolute left-0 h-8 w-1 bg-purple-400 rounded-r-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        />
+      )}
+      <span className="flex-shrink-0">{icon}</span>
       {isExpanded && (
         <motion.span
           className="text-lg whitespace-nowrap"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2, delay: 0.1 }}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2, delay: 0.15, ease: 'easeOut' }}
         >
           {text}
         </motion.span>
@@ -40,24 +56,24 @@ const SidebarButton = ({ icon, text, isExpanded, onClick }: ISidebarButtonProps)
 
 export const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = userStore();
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleLabel = () => {
-    if (!user || !user.name) return "-";
-    const splitedName = user.name.split(" ");
+    if (!user || !user.name) return '-';
+    const splitedName = user.name.trim().split(' ');
     if (splitedName.length === 1) {
-      return `${splitedName[0][0].toUpperCase()}${splitedName[0][1]?.toUpperCase() || ''}`;
+      return `${splitedName[0][0]?.toUpperCase()}${splitedName[0][1]?.toUpperCase() || ''}`;
     }
-    return `${splitedName[0][0].toUpperCase()}${splitedName[1][0].toUpperCase()}`;
+    return `${splitedName[0][0]?.toUpperCase()}${splitedName[splitedName.length - 1][0]?.toUpperCase()}`;
   };
 
   const handleName = () => {
-    if (!user || !user.name) return "-";
-    const splitedName = user.name.split(" ");
+    if (!user || !user.name) return '-';
+    const splitedName = user.name.trim().split(' ');
     if (splitedName.length === 1) {
-      return `${splitedName[0]}`;
+      return splitedName[0];
     }
     return `${splitedName[0]} ${splitedName[splitedName.length - 1]}`;
   };
@@ -67,59 +83,69 @@ export const Sidebar = () => {
     navigate('/auth/login');
   };
 
+  const navLinks = [
+    { path: '/', icon: <ChartPieIcon className="size-7" />, text: 'Dashboard' },
+    { path: '/agendamento', icon: <CalendarIcon className="size-7" />, text: 'Agenda' },
+    { path: '/horarios', icon: <ClockIcon className="size-7" />, text: 'Horários' },
+    { path: '/usuario', icon: <UserGroupIcon className="size-7" />, text: 'Usuários' },
+  ];
+
   return (
     <motion.aside
-      className="bg-[#101F59] h-full flex flex-col items-start justify-between"
-      initial={{ width: "4rem" }}
-      animate={{ width: isExpanded ? "16rem" : "4rem" }}
-      transition={{ duration: 0.3 }}
+      className="bg-[#101F59] h-screen flex flex-col justify-between shadow-xl"
+      initial={{ width: '5rem' }}
+      animate={{ width: isExpanded ? '16rem' : '5rem' }}
+      transition={{ duration: 0.35, ease: 'easeInOut' }}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className='w-full flex flex-col'>
-        <div className='h-16 flex items-center w-full'>
-          <p className='text-center text-white font-bold text-xl w-full whitespace-nowrap'>
-            {isExpanded ? "Agendamento" : "A"}
+      <div className="w-full flex flex-col p-2">
+        <div className="h-16 flex items-center justify-center w-full">
+          <p className="text-center text-white font-bold text-2xl w-full whitespace-nowrap overflow-hidden">
+            {isExpanded ? 'Agendamento' : 'A'}
           </p>
         </div>
 
-        <div className='w-full flex flex-col gap-1 mt-4'>
-          <SidebarButton
-            icon={<ChartPieIcon className='size-7' />}
-            text="Dashboard"
-            isExpanded={isExpanded}
-            onClick={() => navigate('/')}
-          />
-          <SidebarButton
-            icon={<CalendarIcon className='size-7' />}
-            text="Agenda"
-            isExpanded={isExpanded}
-            onClick={() => navigate('/agendamento')}
-          />
-          <SidebarButton
-            icon={<UserGroupIcon className='size-7' />}
-            text="Usuários"
-            isExpanded={isExpanded}
-            onClick={() => navigate('/usuario')}
-          />
+        <div className="w-full flex flex-col gap-2 mt-4">
+          {navLinks.map((link) => (
+            <SidebarButton
+              key={link.path}
+              icon={link.icon}
+              text={link.text}
+              isExpanded={isExpanded}
+              isActive={location.pathname === link.path}
+              onClick={() => navigate(link.path)}
+            />
+          ))}
         </div>
       </div>
 
-      <div className={`w-full flex flex-row items-center gap-3 p-4`}>
-        <div className='p-2 rounded-full bg-purple-800 flex items-center justify-center min-w-[40px]'>
-          <p className='text-sm text-white font-bold'> {handleLabel()} </p>
+      <div className="w-full p-3">
+        <div className="w-full flex flex-row items-center gap-3 p-2 rounded-lg">
+          <div className="p-2 rounded-full bg-purple-800 flex items-center justify-center min-w-[40px] h-[40px] ring-2 ring-white/20">
+            <p className="text-sm text-white font-bold">{handleLabel()}</p>
+          </div>
+
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2, delay: 0.15, ease: 'easeOut' }}
+              className="flex-1 flex items-center justify-between overflow-hidden"
+            >
+              <p className="text-md font-medium text-white whitespace-nowrap">{handleName()}</p>
+
+              <button
+                onClick={handleLogout}
+                className="p-1.5 rounded-full text-white/70 hover:bg-white/10 hover:text-white transition-colors duration-200 cursor-pointer"
+                aria-label="Sair"
+                title="Sair"
+              >
+                <ArrowRightEndOnRectangleIcon className="size-6" />
+              </button>
+            </motion.div>
+          )}
         </div>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.2, delay: 0.1 }}
-            className="overflow-hidden"
-          >
-            <p className='text-md font-medium text-white whitespace-nowrap'> {handleName()} </p>
-            <p className='text-sm text-white/70 cursor-pointer hover:text-white' onClick={handleLogout}> Sair </p>
-          </motion.div>
-        )}
       </div>
     </motion.aside>
   );
