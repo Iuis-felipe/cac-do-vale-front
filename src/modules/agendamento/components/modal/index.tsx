@@ -1,22 +1,26 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Modal from "@/core/components/organism/Modal";
 import useUpdateScheduleStatus from "../../hook/useUpdateScheduleStatus";
-import { Eye, Loader2Icon } from "lucide-react";
+import { Eye, Loader2Icon, PlusIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useUpload } from "../../hook/useUpload";
 
 interface IActionModalProps {
   scheduleId: string | undefined;
+  prontuario: string | undefined | null;
   isOpen: boolean;
   handleCloseModalActions: () => void;
   reloadData: () => void;
 }
 
-const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, isOpen, handleCloseModalActions, reloadData }) => {
+const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOpen, handleCloseModalActions, reloadData }) => {
+  const inputFileRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+
   const { mutate, isPending, isError, error, isSuccess } = useUpdateScheduleStatus()
+  const { uploadScheduleFile, isPending: isUploading } = useUpload()
 
   const handleConfirmAgendamento = () => {
     if (!scheduleId) return
@@ -36,6 +40,27 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, isOpen, handleCl
 
   const handleVisualizarAgendamento = () => {
     navigate(`/agendamento/${scheduleId}`)
+  }
+
+  const handleUploadFile = (file: File | undefined) => {
+    if (!file || !scheduleId) return
+
+    uploadScheduleFile({ file, scheduleId }, {
+      onSuccess: () => {
+        toast.success("Arquivo enviado com sucesso", {
+          duration: 2000,
+          onAutoClose: () => {
+            reloadData()
+            handleCloseModalActions()
+          }
+        })
+      },
+      onError: () => {
+        toast.error("Erro ao enviar arquivo", {
+          description: "Por favor, tente novamente."
+        })
+      }
+    })
   }
 
   useEffect(() => {
@@ -87,18 +112,21 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, isOpen, handleCl
               </button>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Adicionar prontuário</AccordionTrigger>
-            <AccordionContent>
+          {!prontuario && (
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Adicionar prontuário</AccordionTrigger>
+              <AccordionContent>
               <div className="flex flex-row items-center gap-2">
-                <input type="file" className="hidden" />
-                <label htmlFor="file" className="py-2 px-4 cursor-pointer bg-blue-800 text-white rounded-md flex flex-row items-center gap-2">
+                <input type="file" className="hidden" ref={inputFileRef} onChange={(e) => handleUploadFile(e.target.files?.[0])} />
+                <label htmlFor="file" className="py-2 px-4 cursor-pointer bg-blue-800 text-white rounded-md flex flex-row items-center gap-2" onClick={() => inputFileRef.current?.click()}>
+                  {isUploading && <Loader2Icon className="size-5 animate-spin" /> }
                   <PlusIcon className="size-5"/>
                   <p className="text-sm font-semibold">Adicionar prontuário</p>
                 </label>
               </div>
-            </AccordionContent>
-          </AccordionItem>
+              </AccordionContent>
+            </AccordionItem>
+          )}
         </Accordion>
         <button 
           onClick={handleVisualizarAgendamento}

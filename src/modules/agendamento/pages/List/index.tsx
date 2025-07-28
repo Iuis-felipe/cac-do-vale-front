@@ -62,6 +62,7 @@ const AgendamentoList = () => {
     <div>
       <ActionModal 
         scheduleId={actionId} 
+        prontuario={schedules.find(it => it.id === actionId)?.prontuario || undefined}
         isOpen={isOpen} 
         handleCloseModalActions={handleCloseModalActions} 
         reloadData={handleReloadData}

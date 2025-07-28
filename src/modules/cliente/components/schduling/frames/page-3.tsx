@@ -3,6 +3,7 @@ import DaySelector from "../day-selector";
 import useGetAvailableHours from "@/modules/cliente/hook/useGetAvailableHours";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 
 interface HourSelectionFrameProps {
   data: any;
@@ -12,12 +13,14 @@ interface HourSelectionFrameProps {
 
 const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFrameProps) => {
   const { mutate, isPending, data: availableHours } = useGetAvailableHours();
+  const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
 
   useEffect(() => {
     if (data.dia) {
       mutate(format(data.dia, "yyyy-MM-dd"));
+      getAppointmentHours(format(data.dia, "yyyy-MM-dd"));
     }
-  }, [data.dia, mutate]);
+  }, [data.dia]);
 
   if (!data.dia) {
     return (
@@ -38,10 +41,11 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
       </p>
 
       <DaySelector
-        loading={isPending}
+        loading={isPending || loadingAppointmentHours}
         selectedDay={data.dia}
         selectedHour={data.horario}
         days={availableHours}
+        availableHours={appointmentHours}
         setSelectedHour={(hour) => setData({ ...data, horario: hour })}
       />
 
