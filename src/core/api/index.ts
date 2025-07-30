@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://dev-api.cacdovale.com.br/api/v1",
+  baseURL: process.env.VITE_API_URL,
 });
 
 api.interceptors.request.use(
