@@ -12,8 +12,18 @@ interface IModalProps {
 const Modal: React.FC<IModalProps> = ({ children, isOpen, title, size = "w-1/3", height = "h-fit", onClose }) => {
   if (!isOpen) return null;
 
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Fechar modal apenas se clicou no overlay de fundo, não no conteúdo
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="absolute top-0 left-0 w-full h-screen bg-black/80 flex items-center justify-center z-50 overflow-y-auto p-5">
+    <div 
+      className="absolute top-0 left-0 w-full h-screen bg-black/80 flex items-center justify-center z-50 overflow-y-auto p-5"
+      onClick={handleOverlayClick}
+    >
       <div className={`${size} ${height} bg-white rounded-md p-4`}>
         <div className="flex flex-row items-center justify-between">
           <p className="text-lg font-semibold">{title}</p>
