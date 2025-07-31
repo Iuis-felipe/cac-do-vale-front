@@ -63,7 +63,7 @@ const Horarios = () => {
         reloadData={() => mutate({ page: 1, perPage: 10, search: "" })}
         onClose={() => setIsOpenBulkCreate(false)}
       />
-      <PageTitle title="Administradores" subtitle="Gerênciamento dos usuários" />
+      <PageTitle title="Horários" subtitle="Gerenciamento dos horários de atendimento" />
       <div className="flex flex-col gap-4 mt-10">
         <div className="flex flex-row items-center justify-between mb-10">
           <ScheduleFilter search={search} setSearch={setSearch} setPage={setPage} handleSearch={handleSearch} />

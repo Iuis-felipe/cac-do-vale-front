@@ -256,10 +256,10 @@
   resolved "https://registry.npmjs.org/@date-fns/tz/-/tz-1.2.0.tgz"
   integrity sha512-LBrd7MiJZ9McsOgxqWX7AaxrDjcFVjWH/tIKJd7pnR7McaslGYOP1QmmiBXdJH/H/yLCT+rcQ7FaPBUxRGUtrg==
 
-"@esbuild/win32-x64@0.25.6":
+"@esbuild/linux-x64@0.25.6":
   version "0.25.6"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.25.6.tgz"
-  integrity sha512-NgJPHHbEpLQgDH2MjQu90pzW/5vvXIZ7KOnPyNBm92A6WgZ/7b6fJyUBjoumLqeOQQGqY2QjQxRo97ah4Sj0cA==
+  resolved "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.6.tgz"
+  integrity sha512-A6bJB41b4lKFWRKNrWoP2LHsjVzNiaurf7wyj/XtFNTsnPuxwEBWHLty+ZE0dWBKuSK1fvKgrKaNjBS7qbFKig==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.7.0":
   version "4.7.0"
@@ -726,15 +726,15 @@
   resolved "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.0-beta.11.tgz"
   integrity sha512-L/gAA/hyCSuzTF1ftlzUSI/IKr2POHsv1Dd78GfqkR83KMNuswWD61JxGV2L7nRwBBBSDr6R1gCkdTmoN7W4ag==
 
-"@rollup/rollup-win32-x64-msvc@4.45.1":
+"@rollup/rollup-linux-x64-gnu@4.45.1":
   version "4.45.1"
-  resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.45.1.tgz"
-  integrity sha512-M/fKi4sasCdM8i0aWJjCSFm2qEnYRR8AMLG2kxp6wD13+tMGA4Z1tVAuHkNRjud5SW2EM3naLuK35w9twvf6aA==
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.45.1.tgz"
+  integrity sha512-+E/lYl6qu1zqgPEnTrs4WysQtvc/Sh4fC2nByfFExqgYrqkKWp1tWIbe+ELhixnenSpBbLXNi6vbEEJ8M7fiHw==
 
-"@swc/core-win32-x64-msvc@1.12.14":
+"@swc/core-linux-x64-gnu@1.12.14":
   version "1.12.14"
-  resolved "https://registry.npmjs.org/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.12.14.tgz"
-  integrity sha512-SymoP2CJHzrYaFKjWvuQljcF7BkTpzaS1vpywv7K9EzdTb5N8qPDvNd+PhWUqBz9JHBhbJxpaeTDQBXF/WWPmw==
+  resolved "https://registry.npmjs.org/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.12.14.tgz"
+  integrity sha512-71EPPccwJiJUxd2aMwNlTfom2mqWEWYGdbeTju01tzSHsEuD7E6ePlgC3P3ngBqB3urj41qKs87z7zPOswT5Iw==
 
 "@swc/core@^1.11.31":
   version "1.12.14"
@@ -787,10 +787,10 @@
     source-map-js "^1.2.1"
     tailwindcss "4.1.11"
 
-"@tailwindcss/oxide-win32-x64-msvc@4.1.11":
+"@tailwindcss/oxide-linux-x64-gnu@4.1.11":
   version "4.1.11"
-  resolved "https://registry.npmjs.org/@tailwindcss/oxide-win32-x64-msvc/-/oxide-win32-x64-msvc-4.1.11.tgz"
-  integrity sha512-YfHoggn1j0LK7wR82TOucWc5LDCguHnoS879idHekmmiR7g9HUtMw9MI0NHatS28u/Xlkfi9w5RJWgz2Dl+5Qg==
+  resolved "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-gnu/-/oxide-linux-x64-gnu-4.1.11.tgz"
+  integrity sha512-YW6sblI7xukSD2TdbbaeQVDysIm/UPJtObHJHKxDEcW2exAtY47j52f8jZXkqE1krdnkhCMGqP3dbniu1Te2Fg==
 
 "@tailwindcss/oxide@4.1.11":
   version "4.1.11"
@@ -1330,7 +1330,12 @@ cookie-signature@^1.2.1:
   resolved "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.2.2.tgz"
   integrity sha512-D76uU73ulSXrD1UXF4KE2TMxVVwhsnCgfAyTg9k8P6KGZjlXKrOLe4dJQKI3Bxi5wjesZoFXJWElNWBjPZMbhg==
 
-cookie@^0.7.1, cookie@^0.7.2:
+cookie@^0.7.1:
+  version "0.7.2"
+  resolved "https://registry.npmjs.org/cookie/-/cookie-0.7.2.tgz"
+  integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
+
+cookie@^0.7.2:
   version "0.7.2"
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.7.2.tgz"
   integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
@@ -2256,10 +2261,10 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-lightningcss-win32-x64-msvc@1.30.1:
+lightningcss-linux-x64-gnu@1.30.1:
   version "1.30.1"
-  resolved "https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.30.1.tgz"
-  integrity sha512-PVqXh48wh4T53F/1CCu8PIPCxLzWyCnn/9T5W1Jpmdy5h9Cwd+0YQS6/LwhHXSafuc61/xg9Lv5OrCby6a++jg==
+  resolved "https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.30.1.tgz"
+  integrity sha512-piWx3z4wN8J8z3+O5kO74+yr6ze/dKmPnI7vLqfSqI8bccaTGY5xiSGVIJBDd5K5BHlvVLpUB3S2YCfelyJ1bw==
 
 lightningcss@^1.21.0, lightningcss@1.30.1:
   version "1.30.1"
@@ -2380,7 +2385,14 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.52.0"
 
-mime-types@^3.0.0, mime-types@^3.0.1:
+mime-types@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/mime-types/-/mime-types-3.0.1.tgz"
+  integrity sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==
+  dependencies:
+    mime-db "^1.54.0"
+
+mime-types@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/mime-types/-/mime-types-3.0.1.tgz"
   integrity sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==

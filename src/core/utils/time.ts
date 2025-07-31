@@ -43,3 +43,35 @@ export const generateTimeSlots = (
 
   return slots;
 };
+
+/**
+ * Calculates the number of calendar days needed to achieve a specific number of weekdays
+ * @param weekdaysNeeded - Number of weekdays (Monday-Friday) desired
+ * @param startDate - Optional start date, defaults to tomorrow
+ * @returns Number of calendar days needed
+ */
+export const calculateCalendarDaysForWeekdays = (weekdaysNeeded: number, startDate?: Date): number => {
+  if (weekdaysNeeded <= 0) return 0;
+  
+  const start = startDate || new Date();
+  start.setDate(start.getDate() + 1); // Start from tomorrow
+  
+  let weekdaysFound = 0;
+  let calendarDays = 0;
+  const currentDate = new Date(start);
+  
+  while (weekdaysFound < weekdaysNeeded) {
+    calendarDays++;
+    
+    // Check if current day is a weekday (Monday = 1, Friday = 5)
+    const dayOfWeek = currentDate.getDay();
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      weekdaysFound++;
+    }
+    
+    // Move to next day
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  
+  return calendarDays;
+};
