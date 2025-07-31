@@ -1,6 +1,6 @@
 import Modal from "@/core/components/organism/Modal";
-import useCreateBulkHorarios from "@/modules/horarios/hooks/useCreateBulkHorarios";
-import { calculateCalendarDaysForWeekdays } from "@/core/utils/time";
+import { useCreateWeekdayHorarios } from "@/modules/horarios/hooks/useCreateBulkHorarios";
+import { generateWeekdayDates } from "@/core/utils/time";
 import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -12,17 +12,17 @@ interface IBulkCreateModalProps {
 }
 
 const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, reloadData, onClose }) => {
-  const { mutate: createSchedule, isPending: loadingCreate } = useCreateBulkHorarios()
+  const { mutate: createSchedule, isPending: loadingCreate } = useCreateWeekdayHorarios()
 
   const [weekdays, setWeekdays] = useState<number>(1)
   const [inicio, setInicio] = useState<string>("08:00")
   const [fim, setFim] = useState<string>("18:00")
 
   const handleDeleteSchedule = () => {
-    // Calculate the calendar days needed to achieve the desired number of weekdays
-    const calendarDays = calculateCalendarDaysForWeekdays(weekdays);
+    // Generate specific weekday dates only
+    const weekdayDates = generateWeekdayDates(weekdays);
     
-    createSchedule({ period: calendarDays.toString(), body: { start: inicio, end: fim } }, {
+    createSchedule({ dates: weekdayDates, body: { start: inicio, end: fim } }, {
       onSuccess: () => {
         reloadData()
         toast.success(`Período de ${weekdays} dias úteis criado com sucesso`, {
@@ -43,7 +43,7 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
     <Modal size="w-[40%]" isOpen={isOpen} title="Gerar horarios de atendimento" onClose={onClose}>
       <div>
         <p className="text-sm font-semibold">Crie um lote de horarios de atendimento</p>
-        <p className="text-xs text-gray-500">O horario de atendimento será criado apenas em dias úteis (segunda a sexta-feira), excluindo finais de semana</p>
+        <p className="text-xs text-gray-500">Os horários serão criados apenas nos próximos dias úteis (segunda a sexta-feira), excluindo automaticamente sábados e domingos</p>
         <div className="grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
           <div>
             <p>Dias úteis</p>
@@ -52,7 +52,10 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
               Quantidade de dias úteis para criar horários
               {weekdays > 0 && (
                 <span className="block text-blue-600">
-                  ({calculateCalendarDaysForWeekdays(weekdays)} dias corridos incluindo finais de semana)
+                  Datas: {generateWeekdayDates(weekdays).map(date => {
+                    const [, month, day] = date.split('-');
+                    return `${day}/${month}`;
+                  }).join(', ')}
                 </span>
               )}
             </p>

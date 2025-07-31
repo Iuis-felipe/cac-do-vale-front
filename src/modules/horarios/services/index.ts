@@ -60,4 +60,24 @@ export const createSchedule = async (body: { dia: string, horarioStart: string, 
     throw "Horário já cadastrado"
   }
 }
+
+export const createWeekdaySchedules = async (dates: string[], body: { start?: string, end: string }) => {
+  try {
+    const promises = dates.map(date => {
+      return api.post(`/availability`, {
+        dia: date,
+        horarioStart: body.start || "08:00",
+        horarioEnd: body.end,
+        intervalo: "01:00", // Default interval - pode ser configurável se necessário
+        intervaloThreshold: "00:30" // Default threshold - pode ser configurável se necessário
+      });
+    });
+
+    const responses = await Promise.all(promises);
+    return responses.map(response => response.data);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
   

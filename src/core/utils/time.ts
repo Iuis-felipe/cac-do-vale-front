@@ -75,3 +75,36 @@ export const calculateCalendarDaysForWeekdays = (weekdaysNeeded: number, startDa
   
   return calendarDays;
 };
+
+/**
+ * Generates a list of weekday dates (Monday-Friday only)
+ * @param weekdaysNeeded - Number of weekdays to generate
+ * @param startDate - Optional start date, defaults to tomorrow
+ * @returns Array of date strings in YYYY-MM-DD format for weekdays only
+ */
+export const generateWeekdayDates = (weekdaysNeeded: number, startDate?: Date): string[] => {
+  if (weekdaysNeeded <= 0) return [];
+  
+  const start = startDate || new Date();
+  start.setDate(start.getDate() + 1); // Start from tomorrow
+  
+  const weekdayDates: string[] = [];
+  const currentDate = new Date(start);
+  
+  while (weekdayDates.length < weekdaysNeeded) {
+    // Check if current day is a weekday (Monday = 1, Friday = 5)
+    const dayOfWeek = currentDate.getDay();
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      // Format date as YYYY-MM-DD
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      weekdayDates.push(`${year}-${month}-${day}`);
+    }
+    
+    // Move to next day
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  
+  return weekdayDates;
+};
