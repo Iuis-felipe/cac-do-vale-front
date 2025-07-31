@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import useUpdateSchedule from "../../hook/useUpdateSchedule";
 import useLoadSchedule from "../../hook/useLoadSchedule";
+import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 
 const AgendamentoUpdate = () => {
   const { scheduleId } = useParams();
@@ -19,6 +20,11 @@ const AgendamentoUpdate = () => {
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
+  const [validationErrors, setValidationErrors] = useState({
+    cpf: '',
+    email: '',
+    telefone: ''
+  });
 
   const [formData, setFormData] = useState({
     dia: new Date(),
@@ -90,7 +96,35 @@ const AgendamentoUpdate = () => {
     }
   }
 
+  const validateForm = () => {
+    const errors = {
+      cpf: '',
+      email: '',
+      telefone: ''
+    };
+
+    if (formData.cpf && !isValidCpf(formData.cpf)) {
+      errors.cpf = 'CPF inválido';
+    }
+
+    if (formData.email && !isValidEmail(formData.email)) {
+      errors.email = 'Email inválido';
+    }
+
+    if (formData.telefone && !isValidPhone(formData.telefone)) {
+      errors.telefone = 'Telefone inválido';
+    }
+
+    setValidationErrors(errors);
+    return !errors.cpf && !errors.email && !errors.telefone;
+  };
+
   const handleUpdateSchedule = () => {
+    if (!validateForm()) {
+      toast.error('Por favor, corrija os erros de validação');
+      return;
+    }
+
     updateSchedule({body: updatedFields, id: scheduleId || ''});
   }
 
@@ -181,7 +215,7 @@ const AgendamentoUpdate = () => {
               <input 
                 type="text" 
                 placeholder="CPF" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.cpf ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.cpf} 
                 onChange={(e) => {
                   setFormData({ ...formData, cpf: e.target.value })
@@ -191,12 +225,13 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.cpf && <p className="text-xs text-red-600 mt-1">{validationErrors.cpf}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <input 
                 type="text" 
                 placeholder="Email" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.email ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.email} 
                 onChange={(e) => {
                   setFormData({ ...formData, email: e.target.value })
@@ -206,12 +241,13 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.email && <p className="text-xs text-red-600 mt-1">{validationErrors.email}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <input 
                 type="text" 
                 placeholder="Telefone" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.telefone ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.telefone} 
                 onChange={(e) => {
                   setFormData({ ...formData, telefone: e.target.value })
@@ -221,6 +257,7 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.telefone && <p className="text-xs text-red-600 mt-1">{validationErrors.telefone}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <select 
