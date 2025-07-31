@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 import DaySelector from "../../components/daySelector";
+import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 
 const AgendamentoForm = () => {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ const AgendamentoForm = () => {
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
+  const [validationErrors, setValidationErrors] = useState({
+    cpf: '',
+    email: '',
+    telefone: ''
+  });
 
   const [formData, setFormData] = useState({
     dia: new Date(),
@@ -64,8 +70,39 @@ const AgendamentoForm = () => {
     setSelectedTime(time);
   }
 
+  const validateForm = () => {
+    const errors = {
+      cpf: '',
+      email: '',
+      telefone: ''
+    };
+
+    if (formData.cpf && !isValidCpf(formData.cpf)) {
+      errors.cpf = 'CPF inválido';
+    }
+
+    if (formData.email && !isValidEmail(formData.email)) {
+      errors.email = 'Email inválido';
+    }
+
+    if (formData.telefone && !isValidPhone(formData.telefone)) {
+      errors.telefone = 'Telefone inválido';
+    }
+
+    setValidationErrors(errors);
+    return !errors.cpf && !errors.email && !errors.telefone;
+  };
+
   const handleCreateSchedule = () => {
-    if (!selectedDay || !selectedTime) return;
+    if (!selectedDay || !selectedTime) {
+      toast.error('Selecione um dia e horário');
+      return;
+    }
+
+    if (!validateForm()) {
+      toast.error('Por favor, corrija os erros de validação');
+      return;
+    }
 
     const newSchedule = {...formData};
     
@@ -130,28 +167,31 @@ const AgendamentoForm = () => {
           <input 
             type="text" 
             placeholder="CPF" 
-            className="w-full p-2 border border-gray-300 rounded-md" 
+            className={`w-full p-2 border rounded-md ${validationErrors.cpf ? 'border-red-500' : 'border-gray-300'}`}
             value={formData.cpf} 
             onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
           />
+          {validationErrors.cpf && <p className="text-xs text-red-600 mt-1">{validationErrors.cpf}</p>}
         </div>
         <div className="col-span-1 mt-2">
           <input 
             type="text" 
             placeholder="Email" 
-            className="w-full p-2 border border-gray-300 rounded-md" 
+            className={`w-full p-2 border rounded-md ${validationErrors.email ? 'border-red-500' : 'border-gray-300'}`}
             value={formData.email} 
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
+          {validationErrors.email && <p className="text-xs text-red-600 mt-1">{validationErrors.email}</p>}
         </div>
         <div className="col-span-1 mt-2">
           <input 
             type="text" 
             placeholder="Telefone" 
-            className="w-full p-2 border border-gray-300 rounded-md" 
+            className={`w-full p-2 border rounded-md ${validationErrors.telefone ? 'border-red-500' : 'border-gray-300'}`}
             value={formData.telefone} 
             onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
           />
+          {validationErrors.telefone && <p className="text-xs text-red-600 mt-1">{validationErrors.telefone}</p>}
         </div>
         <div className="col-span-1 mt-2">
           <select 
