@@ -2,21 +2,30 @@ import { useEffect, useState } from "react";
 import PageTitle from "../../../../core/components/organism/PageTitle";
 import { Calendar } from "@/components/ui/calendar"
 import { format, set } from "date-fns";
-import useGetAvailableHours from "../../hook/useGetAvailableHours";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import useUpdateSchedule from "../../hook/useUpdateSchedule";
 import useLoadSchedule from "../../hook/useLoadSchedule";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/core/api";
+import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
+import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
+import DaySelector from "../../components/daySelector";
 
 const AgendamentoUpdate = () => {
   const { scheduleId } = useParams();
   const navigate = useNavigate();
 
-  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useGetAvailableHours();
+  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
+    mutationKey: ['get-available-hours'],
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+  });
   const { mutate: updateSchedule, isPending: loadingUpdateSchedule, isSuccess } = useUpdateSchedule();
-  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || ''); 
+  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || '');
+  const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
+  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours() 
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
@@ -68,6 +77,8 @@ const AgendamentoUpdate = () => {
       setFormData(schedule);
 
       getAvailableHours(format(schedule.dia, "yyyy-MM-dd"));
+      getAppointmentHours(format(schedule.dia, "yyyy-MM-dd"));
+      getDefaultHours();
     }
   }, [schedule]);
 
@@ -76,6 +87,8 @@ const AgendamentoUpdate = () => {
 
     if (date) {
       getAvailableHours(format(date, "yyyy-MM-dd"));
+      getAppointmentHours(format(date, "yyyy-MM-dd"));
+      getDefaultHours();
       
       setUpdatedFields({
         ...updatedFields,
@@ -147,33 +160,16 @@ const AgendamentoUpdate = () => {
               <p className="text-md font-semibold"> 
                 Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
               </p>
-              { loadingHours && <Loader2 className="w-4 h-4 animate-spin" /> }
-              { !loadingHours && selectedDay && unavailableHours && (
-                <div className="flex flex-row flex-wrap items-center gap-2 mt-4">
-                  {Array.from({ length: 37 }, (_, i) => {
-                    const hour = Math.floor(i / 4) + 8;
-                    const minute = (i % 4) * 15;
-                    const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-                    
-                    const isAvailable = !unavailableHours.includes(time);
-                    
-                    return (
-                      <div 
-                        onClick={() => isAvailable && handleTimeSelect(time)}
-                        key={time} 
-                        className={`
-                          w-16 h-10 
-                          ${selectedTime === time ? 'border-1 border-sky-600' : ''}
-                          ${isAvailable ? 'bg-gray-200 cursor-pointer hover:bg-gray-300' : 'bg-red-200'} 
-                          rounded-md flex items-center justify-center
-                        `}
-                      >
-                        <span className="text-sm">{time}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+              <DaySelector
+                loading={loadingHours || loadingAppointmentHours || loadingDefaultHours}
+                start={appointmentHours?.horarioStart || defaultHours?.horarioStart || '08:00'}
+                end={appointmentHours?.horarioEnd || defaultHours?.horarioEnd || '18:00'}
+                interval={appointmentHours?.intervalo || defaultHours?.intervalo || '12:00'}
+                intervalThreshold={appointmentHours?.intervaloThreshold ? `${appointmentHours.intervaloThreshold}:00` : defaultHours?.intervaloThreshold ? `${defaultHours.intervaloThreshold}:00` : '01:00'}
+                unavailableHours={unavailableHours || []}
+                selectedTime={selectedTime}
+                setSelectedTime={handleTimeSelect}
+              />
             </div>
           </div>
           <div className="border-b border-gray-300 mt-8 mb-4"></div>
