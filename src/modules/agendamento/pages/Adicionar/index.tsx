@@ -91,16 +91,18 @@ const AgendamentoForm = () => {
           <p className="text-md font-semibold"> 
             Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
           </p>
-          <DaySelector
-            loading={loadingHours || loadingAppointmentHours}
-            start={appointmentHours?.horarioStart}
-            end={appointmentHours?.horarioEnd}
-            interval={appointmentHours?.intervalo}
-            intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
-            unavailableHours={unavailableHours}
-            selectedTime={selectedTime}
-            setSelectedTime={handleTimeSelect}
-          />
+          {selectedDay && (
+            <DaySelector
+              loading={loadingHours || loadingAppointmentHours}
+              start={appointmentHours?.horarioStart}
+              end={appointmentHours?.horarioEnd}
+              interval={appointmentHours?.intervalo}
+              intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
+              unavailableHours={unavailableHours}
+              selectedTime={selectedTime}
+              setSelectedTime={handleTimeSelect}
+            />
+          )}
         </div>
       </div>
       <div className="border-b border-gray-300 mt-8 mb-4"></div>
