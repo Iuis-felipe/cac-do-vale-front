@@ -22,7 +22,6 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
       onSuccess: () => {
         reloadData()
         toast.success("Periodo de horarios de atendimento criado com sucesso", {
-          duration: 3000,
           onAutoClose: () => {
             onClose()
           }
@@ -30,7 +29,6 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
       },
       onError: (error) => {
         toast.error("Erro ao criar periodo de horarios de atendimento", {
-          duration: 3000,
           description: error?.message || "Erro ao criar periodo de horarios de atendimento, procure o suporte por favor."
         })
       }
