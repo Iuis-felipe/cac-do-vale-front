@@ -2,21 +2,27 @@ import { useEffect, useState } from "react";
 import PageTitle from "../../../../core/components/organism/PageTitle";
 import { Calendar } from "@/components/ui/calendar"
 import { format, set } from "date-fns";
-import useGetAvailableHours from "../../hook/useGetAvailableHours";
 import useCreateSchedule from "../../hook/useCreateSchedule";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
+import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import DaySelector from "../../components/daySelector";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/core/api";
 
 const AgendamentoForm = () => {
   const navigate = useNavigate();
 
-  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useGetAvailableHours();
+  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
+    mutationKey: ['get-available-hours'],
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+  });
   const { mutate: createSchedule, isPending: loadingCreateSchedule, isSuccess } = useCreateSchedule();
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
+  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours()
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
@@ -63,6 +69,7 @@ const AgendamentoForm = () => {
     if (date) {
       getAvailableHours(format(date, "yyyy-MM-dd"));
       getAppointmentHours(format(date, "yyyy-MM-dd"));
+      getDefaultHours();
     }
   }
 
@@ -129,12 +136,12 @@ const AgendamentoForm = () => {
             Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
           </p>
           <DaySelector
-            loading={loadingHours || loadingAppointmentHours}
-            start={appointmentHours?.horarioStart}
-            end={appointmentHours?.horarioEnd}
-            interval={appointmentHours?.intervalo}
-            intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
-            unavailableHours={unavailableHours}
+            loading={loadingHours || loadingAppointmentHours || loadingDefaultHours}
+            start={appointmentHours?.horarioStart || defaultHours?.horarioStart || '08:00'}
+            end={appointmentHours?.horarioEnd || defaultHours?.horarioEnd || '18:00'}
+            interval={appointmentHours?.intervalo || defaultHours?.intervalo || '12:00'}
+            intervalThreshold={appointmentHours?.intervaloThreshold ? `${appointmentHours.intervaloThreshold}:00` : defaultHours?.intervaloThreshold ? `${defaultHours.intervaloThreshold}:00` : '01:00'}
+            unavailableHours={unavailableHours || []}
             selectedTime={selectedTime}
             setSelectedTime={handleTimeSelect}
           />
