@@ -48,7 +48,6 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
     uploadScheduleFile({ file, scheduleId }, {
       onSuccess: () => {
         toast.success("Arquivo enviado com sucesso", {
-          duration: 2000,
           onAutoClose: () => {
             reloadData()
             handleCloseModalActions()
