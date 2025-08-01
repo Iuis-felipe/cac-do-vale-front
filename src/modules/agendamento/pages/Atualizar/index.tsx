@@ -11,7 +11,6 @@ import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation"
 import { useMutation } from "@tanstack/react-query";
 import api from "@/core/api";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
-import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import DaySelector from "../../components/daySelector";
 
 const AgendamentoUpdate = () => {
@@ -25,7 +24,6 @@ const AgendamentoUpdate = () => {
   const { mutate: updateSchedule, isPending: loadingUpdateSchedule, isSuccess } = useUpdateSchedule();
   const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || '');
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
-  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours() 
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
@@ -78,7 +76,6 @@ const AgendamentoUpdate = () => {
 
       getAvailableHours(format(schedule.dia, "yyyy-MM-dd"));
       getAppointmentHours(format(schedule.dia, "yyyy-MM-dd"));
-      getDefaultHours();
     }
   }, [schedule]);
 
