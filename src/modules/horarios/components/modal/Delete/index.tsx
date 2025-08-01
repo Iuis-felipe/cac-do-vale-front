@@ -18,7 +18,6 @@ const ScheduleDeleteModal: React.FC<IDeleteModalProps> = ({ isOpen, scheduleId, 
       onSuccess: () => {
         reloadData()
         toast.success("Horário deletado com sucesso", {
-          duration: 3000,
           onAutoClose: () => {
             onClose()
           }
@@ -26,7 +25,6 @@ const ScheduleDeleteModal: React.FC<IDeleteModalProps> = ({ isOpen, scheduleId, 
       },
       onError: (error) => {
         toast.error("Erro ao deletar horário", {
-          duration: 3000,
           description: error?.message || "Erro ao deletar horário, procure o suporte por favor."
         })
       }
