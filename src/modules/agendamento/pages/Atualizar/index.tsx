@@ -2,27 +2,38 @@ import { useEffect, useState } from "react";
 import PageTitle from "../../../../core/components/organism/PageTitle";
 import { Calendar } from "@/components/ui/calendar"
 import { format, set } from "date-fns";
-import useGetAvailableHours from "../../hook/useGetAvailableHours";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
 import useUpdateSchedule from "../../hook/useUpdateSchedule";
 import useLoadSchedule from "../../hook/useLoadSchedule";
+import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/core/api";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
+import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import DaySelector from "../../components/daySelector";
 
 const AgendamentoUpdate = () => {
   const { scheduleId } = useParams();
   const navigate = useNavigate();
 
-  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useGetAvailableHours();
+  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
+    mutationKey: ['get-available-hours'],
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+  });
   const { mutate: updateSchedule, isPending: loadingUpdateSchedule, isSuccess } = useUpdateSchedule();
+  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || '');
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
-
-  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || ''); 
+  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours() 
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
+  const [validationErrors, setValidationErrors] = useState({
+    cpf: '',
+    email: '',
+    telefone: ''
+  });
 
   const [formData, setFormData] = useState({
     dia: new Date(),
@@ -66,6 +77,8 @@ const AgendamentoUpdate = () => {
       setFormData(schedule);
 
       getAvailableHours(format(schedule.dia, "yyyy-MM-dd"));
+      getAppointmentHours(format(schedule.dia, "yyyy-MM-dd"));
+      getDefaultHours();
     }
   }, [schedule]);
 
@@ -95,7 +108,35 @@ const AgendamentoUpdate = () => {
     }
   }
 
+  const validateForm = () => {
+    const errors = {
+      cpf: '',
+      email: '',
+      telefone: ''
+    };
+
+    if (formData.cpf && !isValidCpf(formData.cpf)) {
+      errors.cpf = 'CPF inválido';
+    }
+
+    if (formData.email && !isValidEmail(formData.email)) {
+      errors.email = 'Email inválido';
+    }
+
+    if (formData.telefone && !isValidPhone(formData.telefone)) {
+      errors.telefone = 'Telefone inválido';
+    }
+
+    setValidationErrors(errors);
+    return !errors.cpf && !errors.email && !errors.telefone;
+  };
+
   const handleUpdateSchedule = () => {
+    if (!validateForm()) {
+      toast.error('Por favor, corrija os erros de validação');
+      return;
+    }
+
     updateSchedule({body: updatedFields, id: scheduleId || ''});
   }
 
@@ -171,7 +212,7 @@ const AgendamentoUpdate = () => {
               <input 
                 type="text" 
                 placeholder="CPF" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.cpf ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.cpf} 
                 onChange={(e) => {
                   setFormData({ ...formData, cpf: e.target.value })
@@ -181,12 +222,13 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.cpf && <p className="text-xs text-red-600 mt-1">{validationErrors.cpf}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <input 
                 type="text" 
                 placeholder="Email" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.email ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.email} 
                 onChange={(e) => {
                   setFormData({ ...formData, email: e.target.value })
@@ -196,12 +238,13 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.email && <p className="text-xs text-red-600 mt-1">{validationErrors.email}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <input 
                 type="text" 
                 placeholder="Telefone" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
+                className={`w-full p-2 border rounded-md ${validationErrors.telefone ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.telefone} 
                 onChange={(e) => {
                   setFormData({ ...formData, telefone: e.target.value })
@@ -211,6 +254,7 @@ const AgendamentoUpdate = () => {
                   })
                 }}
               />
+              {validationErrors.telefone && <p className="text-xs text-red-600 mt-1">{validationErrors.telefone}</p>}
             </div>
             <div className="col-span-1 mt-2">
               <select 

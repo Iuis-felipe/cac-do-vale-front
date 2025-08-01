@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 
 import Pagination from "../components/schduling/pagination";
 import WelcomeFrame from "../components/schduling/frames/page-1";
@@ -47,7 +48,19 @@ const Scheduling = () => {
     switch (currentPage) {
       case 2: return !formData.dia;
       case 3: return !formData.horario;
-      case 4: return !(formData.nome_civil && formData.cpf && formData.telefone && formData.forma_pagamento && formData.categoria && formData.tipo_exame);
+      case 4: {
+        const hasRequiredFields = formData.nome_civil && 
+                                formData.cpf && 
+                                formData.telefone && 
+                                formData.forma_pagamento && 
+                                formData.categoria && 
+                                formData.tipo_exame;
+        
+        const isCpfValid = isValidCpf(formData.cpf);
+        const isPhoneValid = isValidPhone(formData.telefone);
+        const isEmailValid = !formData.email || isValidEmail(formData.email);
+        return !hasRequiredFields || !isCpfValid || !isPhoneValid || !isEmailValid;
+      }
       case 5: return !(formData.cep && formData.logradouro && formData.numero && formData.cidade && formData.estado && formData.bairro);
       default: return false;
     }

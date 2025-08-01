@@ -36,7 +36,7 @@ const Horarios = () => {
 
   const handleCloseModal = () => {
     setIsOpen(false)
-    setSchedule(undefined)  
+    setSchedule(undefined)
   }
 
   const handleDeleteSchedule = (id: string) => {
@@ -63,7 +63,7 @@ const Horarios = () => {
         reloadData={() => mutate({ page: 1, perPage: 10, search: "" })}
         onClose={() => setIsOpenBulkCreate(false)}
       />
-      <PageTitle title="Administradores" subtitle="Gerênciamento dos usuários" />
+      <PageTitle title="Horários" subtitle="Gerênciamento dos horários" />
       <div className="flex flex-col gap-4 mt-10">
         <div className="flex flex-row items-center justify-between mb-10">
           <ScheduleFilter search={search} setSearch={setSearch} setPage={setPage} handleSearch={handleSearch} />
@@ -84,16 +84,16 @@ const Horarios = () => {
             </button>
           </div>
         </div>
-        <ScheduleTable 
-          schedules={data?.data || []} 
-          isLoading={isPending} 
-          handleEditSchedule={handleEditSchedule} 
-          handleDeleteSchedule={handleDeleteSchedule} 
+        <ScheduleTable
+          schedules={data?.data || []}
+          isLoading={isPending}
+          handleEditSchedule={handleEditSchedule}
+          handleDeleteSchedule={handleDeleteSchedule}
         />
-        <SchedulePagination 
-          totalPages={data?.totalPages || 1} 
-          currentPage={page} 
-          onPageChange={setPage} 
+        <SchedulePagination
+          totalPages={data?.totalPages || 1}
+          currentPage={page}
+          onPageChange={setPage}
         />
       </div>
     </div>

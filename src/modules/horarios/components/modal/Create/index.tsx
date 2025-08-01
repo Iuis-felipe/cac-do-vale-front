@@ -62,7 +62,6 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       onSuccess: () => {
         reloadData()
         toast.success("Horário criado com sucesso", {
-          duration: 3000,
           onAutoClose: () => {
             handleCloseModal()
           }
@@ -70,7 +69,6 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       },
       onError: (error) => {
         toast.error("Erro ao criar horário", {
-          duration: 3000,
           description: error?.message || "Erro ao criar horário, procure o suporte por favor."
         })
       }
@@ -87,7 +85,6 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       onSuccess: () => {
         reloadData()
         toast.success("Horário atualizado com sucesso", {
-          duration: 3000,
           onAutoClose: () => {
             handleCloseModal()
           }
@@ -95,7 +92,6 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       },
       onError: (error) => {
         toast.error("Erro ao atualizar horário", {
-          duration: 3000,
           description: error?.message || "Erro ao atualizar horário, procure o suporte por favor."
         })
       }

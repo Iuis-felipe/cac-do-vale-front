@@ -20,7 +20,7 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
   const timeSlotsWithStatus = useMemo(() => {
     if (!selectedDay) return [];
 
-    const threshold = availableHours?.intervaloThreshold ? "0"+availableHours?.intervaloThreshold+":00" : undefined
+    const threshold = availableHours?.intervaloThreshold ? `${availableHours.intervaloThreshold}:00` : '01:00'
     const times = generateTimeSlots(availableHours?.horarioStart, availableHours?.horarioEnd, days, availableHours?.intervalo, threshold)
 
     return times.map(it => {
