@@ -7,7 +7,6 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
-import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import DaySelector from "../../components/daySelector";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 import { useMutation } from "@tanstack/react-query";
@@ -22,7 +21,6 @@ const AgendamentoForm = () => {
   });
   const { mutate: createSchedule, isPending: loadingCreateSchedule, isSuccess } = useCreateSchedule();
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
-  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours()
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
@@ -69,7 +67,6 @@ const AgendamentoForm = () => {
     if (date) {
       getAvailableHours(format(date, "yyyy-MM-dd"));
       getAppointmentHours(format(date, "yyyy-MM-dd"));
-      getDefaultHours();
     }
   }
 
