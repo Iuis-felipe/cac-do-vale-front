@@ -9,9 +9,12 @@ import ScheduleTable from "../components/Table";
 import { ISchedule } from "../model";
 import ScheduleDeleteModal from "../components/modal/Delete";
 import ScheduleBulkCreateModal from "../components/modal/BulkCreate";
+import useUpdateIsHoliday from "../hooks/useUpdateIsHoliday";
+import { toast } from "sonner";
 
 const Horarios = () => {
   const { data, isPending, mutate } = useGetHorarios()
+  const { mutate: updateIsHoliday, isPending: isPendingUpdateIsHoliday } = useUpdateIsHoliday()
 
   const [search, setSearch] = useState<string | undefined>(undefined)
   const [scheduleId, setScheduleId] = useState<string | undefined>(undefined)
@@ -42,6 +45,15 @@ const Horarios = () => {
   const handleDeleteSchedule = (id: string) => {
     setScheduleId(id)
     setIsOpenDelete(true)
+  }
+
+  const handleUpdateIsHoliday = (id: string, isHoliday: boolean) => {
+    updateIsHoliday({ id, body: { isHoliday } }, {
+      onSuccess: () => {
+        toast.success("Horário atualizado com sucesso!")
+        mutate({ page: 1, perPage: 10, search: "" })
+      }
+    })
   }
 
   return (
@@ -86,9 +98,10 @@ const Horarios = () => {
         </div>
         <ScheduleTable
           schedules={data?.data || []}
-          isLoading={isPending}
+          isLoading={isPending || isPendingUpdateIsHoliday}
           handleEditSchedule={handleEditSchedule}
           handleDeleteSchedule={handleDeleteSchedule}
+          handleUpdateStatus={handleUpdateIsHoliday}
         />
         <SchedulePagination
           totalPages={data?.totalPages || 1}

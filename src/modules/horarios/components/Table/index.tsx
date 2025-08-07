@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Loader2, PencilIcon, TrashIcon, CopyIcon } from "lucide-react"
+import { Loader2, PencilIcon, TrashIcon, CopyIcon, CalendarCheck, CalendarX } from "lucide-react"
 import { addHours, format } from "date-fns"
 import { toast } from "sonner"
 import { generateWhatsAppMessage, copyToClipboard } from "../../utils/messageGenerator"
@@ -12,6 +12,7 @@ interface ISchedule {
   id: string;
   intervalo: string;
   intervaloThreshold: string;
+  isHoliday: boolean;
   updated_at: string;
 }
 
@@ -21,10 +22,10 @@ interface IScheduleTable {
   isLoading: boolean;
   handleEditSchedule: (schedule: ISchedule) => void;
   handleDeleteSchedule: (id: string) => void;
+  handleUpdateStatus: (id: string, isHoliday: boolean) => void;
 }
 
-const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule }) => {
-
+const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule, handleUpdateStatus }) => {
   const handleCopyMessage = async (schedule: ISchedule) => {
     try {
       const message = await generateWhatsAppMessage(schedule);
@@ -77,6 +78,9 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
               </button>
               <button className="text-red-500 cursor-pointer hover:text-red-700" onClick={() => handleDeleteSchedule(schedule.id)}>
                 <TrashIcon className="size-5" />
+              </button>
+              <button className="text-yellow-500 cursor-pointer hover:text-yellow-700" onClick={() => handleUpdateStatus(schedule.id, !schedule.isHoliday)}>
+                {schedule.isHoliday ? <CalendarCheck className="size-5" /> : <CalendarX className="size-5" />}
               </button>
             </TableCell>
           </TableRow>

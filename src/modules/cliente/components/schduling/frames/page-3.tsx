@@ -17,6 +17,8 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
   const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours()
 
+  console.log('1', appointmentHours)
+
   useEffect(() => {
     if (data.dia) {
       mutate(format(data.dia, "yyyy-MM-dd"));
@@ -29,6 +31,17 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
     return (
       <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">
         <p className="text-lg font-semibold text-gray-700">Por favor, selecione um dia primeiro.</p>
+        <button onClick={() => setCurrentPage(3)} className="mt-4 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
+          Voltar
+        </button>
+      </div>
+    );
+  }
+
+  if(appointmentHours && appointmentHours.isHoliday) {
+    return (
+      <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">
+        <p className="text-lg font-semibold text-gray-700">Não haverá atendimento neste dia.</p>
         <button onClick={() => setCurrentPage(3)} className="mt-4 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
           Voltar
         </button>
