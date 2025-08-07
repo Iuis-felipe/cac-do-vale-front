@@ -61,3 +61,13 @@ export const createSchedule = async (body: { dia: string, horarioStart: string, 
   }
 }
   
+export const updateIsHoliday = async (id: string, body: { isHoliday: boolean }) => {
+  try {
+    const response = await api.put(`/availability/isHoliday/${id}`, body)
+
+    return response.data
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
