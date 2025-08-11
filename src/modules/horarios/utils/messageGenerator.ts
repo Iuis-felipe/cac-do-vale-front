@@ -1,6 +1,6 @@
 import { format, addHours } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { generateTimeSlots } from "../../../core/utils/time";
+import { generateTimeSlots } from "@/core/utils/time";
 
 export interface ISchedule {
   id: string;
@@ -9,10 +9,27 @@ export interface ISchedule {
   horarioEnd: string;
   intervalo: string;
   intervaloThreshold: string;
+  isClosed?: boolean;
 }
 
 export const generateWhatsAppMessage = async (schedule: ISchedule): Promise<string> => {
   const formattedDate = format(addHours(schedule.dia, 3), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR });
+  
+  // Se o dia está fechado, retorna mensagem específica
+  if (schedule.isClosed) {
+    const message = `📅 *CAC do Vale - Dia Fechado*
+
+🗓️ *Data:* ${formattedDate}
+❌ *Status:* Sem expediente
+
+📍 *Endereço:* Rua Erich Steinbach, 22 - Itoupava Seca
+
+---
+*CAC do Vale - Agendamentos*`;
+
+    return message;
+  }
+
   const intervalThresholdFormatted = `${schedule.intervaloThreshold}:00`;
   const availableSlots = generateTimeSlots(
     schedule.horarioStart,
