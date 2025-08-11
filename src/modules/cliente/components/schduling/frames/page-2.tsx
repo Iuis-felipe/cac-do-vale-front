@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { format, addDays, isSaturday, isSunday } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 
 interface DaySelectionFrameProps {
   data: any;
@@ -13,6 +14,18 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(
     data.dia ? new Date(data.dia) : undefined
   );
+  const [closedDays, setClosedDays] = useState<string[]>([]);
+  const { mutate: getDefaultHours, data: defaultHours } = useGetDefaultHours();
+
+  useEffect(() => {
+    getDefaultHours();
+  }, []);
+
+  useEffect(() => {
+    if (defaultHours?.closedDays) {
+      setClosedDays(defaultHours.closedDays);
+    }
+  }, [defaultHours]);
 
   const handleDaySelect = (date: Date | undefined) => {
     if (!date) return;
@@ -26,7 +39,10 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
   const maxDate = addDays(today, 14);
 
   const isDateDisabled = (date: Date) => {
-    return date < today || date > maxDate || isSaturday(date) || isSunday(date);
+    const dateString = format(date, "yyyy-MM-dd");
+    const isClosedDay = closedDays.includes(dateString);
+    
+    return date < today || date > maxDate || isSaturday(date) || isSunday(date) || isClosedDay;
   };
 
   return (

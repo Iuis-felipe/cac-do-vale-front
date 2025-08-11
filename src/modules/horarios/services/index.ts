@@ -39,7 +39,7 @@ export const deleteSchedule = async (id: string) => {
   }
 }
 
-export const updateSchedule = async (id: string, body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string }) => {
+export const updateSchedule = async (id: string, body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string, isClosed?: boolean }) => {
   try {
     const response = await api.put(`/availability/${id}`, body)
 
@@ -50,7 +50,7 @@ export const updateSchedule = async (id: string, body: { horarioStart?: string, 
   }
 }
 
-export const createSchedule = async (body: { dia: string, horarioStart: string, horarioEnd: string, intervalo: string, intervaloThreshold: string }) => {
+export const createSchedule = async (body: { dia: string, horarioStart: string, horarioEnd: string, intervalo: string, intervaloThreshold: string, isClosed?: boolean }) => {
   try {
     const response = await api.post(`/availability`, body)
 

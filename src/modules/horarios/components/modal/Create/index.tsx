@@ -20,6 +20,7 @@ interface IScheduleForm {
   horarioEnd?: string;
   intervalo?: string;
   intervaloThreshold?: string;
+  isClosed?: boolean;
 }
 
 const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, handleCloseModalActions, reloadData }) => {
@@ -31,7 +32,8 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
     horarioStart: "",
     horarioEnd: "",
     intervalo: "",
-    intervaloThreshold: ""
+    intervaloThreshold: "",
+    isClosed: false
   })
 
   useEffect(() => {
@@ -41,13 +43,48 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
         horarioStart: schedule.horarioStart,
         horarioEnd: schedule.horarioEnd,
         intervalo: schedule.intervalo,
-        intervaloThreshold: schedule.intervaloThreshold
+        intervaloThreshold: schedule.intervaloThreshold,
+        isClosed: schedule.isClosed || false
       })
     }
   }, [schedule])
 
   const handleCreateSchedule = (data: IScheduleForm) => {
-    if (!data.dia || !data.horarioStart || !data.horarioEnd || !data.intervalo || !data.intervaloThreshold) {
+    if (!data.dia) {
+      toast.error("Preencha o campo dia")
+      return
+    }
+
+    // Se o dia está fechado, não precisa dos outros campos
+    if (data.isClosed) {
+      createSchedule({
+        dia: data.dia,
+        horarioStart: "00:00",
+        horarioEnd: "00:00",
+        intervalo: "00:00",
+        intervaloThreshold: "0",
+        isClosed: true
+      }, {
+        onSuccess: () => {
+          reloadData()
+          toast.success("Dia marcado como fechado com sucesso", {
+            onAutoClose: () => {
+              handleCloseModal()
+            }
+          })
+        },
+        onError: (error: any) => {
+          console.error("Erro ao criar dia fechado:", error)
+          toast.error("Erro ao marcar dia como fechado", {
+            description: error?.response?.data?.message || error?.message || "Erro ao marcar dia como fechado, procure o suporte por favor."
+          })
+        }
+      })
+      return
+    }
+
+    // Se não está fechado, precisa de todos os campos
+    if (!data.horarioStart || !data.horarioEnd || !data.intervalo || !data.intervaloThreshold) {
       toast.error("Preencha todos os campos")
       return
     }
@@ -57,7 +94,8 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       horarioStart: data.horarioStart,
       horarioEnd: data.horarioEnd,
       intervalo: data.intervalo,
-      intervaloThreshold: data.intervaloThreshold
+      intervaloThreshold: data.intervaloThreshold,
+      isClosed: false
     }, {
       onSuccess: () => {
         reloadData()
@@ -67,32 +105,42 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
           }
         })
       },
-      onError: (error) => {
+      onError: (error: any) => {
+        console.error("Erro ao criar horário:", error)
         toast.error("Erro ao criar horário", {
-          description: error?.message || "Erro ao criar horário, procure o suporte por favor."
+          description: error?.response?.data?.message || error?.message || "Erro ao criar horário, procure o suporte por favor."
         })
       }
     })
   }
 
   const handleUpdateSchedule = (data: IScheduleForm) => {
-    updateSchedule({ id: schedule?.id || "", body: {
+    // Se o backend não suporta isClosed, vamos tentar sem esse campo primeiro
+    const updateData = data.isClosed ? {
+      horarioStart: "00:00",
+      horarioEnd: "00:00",
+      intervalo: "00:00",
+      intervaloThreshold: "0"
+    } : {
       horarioStart: data.horarioStart,
       horarioEnd: data.horarioEnd,
       intervalo: data.intervalo,
       intervaloThreshold: data.intervaloThreshold
-    } }, {
+    };
+
+    updateSchedule({ id: schedule?.id || "", body: updateData }, {
       onSuccess: () => {
         reloadData()
-        toast.success("Horário atualizado com sucesso", {
+        toast.success(data.isClosed ? "Dia marcado como fechado com sucesso" : "Horário atualizado com sucesso", {
           onAutoClose: () => {
             handleCloseModal()
           }
         })
       },
-      onError: (error) => {
-        toast.error("Erro ao atualizar horário", {
-          description: error?.message || "Erro ao atualizar horário, procure o suporte por favor."
+      onError: (error: any) => {
+        console.error("Erro ao atualizar horário:", error)
+        toast.error(data.isClosed ? "Erro ao marcar dia como fechado" : "Erro ao atualizar horário", {
+          description: error?.response?.data?.message || error?.message || "Erro ao atualizar, procure o suporte por favor."
         })
       }
     })
@@ -104,7 +152,8 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       horarioStart: "",
       horarioEnd: "",
       intervalo: "",
-      intervaloThreshold: ""
+      intervaloThreshold: "",
+      isClosed: false
     })
 
     handleCloseModalActions()
@@ -130,11 +179,12 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
               id="horarioStart"
               mask="__:__"
               replacement={{ _: /\d/ }}
-              type="time" 
+              type="text" 
               placeholder="Inicio" 
               className="w-full p-2 border border-gray-300 rounded-md" 
               value={form.horarioStart} 
               onChange={(e) => setForm({ ...form, horarioStart: e.target.value })}
+              disabled={form.isClosed}
             />
           </div>
           <div className="col-span-1 mt-2">
@@ -143,11 +193,12 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
               id="horarioEnd"
               mask="__:__"
               replacement={{ _: /\d/ }}
-              type="time" 
+              type="text" 
               placeholder="Fim" 
               className="w-full p-2 border border-gray-300 rounded-md"
               value={form.horarioEnd} 
               onChange={(e) => setForm({ ...form, horarioEnd: e.target.value })}
+              disabled={form.isClosed}
             />
           </div>
           <div className="col-span-1 mt-2">
@@ -156,11 +207,12 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
               id="intervalo"
               mask="__:__"
               replacement={{ _: /\d/ }}
-              type="time" 
+              type="text" 
               placeholder="Intervalo" 
               className="w-full p-2 border border-gray-300 rounded-md" 
               value={form.intervalo} 
               onChange={(e) => setForm({ ...form, intervalo: e.target.value })}
+              disabled={form.isClosed}
             />
           </div>
           <div className="col-span-1 mt-2">
@@ -171,8 +223,26 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
               className="w-full p-2 border border-gray-300 rounded-md"
               value={form.intervaloThreshold}
               onChange={(e) => setForm({ ...form, intervaloThreshold: e.target.value })}
+              disabled={form.isClosed}
             />
           </div>
+        </div>
+
+        <div className="mt-4">
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.isClosed}
+              onChange={(e) => setForm({ ...form, isClosed: e.target.checked })}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span className="text-sm font-semibold text-red-600">Marcar como dia sem expediente</span>
+          </label>
+          {form.isClosed && (
+            <p className="text-xs text-gray-500 mt-1">
+              Quando marcado, este dia não aparecerá na lista de dias disponíveis para agendamento.
+            </p>
+          )}
         </div>
         
         <div className="flex flex-row items-center justify-end gap-4 mt-10">
