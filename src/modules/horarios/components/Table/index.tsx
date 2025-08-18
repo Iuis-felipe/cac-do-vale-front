@@ -14,7 +14,6 @@ interface ISchedule {
   intervaloThreshold: string;
   isHoliday: boolean;
   updated_at: string;
-  isClosed?: boolean;
 }
 
 
@@ -64,7 +63,7 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
           <TableRow key={schedule.id}>
             <TableCell>{format(addHours(schedule.dia, 3), "dd/MM/yyyy")}</TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <div className="flex items-center justify-center gap-2 text-red-600">
                   <XCircleIcon className="size-4" />
                   <span className="text-sm font-medium">Fechado</span>
@@ -77,35 +76,35 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.horarioStart
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.horarioEnd
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.intervalo
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 `${schedule.intervaloThreshold} hora`
               )}
             </TableCell>
             <TableCell className="flex items-center gap-4">
-              {!schedule.isClosed && (
+              {!schedule.isHoliday && (
                 <button
                   className="text-green-500 cursor-pointer hover:text-green-700 transition-colors"
                   onClick={() => handleCopyMessage(schedule)}

@@ -18,8 +18,6 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
   const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours()
 
-  console.log('1', appointmentHours)
-
   useEffect(() => {
     if (data.dia) {
       mutate(format(data.dia, "yyyy-MM-dd"));
@@ -39,9 +37,7 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
     );
   }
 
-  // Se o dia está fechado, mostra mensagem específica
-  if ((appointmentHours && 'isClosed' in appointmentHours && appointmentHours.isClosed) ||
-      (defaultHours && 'isClosed' in defaultHours && defaultHours.isClosed)) {
+  if (appointmentHours && appointmentHours.isHoliday) {
     return (
       <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">
         <div className="text-center text-gray-500 bg-red-50 p-8 rounded-lg border border-red-200 max-w-md">
