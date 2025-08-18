@@ -5,4 +5,5 @@ export interface ISchedule {
   horarioEnd: string;
   intervalo: string;
   intervaloThreshold: string;
+  isClosed?: boolean;
 }

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, XCircle } from 'lucide-react';
 import { generateTimeSlots } from '@/core/utils/time';
 
 interface DaySelectorProps {
@@ -10,6 +10,7 @@ interface DaySelectorProps {
     horarioEnd: string;
     intervalo: string;
     intervaloThreshold: string;
+    isClosed?: boolean;
   };
   selectedDay: Date | undefined;
   selectedHour: string | undefined;
@@ -20,20 +21,22 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
   const timeSlotsWithStatus = useMemo(() => {
     if (!selectedDay) return [];
 
+    if (availableHours?.isClosed) {
+      return [];
+    }
+
     const threshold = availableHours?.intervaloThreshold ? `${availableHours.intervaloThreshold}:00` : '01:00'
     const times = generateTimeSlots(availableHours?.horarioStart, availableHours?.horarioEnd, days, availableHours?.intervalo, threshold)
 
-    return times
-      .filter(it => it.available) 
-      .map(it => {
-        const isPast = it.time.split(':').map(Number)[0] < selectedDay.getHours() && it.time.split(':').map(Number)[1] < selectedDay.getMinutes()
-        
-        return {
-          time: it.time,
-          isBooked: false, 
-          isPast: isPast
-        }
-      })
+    return times.map(it => {
+      const isPast = it.time.split(':').map(Number)[0] < selectedDay.getHours() && it.time.split(':').map(Number)[1] < selectedDay.getMinutes()
+      
+      return {
+        time: it.time,
+        isBooked: !it.available,
+        isPast: isPast
+      }
+    })
   }, [availableHours, selectedDay, days]);
 
   const handleTimeSelect = (time: string) => {
@@ -56,10 +59,20 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
     );
   }
 
+  if (availableHours?.isClosed) {
+    return (
+      <div className="text-center text-gray-500 bg-red-50 p-6 rounded-lg border border-red-200">
+        <XCircle className="size-8 text-red-500 mx-auto mb-2" />
+        <p className="text-lg font-medium text-red-700 mb-2">Dia sem expediente</p>
+        <p className="text-sm text-gray-600">Este dia não possui horários disponíveis para agendamento.</p>
+      </div>
+    );
+  }
+
   if (timeSlotsWithStatus.length === 0) {
     return (
       <div className="text-center text-gray-500 bg-gray-100 p-4 rounded-lg">
-        <p>Não há horários disponíveis para este dia.</p>
+        <p>Não há mais horários disponíveis para este dia.</p>
       </div>
     );
   }
@@ -68,11 +81,13 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
   const afternoonSlots = timeSlotsWithStatus.filter(slot => parseInt(slot.time.split(':')[0]) >= 12);
 
   const renderSlotButton = (slot: { time: string; isBooked: boolean }) => {
-    const { time } = slot;
+    const { time, isBooked } = slot;
 
     let buttonClass = 'p-2 w-full rounded-lg text-sm font-medium transition-all duration-200 shadow-sm';
 
-    if (selectedHour === time) {
+    if (isBooked) {
+      buttonClass += ' bg-red-100 text-red-700 border border-red-200 cursor-not-allowed opacity-70';
+    } else if (selectedHour === time) {
       buttonClass += ' bg-blue-800 text-white scale-105 shadow-lg';
     } else {
       buttonClass += ' bg-white border border-gray-300 text-gray-800 hover:border-blue-800 hover:bg-blue-50';
@@ -82,6 +97,7 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
       <button
         key={time}
         onClick={() => handleTimeSelect(time)}
+        disabled={isBooked}
         className={buttonClass}
       >
         {time}

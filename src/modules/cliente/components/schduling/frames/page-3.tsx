@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
+import { XCircle } from "lucide-react";
 
 interface HourSelectionFrameProps {
   data: any;
@@ -38,13 +39,24 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
     );
   }
 
-  if(appointmentHours && appointmentHours.isHoliday) {
+  // Se o dia está fechado, mostra mensagem específica
+  if ((appointmentHours && 'isClosed' in appointmentHours && appointmentHours.isClosed) ||
+      (defaultHours && 'isClosed' in defaultHours && defaultHours.isClosed)) {
     return (
       <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">
-        <p className="text-lg font-semibold text-gray-700">Não haverá atendimento neste dia.</p>
-        <button onClick={() => setCurrentPage(3)} className="mt-4 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
-          Voltar
-        </button>
+        <div className="text-center text-gray-500 bg-red-50 p-8 rounded-lg border border-red-200 max-w-md">
+          <XCircle className="size-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-red-700 mb-2">Dia sem expediente</h2>
+          <p className="text-gray-600 mb-4">
+            O dia <span className="font-semibold">{format(data.dia, "EEEE, dd 'de' MMMM", { locale: ptBR })}</span> não possui horários disponíveis para agendamento.
+          </p>
+          <button 
+            onClick={() => setCurrentPage(2)} 
+            className="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition"
+          >
+            Escolher outro dia
+          </button>
+        </div>
       </div>
     );
   }
