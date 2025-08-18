@@ -3,7 +3,7 @@ import { updateSchedule } from "../services";
 
 interface IUpdateHorario {
   id: string;
-  body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string }
+  body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string, isClosed?: boolean }
 }
 
 const useUpdateHorario = () => {
