@@ -137,6 +137,31 @@ const AgendamentoUpdate = () => {
     updateSchedule({body: updatedFields, id: scheduleId || ''});
   }
 
+  const handleShowDaySelector = () => {
+    if(appointmentHours && appointmentHours.isHoliday) {
+      return (
+        <p className="text-red-500 text-center">Não haverá atendimento neste dia</p>
+      )
+    }
+
+    if(selectedDay){
+      return (
+        <DaySelector
+          loading={loadingHours || loadingAppointmentHours}
+          start={appointmentHours?.horarioStart}
+          end={appointmentHours?.horarioEnd}
+          interval={appointmentHours?.intervalo}
+          intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
+          unavailableHours={unavailableHours}
+          selectedTime={selectedTime}
+          setSelectedTime={handleTimeSelect}
+        />
+      )
+    }
+
+    return null;
+  }
+
   return (
     <div>
       <PageTitle title="Agendamento" subtitle="Atualizar agendamento" />
@@ -156,18 +181,7 @@ const AgendamentoUpdate = () => {
               <p className="text-md font-semibold"> 
                 Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
               </p>
-              {selectedDay && (
-                <DaySelector
-                  loading={loadingHours || loadingAppointmentHours}
-                  start={appointmentHours?.horarioStart}
-                  end={appointmentHours?.horarioEnd}
-                  interval={appointmentHours?.intervalo}
-                  intervalThreshold={'0'+appointmentHours?.intervaloThreshold+':00'}
-                  unavailableHours={unavailableHours}
-                  selectedTime={selectedTime}
-                  setSelectedTime={handleTimeSelect}
-                />
-              )}
+              {handleShowDaySelector()}
             </div>
           </div>
           <div className="border-b border-gray-300 mt-8 mb-4"></div>

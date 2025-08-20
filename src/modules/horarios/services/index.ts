@@ -39,7 +39,7 @@ export const deleteSchedule = async (id: string) => {
   }
 }
 
-export const updateSchedule = async (id: string, body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string, isClosed?: boolean }) => {
+export const updateSchedule = async (id: string, body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string, isHoliday?: boolean }) => {
   try {
     const response = await api.put(`/availability/${id}`, body)
 
@@ -50,7 +50,7 @@ export const updateSchedule = async (id: string, body: { horarioStart?: string, 
   }
 }
 
-export const createSchedule = async (body: { dia: string, horarioStart: string, horarioEnd: string, intervalo: string, intervaloThreshold: string, isClosed?: boolean }) => {
+export const createSchedule = async (body: { dia: string, horarioStart: string, horarioEnd: string, intervalo: string, intervaloThreshold: string, isHoliday: boolean }) => {
   try {
     const response = await api.post(`/availability`, body)
 
@@ -61,3 +61,13 @@ export const createSchedule = async (body: { dia: string, horarioStart: string, 
   }
 }
   
+export const updateIsHoliday = async (id: string, body: { isHoliday: boolean }) => {
+  try {
+    const response = await api.put(`/availability/isHoliday/${id}`, body)
+
+    return response.data
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}

@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Loader2, PencilIcon, TrashIcon, CopyIcon, XCircleIcon } from "lucide-react"
+import { Loader2, PencilIcon, TrashIcon, CopyIcon, XCircleIcon, CalendarCheck, CalendarX } from "lucide-react"
 import { addHours, format } from "date-fns"
 import { toast } from "sonner"
 import { generateWhatsAppMessage, copyToClipboard } from "../../utils/messageGenerator"
@@ -12,8 +12,8 @@ interface ISchedule {
   id: string;
   intervalo: string;
   intervaloThreshold: string;
+  isHoliday: boolean;
   updated_at: string;
-  isClosed?: boolean;
 }
 
 
@@ -22,10 +22,10 @@ interface IScheduleTable {
   isLoading: boolean;
   handleEditSchedule: (schedule: ISchedule) => void;
   handleDeleteSchedule: (id: string) => void;
+  handleUpdateStatus: (id: string, isHoliday: boolean) => void;
 }
 
-const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule }) => {
-
+const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule, handleUpdateStatus }) => {
   const handleCopyMessage = async (schedule: ISchedule) => {
     try {
       const message = await generateWhatsAppMessage(schedule);
@@ -63,7 +63,7 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
           <TableRow key={schedule.id}>
             <TableCell>{format(addHours(schedule.dia, 3), "dd/MM/yyyy")}</TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <div className="flex items-center justify-center gap-2 text-red-600">
                   <XCircleIcon className="size-4" />
                   <span className="text-sm font-medium">Fechado</span>
@@ -76,35 +76,35 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.horarioStart
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.horarioEnd
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 schedule.intervalo
               )}
             </TableCell>
             <TableCell className="text-center">
-              {schedule.isClosed ? (
+              {schedule.isHoliday ? (
                 <span className="text-gray-400">-</span>
               ) : (
                 `${schedule.intervaloThreshold} hora`
               )}
             </TableCell>
             <TableCell className="flex items-center gap-4">
-              {!schedule.isClosed && (
+              {!schedule.isHoliday && (
                 <button
                   className="text-green-500 cursor-pointer hover:text-green-700 transition-colors"
                   onClick={() => handleCopyMessage(schedule)}
@@ -118,6 +118,9 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
               </button>
               <button className="text-red-500 cursor-pointer hover:text-red-700" onClick={() => handleDeleteSchedule(schedule.id)}>
                 <TrashIcon className="size-5" />
+              </button>
+              <button className="text-yellow-500 cursor-pointer hover:text-yellow-700" onClick={() => handleUpdateStatus(schedule.id, !schedule.isHoliday)}>
+                {schedule.isHoliday ? <CalendarCheck className="size-5" /> : <CalendarX className="size-5" />}
               </button>
             </TableCell>
           </TableRow>
