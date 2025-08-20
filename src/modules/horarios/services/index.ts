@@ -17,7 +17,7 @@ export const getHorarios = async (page: number, perPage: number, search?: string
   }
 }
 
-export const buildSchedule = async (period: string, body: { start?: string, end: string }) => {
+export const buildSchedule = async (period: string, body: { start?: string, end?: string, isHoliday?: boolean }) => {
   try {
     const response = await api.post(`/availability/bulk/${period}`, body)
 
