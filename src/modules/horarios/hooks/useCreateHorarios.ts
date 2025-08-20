@@ -7,7 +7,7 @@ interface ICreateHorarios {
   horarioEnd: string;
   intervalo: string;
   intervaloThreshold: string;
-  isClosed?: boolean;
+  isHoliday: boolean;
 }
 
 const useCreateHorarios = () => {
