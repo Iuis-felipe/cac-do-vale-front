@@ -73,6 +73,10 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
     if (isSuccess) {
       reloadData()
       toast.success("Usuário atualizado com sucesso", {
+        dismissible: true,
+        onDismiss: () => {
+          handleCloseModal()
+        },
         onAutoClose: () => {
           handleCloseModal()
         }
@@ -84,6 +88,10 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
     if (isCreated) {
       reloadData()
       toast.success("Usuário criado com sucesso", {
+        dismissible: true,
+        onDismiss: () => {
+          handleCloseModal()
+        },
         onAutoClose: () => {
           handleCloseModal()
         }
@@ -94,6 +102,7 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
   useEffect(() => { 
     if (isError) {
       toast.error("Erro ao atualizar usuário", {
+        dismissible: true,
         description: error?.message || "Erro ao atualizar o usuário, procure o suporte por favor."
       })
     }   
