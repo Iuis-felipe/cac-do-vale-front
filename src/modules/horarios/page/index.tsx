@@ -61,7 +61,6 @@ const Horarios = () => {
     })
   }
 
-  console.log('1', Math.floor(data?.total / data?.perPage))
   return (
     <div>
       <ScheduleFormModal
