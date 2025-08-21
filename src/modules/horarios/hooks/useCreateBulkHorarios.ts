@@ -3,7 +3,7 @@ import { buildSchedule } from "../services";
 
 interface ICreateBulkHorarios {
   period: string;
-  body: { start?: string, end: string }
+  body: { start?: string, end?: string, isHoliday?: boolean }
 }
 
 const useCreateBulkHorarios = () => {

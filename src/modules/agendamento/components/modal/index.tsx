@@ -48,6 +48,11 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
     uploadScheduleFile({ file, scheduleId }, {
       onSuccess: () => {
         toast.success("Arquivo enviado com sucesso", {
+          dismissible: true,
+          onDismiss: () => {
+            reloadData()
+            handleCloseModalActions()
+          },
           onAutoClose: () => {
             reloadData()
             handleCloseModalActions()
@@ -56,6 +61,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
       },
       onError: () => {
         toast.error("Erro ao enviar arquivo", {
+          dismissible: true,
           description: "Por favor, tente novamente."
         })
       }
@@ -66,6 +72,10 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
     if (isSuccess) {
       reloadData()
       toast.success("Status do agendamento atualizado com sucesso", {
+        dismissible: true,
+        onDismiss: () => {
+          handleCloseModalActions()
+        },
         onAutoClose: () => {
           handleCloseModalActions()
         }
@@ -76,6 +86,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
   useEffect(() => { 
     if (isError) {
       toast.error("Erro ao atualizar status do agendamento", {
+        dismissible: true,
         description: error?.message || "Erro ao atualizar o status do agendamento, procure o suporte por favor."
       })
     }

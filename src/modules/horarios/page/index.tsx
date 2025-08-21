@@ -32,6 +32,11 @@ const Horarios = () => {
     mutate({ page: page, perPage: 10, search: search })
   }
 
+  const handlePageChange = (page: number) => {
+    setPage(page)
+    mutate({ page: page, perPage: 10, search: search })
+  }
+
   const handleEditSchedule = (schedule: ISchedule) => {
     setSchedule(schedule)
     setIsOpen(true)
@@ -104,9 +109,9 @@ const Horarios = () => {
           handleUpdateStatus={handleUpdateIsHoliday}
         />
         <SchedulePagination
-          totalPages={data?.totalPages || 1}
+          totalPages={Math.ceil(data?.total / data?.perPage) || 1}
           currentPage={page}
-          onPageChange={setPage}
+          onPageChange={handlePageChange}
         />
       </div>
     </div>

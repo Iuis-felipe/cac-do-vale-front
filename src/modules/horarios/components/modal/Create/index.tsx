@@ -74,6 +74,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       onSuccess: () => {
         reloadData()
         toast.success("Horário criado com sucesso", {
+          dismissible: true,
           onDismiss: () => {
             handleCloseModal()
           },
@@ -85,6 +86,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       onError: (error: any) => {
         console.error("Erro ao criar horário:", error)
         toast.error("Erro ao criar horário", {
+          dismissible: true,
           description: error?.response?.data?.message || error?.message || "Erro ao criar horário, procure o suporte por favor."
         })
       }
