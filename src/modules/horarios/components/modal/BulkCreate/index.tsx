@@ -19,41 +19,27 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
   const [isClosed, setIsClosed] = useState<boolean>(false)
 
   const handleCreateSchedule = () => {
-    if (isClosed) {
-      createSchedule({ period: periods.toString(), body: { start: "00:00", end: "00:00" } }, {
-        onSuccess: () => {
-          reloadData()
-          toast.success("Período de dias fechados criado com sucesso", {
-            onAutoClose: () => {
-              onClose()
-            }
-          })
-        },
-        onError: (error: any) => {
-          console.error("Erro ao criar período de dias fechados:", error)
-          toast.error("Erro ao criar período de dias fechados", {
-            description: error?.response?.data?.message || error?.message || "Erro ao criar período de dias fechados, procure o suporte por favor."
-          })
-        }
-      })
-    } else {
-      createSchedule({ period: periods.toString(), body: { start: inicio, end: fim } }, {
-        onSuccess: () => {
-          reloadData()
-          toast.success("Período de horários de atendimento criado com sucesso", {
-            onAutoClose: () => {
-              onClose()
-            }
-          })
-        },
-        onError: (error: any) => {
-          console.error("Erro ao criar período de horários:", error)
-          toast.error("Erro ao criar período de horários de atendimento", {
-            description: error?.response?.data?.message || error?.message || "Erro ao criar período de horários de atendimento, procure o suporte por favor."
-          })
-        }
-      })
-    }
+    createSchedule({ period: periods.toString(), body: { start: inicio, end: fim, isHoliday: isClosed || false } }, {
+      onSuccess: () => {
+        reloadData()
+        toast.success("Período de horários de atendimento criado com sucesso", {
+          dismissible: true,
+          onDismiss: () => {
+            onClose()
+          },
+          onAutoClose: () => {
+            onClose()
+          }
+        })
+      },
+      onError: (error: any) => {
+        console.error("Erro ao criar período de horários:", error)
+        toast.error("Erro ao criar período de horários de atendimento", {
+          dismissible: true,
+          description: error?.response?.data?.message || error?.message || "Erro ao criar período de horários de atendimento, procure o suporte por favor."
+        })
+      }
+    })
   }
     
   return (
