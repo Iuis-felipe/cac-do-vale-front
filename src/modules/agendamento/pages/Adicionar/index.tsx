@@ -245,7 +245,9 @@ const AgendamentoForm = () => {
             <option value="A">A</option>
             <option value="AB">AB</option>
             <option value="B">B</option> 
-            <option value="ABC">ABC</option>
+            <option value="AC">AC</option>
+            <option value="AD">AD</option>
+            <option value="AE">AE</option>
             <option value="C">C</option>
             <option value="D">D</option>
             <option value="E">E</option>

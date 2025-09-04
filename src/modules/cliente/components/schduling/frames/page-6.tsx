@@ -7,9 +7,10 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 interface FinishFrameProps {
   data: any;
+  onSuccess: (data: any) => void;
 }
 
-const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
+const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
   const { mutate, isPending, isSuccess, isError: isMutationError } = useCreateClientSchedule();
   const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -54,13 +55,10 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Agendamento confirmado! Você será redirecionado em breve.");
-
-      setTimeout(() => {
-        window.location.href = 'https://cacdovale.com.br/';
-      }, 2000);
+      toast.success("Agendamento confirmado!");
+      onSuccess(data);
     }
-  }, [isSuccess]);
+  }, [isSuccess, onSuccess, data]);
 
   useEffect(() => {
     if (isMutationError) {
@@ -70,7 +68,6 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data }) => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center text-center p-4">
-
       <div className="w-full max-w-lg">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Pronto para finalizar?</h1>
         <p className="mt-3 text-base text-gray-500">

@@ -97,7 +97,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
       <div>
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
-            <AccordionTrigger>Status do agendamento</AccordionTrigger>
+            <AccordionTrigger className="cursor-pointer">Status do agendamento</AccordionTrigger>
             <AccordionContent className="flex flex-row items-center gap-2">
               <button 
                 disabled={isPending}
@@ -124,7 +124,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
           </AccordionItem>
           {!prontuario && (
             <AccordionItem value="item-2">
-              <AccordionTrigger>Adicionar prontuário</AccordionTrigger>
+              <AccordionTrigger className="cursor-pointer">Adicionar prontuário</AccordionTrigger>
               <AccordionContent>
               <div className="flex flex-row items-center gap-2">
                 <input type="file" className="hidden" ref={inputFileRef} onChange={(e) => handleUploadFile(e.target.files?.[0])} />
