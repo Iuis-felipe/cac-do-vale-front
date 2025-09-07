@@ -23,6 +23,14 @@ const SchedulePagination: React.FC<IPaginationProps> = ({ totalPages, currentPag
     return currentPage - 2; // Middle pages show 2 before and 2 after current
   };
 
+  const pageNumber = () => {
+    if (totalPages <= 5) {
+      return totalPages
+    }
+
+    return 5
+  }
+
   return (
     <div className="flex flex-row items-center justify-end gap-2 mt-10">
       <button 
@@ -31,7 +39,7 @@ const SchedulePagination: React.FC<IPaginationProps> = ({ totalPages, currentPag
       >
         <ChevronDoubleLeftIcon className="size-6 text-slate-600"/>
       </button>
-      {Array.from({ length: 5 }).map((_, index) => {
+      {Array.from({ length: pageNumber() }).map((_, index) => {
         const modifier = handlePaginationPages()
         let pageNumber = index + modifier;
 
