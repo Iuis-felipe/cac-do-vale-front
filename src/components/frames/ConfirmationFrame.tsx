@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { CheckCircleIcon, CalendarIcon, UserIcon, MapPinIcon, CreditCardIcon } from '@heroicons/react/24/outline';
+import { translateTypeExame } from '@/core/utils/transforms';
 
 const DetailItem = ({ icon: Icon, label, value }: { icon: React.ElementType, label: string, value: string | undefined }) => (
   <div className="flex items-start">
@@ -49,7 +50,7 @@ const ConfirmationFrame = ({ data }: { data: any }) => {
           <DetailItem icon={UserIcon} label="CPF" value={data.cpf} />
           <DetailItem icon={CreditCardIcon} label="Forma de Pagamento" value={data.forma_pagamento} />
           <DetailItem icon={MapPinIcon} label="Endereço" value={fullAddress} />
-          <DetailItem icon={CalendarIcon} label="Tipo de Exame" value={data.tipo_exame} />
+          <DetailItem icon={CalendarIcon} label="Tipo de Exame" value={translateTypeExame(data.tipo_exame)} />
         </div>
       </div>
       
