@@ -34,8 +34,7 @@ const ConfirmationFrame = ({ data }: { data: any }) => {
       <CheckCircleIcon className="size-16 text-green-500 mb-4" />
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Agendamento Confirmado com Sucesso!</h1>
       <p className="mt-2 text-gray-600">
-        Obrigado, {data.nome_civil}! Sua consulta foi agendada.
-        Uma confirmação também pode ter sido enviada para o seu e-mail e telefone.
+        Obrigado, {data.nome_civil}! Sua consulta foi agendada com sucesso.
       </p>
 
       <div className="w-full text-left bg-gray-50 border border-gray-200 rounded-lg p-6 my-8 space-y-6">
