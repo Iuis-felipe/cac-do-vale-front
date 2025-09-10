@@ -2,6 +2,7 @@ import AgendamentoForm from "../pages/Adicionar";
 import AgendamentoUpdate from "../pages/Atualizar";
 import AgendamentoDetail from "../pages/Detail";
 import AgendamentoList from "../pages/List";
+import AgendamentoRapido from "../pages/AdicionarRapido";
 
 export const ScheduleRoutes = [
   {
@@ -15,6 +16,10 @@ export const ScheduleRoutes = [
   {
     path: "adicionar",
     element: <AgendamentoForm />
+  },
+  {
+    path: "adicionar-rapido",
+    element: <AgendamentoRapido />
   },
   {
     path: "update/:scheduleId",
