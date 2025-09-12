@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 import CellItem from "../cell";
 import Pagination from "../../pagination";
 import TableRow from "../row";
@@ -21,36 +21,7 @@ const Table: React.FC<ITableProps> = ({
   page,
   setPage,
   handleActions,
-  orderBy,
 }) => {
-
-  const sortedSchedules = useMemo(() => {
-    if (!orderBy || !schedules) {
-      return schedules;
-    }
-
-    const sortableSchedules = [...schedules];
-
-    sortableSchedules.sort((a, b) => {
-      const valA = a[orderBy];
-      const valB = b[orderBy];
-
-      if (orderBy === 'dia') {
-        return new Date(valA).getTime() - new Date(valB).getTime();
-      }
-
-      if (typeof valA === 'string' && typeof valB === 'string') {
-        return valA.localeCompare(valB, 'pt-BR', { sensitivity: 'base' });
-      }
-
-      if (valA < valB) return -1;
-      if (valA > valB) return 1;
-      return 0;
-    });
-
-    return sortableSchedules;
-  }, [schedules, orderBy]);
-
   if (loading) {
     return (
       <div className="flex flex-row items-center justify-center mt-10">
@@ -59,7 +30,7 @@ const Table: React.FC<ITableProps> = ({
     );
   }
 
-  if (!sortedSchedules || sortedSchedules.length === 0) {
+  if (!schedules || schedules.length === 0) {
     return (
       <p className="text-center text-gray-500 mt-10">Nenhum agendamento encontrado.</p>
     );
@@ -78,7 +49,7 @@ const Table: React.FC<ITableProps> = ({
         <CellItem text='Ações' hasBar={false} textAlign="center" />
       </div>
       <div id='table-body'>
-        {sortedSchedules.map((schedule) => (
+        {schedules.map((schedule) => (
           <TableRow key={schedule.id} data={schedule} handleActions={handleActions} />
         ))}
       </div>
