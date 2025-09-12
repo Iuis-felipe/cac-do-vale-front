@@ -6,6 +6,7 @@ export interface IScheduleBody  {
   cpf: string;
   nome_civil: string;
   nome_social: string;
+  data_nascimento?: Date;
   cep: string;
   logradouro: string;
   numero: string;
@@ -27,6 +28,7 @@ export interface IScheduleBodyUpdate  {
   cpf?: string;
   nome_civil?: string;
   nome_social?: string;
+  data_nascimento?: Date;
   cep?: string;
   logradouro?: string;
   numero?: string;
