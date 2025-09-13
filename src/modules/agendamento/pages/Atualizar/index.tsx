@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../../../../core/components/organism/PageTitle";
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 import { format, set } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -11,66 +11,72 @@ import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation"
 import { useMutation } from "@tanstack/react-query";
 import api from "@/core/api";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
-import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import DaySelector from "../../components/daySelector";
 
 const AgendamentoUpdate = () => {
   const { scheduleId } = useParams();
   const navigate = useNavigate();
 
-  const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
-    mutationKey: ['get-available-hours'],
-    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+  const {
+    mutate: getAvailableHours,
+    isPending: loadingHours,
+    data: unavailableHours,
+  } = useMutation({
+    mutationKey: ["get-available-hours"],
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then((res) => res.data),
   });
   const { mutate: updateSchedule, isPending: loadingUpdateSchedule, isSuccess } = useUpdateSchedule();
-  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || '');
-  const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
-  const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours() 
+  const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || "");
+  const {
+    mutate: getAppointmentHours,
+    isPending: loadingAppointmentHours,
+    data: appointmentHours,
+  } = useGetAppointmentHours();
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
   const [validationErrors, setValidationErrors] = useState({
-    cpf: '',
-    email: '',
-    telefone: ''
+    cpf: "",
+    email: "",
+    telefone: "",
   });
 
   const [formData, setFormData] = useState({
     dia: new Date(),
-    horario: '',
-    email: '',
-    telefone: '',
-    cpf: '',
-    nome_civil: '',
-    nome_social: '',
-    cep: '',
-    logradouro: '',
-    numero: '',
-    complemento: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-    tipo_exame: '',
-    origem: '',
-    categoria: '',
-    forma_pagamento: 'Pix'
+    horario: "",
+    email: "",
+    telefone: "",
+    cpf: "",
+    nome_civil: "",
+    nome_social: "",
+    cep: "",
+    logradouro: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    cidade: "",
+    estado: "",
+    tipo_exame: "",
+    origem: "",
+    categoria: "",
+    forma_pagamento: "Pix",
   });
 
   const [updatedFields, setUpdatedFields] = useState<any>({});
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Agendamento atualizado com sucesso', {
+      toast.success("Agendamento atualizado com sucesso", {
         onAutoClose: () => {
-          navigate('/agendamento');
-        }
+          navigate("/agendamento");
+        },
       });
     }
   }, [isSuccess]);
 
   useEffect(() => {
     if (schedule) {
-      const timeSplited = schedule.horario?.split(':');
+      const timeSplited = schedule.horario?.split(":");
 
       setSelectedDay(schedule.dia);
       setSelectedTime(`${timeSplited[0]}:${timeSplited[1]}`);
@@ -78,7 +84,6 @@ const AgendamentoUpdate = () => {
 
       getAvailableHours(format(schedule.dia, "yyyy-MM-dd"));
       getAppointmentHours(format(schedule.dia, "yyyy-MM-dd"));
-      getDefaultHours();
     }
   }, [schedule]);
 
@@ -88,14 +93,16 @@ const AgendamentoUpdate = () => {
     if (date) {
       getAvailableHours(format(date, "yyyy-MM-dd"));
       getAppointmentHours(format(date, "yyyy-MM-dd"));
-      getDefaultHours();
-      
+
       setUpdatedFields({
         ...updatedFields,
-        dia: set(date, { hours: parseInt(selectedTime?.split(':')[0] || '00'), minutes: parseInt(selectedTime?.split(':')[1] || '00') })
+        dia: set(date, {
+          hours: parseInt(selectedTime?.split(":")[0] || "00"),
+          minutes: parseInt(selectedTime?.split(":")[1] || "00"),
+        }),
       });
     }
-  }
+  };
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
@@ -103,29 +110,32 @@ const AgendamentoUpdate = () => {
     if (time) {
       setUpdatedFields({
         ...updatedFields,
-        dia: set(selectedDay || new Date(), { hours: parseInt(time?.split(':')[0] || '00'), minutes: parseInt(time?.split(':')[1] || '00') }),
-        horario: time
+        dia: set(selectedDay || new Date(), {
+          hours: parseInt(time?.split(":")[0] || "00"),
+          minutes: parseInt(time?.split(":")[1] || "00"),
+        }),
+        horario: time,
       });
     }
-  }
+  };
 
   const validateForm = () => {
     const errors = {
-      cpf: '',
-      email: '',
-      telefone: ''
+      cpf: "",
+      email: "",
+      telefone: "",
     };
 
     if (formData.cpf && !isValidCpf(formData.cpf)) {
-      errors.cpf = 'CPF inválido';
+      errors.cpf = "CPF inválido";
     }
 
     if (formData.email && !isValidEmail(formData.email)) {
-      errors.email = 'Email inválido';
+      errors.email = "Email inválido";
     }
 
     if (formData.telefone && !isValidPhone(formData.telefone)) {
-      errors.telefone = 'Telefone inválido';
+      errors.telefone = "Telefone inválido";
     }
 
     setValidationErrors(errors);
@@ -134,12 +144,35 @@ const AgendamentoUpdate = () => {
 
   const handleUpdateSchedule = () => {
     if (!validateForm()) {
-      toast.error('Por favor, corrija os erros de validação');
+      toast.error("Por favor, corrija os erros de validação");
       return;
     }
 
-    updateSchedule({body: updatedFields, id: scheduleId || ''});
-  }
+    updateSchedule({ body: updatedFields, id: scheduleId || "" });
+  };
+
+  const handleShowDaySelector = () => {
+    if (appointmentHours && appointmentHours.isHoliday) {
+      return <p className="text-red-500 text-center">Não haverá atendimento neste dia</p>;
+    }
+
+    if (selectedDay) {
+      return (
+        <DaySelector
+          loading={loadingHours || loadingAppointmentHours}
+          start={appointmentHours?.horarioStart}
+          end={appointmentHours?.horarioEnd}
+          interval={appointmentHours?.intervalo}
+          intervalThreshold={"0" + appointmentHours?.intervaloThreshold + ":00"}
+          unavailableHours={unavailableHours}
+          selectedTime={selectedTime}
+          setSelectedTime={handleTimeSelect}
+        />
+      );
+    }
+
+    return null;
+  };
 
   return (
     <div>
@@ -149,27 +182,14 @@ const AgendamentoUpdate = () => {
         <>
           <div className="flex flex-row items-start gap-10 mt-8">
             <div className="w-fit flex flex-row items-center justify-center gap-2">
-              <Calendar
-                mode="single"
-                selected={selectedDay}
-                onSelect={handleDaySelect}
-                className="rounded-lg border"
-              />
+              <Calendar mode="single" selected={selectedDay} onSelect={handleDaySelect} className="rounded-lg border" />
             </div>
             <div className="w-fit">
-              <p className="text-md font-semibold"> 
-                Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"} {selectedTime && `${selectedTime}:00`}
+              <p className="text-md font-semibold">
+                Agendamento para: {selectedDay ? format(selectedDay, "dd/MM/yyyy") : "Nenhum dia selecionado"}{" "}
+                {selectedTime && `${selectedTime}:00`}
               </p>
-              <DaySelector
-                loading={loadingHours || loadingAppointmentHours || loadingDefaultHours}
-                start={appointmentHours?.horarioStart || defaultHours?.horarioStart || '08:00'}
-                end={appointmentHours?.horarioEnd || defaultHours?.horarioEnd || '18:00'}
-                interval={appointmentHours?.intervalo || defaultHours?.intervalo || '12:00'}
-                intervalThreshold={appointmentHours?.intervaloThreshold ? `${appointmentHours.intervaloThreshold}:00` : defaultHours?.intervaloThreshold ? `${defaultHours.intervaloThreshold}:00` : '01:00'}
-                unavailableHours={unavailableHours || []}
-                selectedTime={selectedTime}
-                setSelectedTime={handleTimeSelect}
-              />
+              {handleShowDaySelector()}
             </div>
           </div>
           <div className="border-b border-gray-300 mt-8 mb-4"></div>
@@ -178,95 +198,101 @@ const AgendamentoUpdate = () => {
               <p className="text-lg font-bold"> Dados pessoais </p>
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Nome Civil" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.nome_civil} 
+              <input
+                type="text"
+                placeholder="Nome Civil"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.nome_civil}
                 onChange={(e) => {
-                  setFormData({ ...formData, nome_civil: e.target.value })
+                  setFormData({ ...formData, nome_civil: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    nome_civil: e.target.value
-                  })
+                    nome_civil: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Nome Social" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.nome_social} 
+              <input
+                type="text"
+                placeholder="Nome Social"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.nome_social}
                 onChange={(e) => {
-                  setFormData({ ...formData, nome_social: e.target.value })
+                  setFormData({ ...formData, nome_social: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    nome_social: e.target.value
-                  })
+                    nome_social: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="CPF" 
-                className={`w-full p-2 border rounded-md ${validationErrors.cpf ? 'border-red-500' : 'border-gray-300'}`}
-                value={formData.cpf} 
+              <input
+                type="text"
+                placeholder="CPF"
+                className={`w-full p-2 border rounded-md ${
+                  validationErrors.cpf ? "border-red-500" : "border-gray-300"
+                }`}
+                value={formData.cpf}
                 onChange={(e) => {
-                  setFormData({ ...formData, cpf: e.target.value })
+                  setFormData({ ...formData, cpf: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    cpf: e.target.value
-                  })
+                    cpf: e.target.value,
+                  });
                 }}
               />
               {validationErrors.cpf && <p className="text-xs text-red-600 mt-1">{validationErrors.cpf}</p>}
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Email" 
-                className={`w-full p-2 border rounded-md ${validationErrors.email ? 'border-red-500' : 'border-gray-300'}`}
-                value={formData.email} 
+              <input
+                type="text"
+                placeholder="Email"
+                className={`w-full p-2 border rounded-md ${
+                  validationErrors.email ? "border-red-500" : "border-gray-300"
+                }`}
+                value={formData.email}
                 onChange={(e) => {
-                  setFormData({ ...formData, email: e.target.value })
+                  setFormData({ ...formData, email: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    email: e.target.value
-                  })
+                    email: e.target.value,
+                  });
                 }}
               />
               {validationErrors.email && <p className="text-xs text-red-600 mt-1">{validationErrors.email}</p>}
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Telefone" 
-                className={`w-full p-2 border rounded-md ${validationErrors.telefone ? 'border-red-500' : 'border-gray-300'}`}
-                value={formData.telefone} 
+              <input
+                type="text"
+                placeholder="Telefone"
+                className={`w-full p-2 border rounded-md ${
+                  validationErrors.telefone ? "border-red-500" : "border-gray-300"
+                }`}
+                value={formData.telefone}
                 onChange={(e) => {
-                  setFormData({ ...formData, telefone: e.target.value })
+                  setFormData({ ...formData, telefone: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    telefone: e.target.value
-                  })
+                    telefone: e.target.value,
+                  });
                 }}
               />
               {validationErrors.telefone && <p className="text-xs text-red-600 mt-1">{validationErrors.telefone}</p>}
             </div>
             <div className="col-span-1 mt-2">
-              <select 
-                name="forma_pagamento" 
-                id="forma_pagamento" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.forma_pagamento} 
+              <select
+                name="forma_pagamento"
+                id="forma_pagamento"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.forma_pagamento}
                 onChange={(e) => {
-                  setFormData({ ...formData, forma_pagamento: e.target.value })
+                  setFormData({ ...formData, forma_pagamento: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    forma_pagamento: e.target.value
-                  })
+                    forma_pagamento: e.target.value,
+                  });
                 }}
               >
                 <option value="Pix">Pix</option>
@@ -274,38 +300,40 @@ const AgendamentoUpdate = () => {
               </select>
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Origem" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.origem} 
+              <input
+                type="text"
+                placeholder="Origem"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.origem}
                 onChange={(e) => {
-                  setFormData({ ...formData, origem: e.target.value })
+                  setFormData({ ...formData, origem: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    origem: e.target.value
-                  })
+                    origem: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <select 
-                name="categoria" 
-                id="categoria" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.categoria} 
+              <select
+                name="categoria"
+                id="categoria"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.categoria}
                 onChange={(e) => {
-                  setFormData({ ...formData, categoria: e.target.value })
+                  setFormData({ ...formData, categoria: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    categoria: e.target.value
-                  })
+                    categoria: e.target.value,
+                  });
                 }}
               >
                 <option value="A">A</option>
                 <option value="AB">AB</option>
-                <option value="B">B</option> 
-                <option value="ABC">ABC</option>
+                <option value="B">B</option>
+                <option value="AC">AC</option>
+                <option value="AD">AD</option>
+                <option value="AE">AE</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
                 <option value="E">E</option>
@@ -313,17 +341,17 @@ const AgendamentoUpdate = () => {
               </select>
             </div>
             <div className="col-span-1 mt-2">
-              <select 
-                name="tipo_exame" 
-                id="tipo_exame" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.tipo_exame} 
+              <select
+                name="tipo_exame"
+                id="tipo_exame"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.tipo_exame}
                 onChange={(e) => {
-                  setFormData({ ...formData, tipo_exame: e.target.value })
+                  setFormData({ ...formData, tipo_exame: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    tipo_exame: e.target.value
-                  })
+                    tipo_exame: e.target.value,
+                  });
                 }}
               >
                 <option value="FirstLicense">Primeira Licença</option>
@@ -339,123 +367,124 @@ const AgendamentoUpdate = () => {
               <p className="text-lg font-bold"> Endereço </p>
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="CEP" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.cep} 
+              <input
+                type="text"
+                placeholder="CEP"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.cep}
                 onChange={(e) => {
-                  setFormData({ ...formData, cep: e.target.value })
+                  setFormData({ ...formData, cep: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    cep: e.target.value
-                  })
+                    cep: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-2 mt-2">
-              <input 
-                type="text" 
-                placeholder="Logradouro" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.logradouro} 
+              <input
+                type="text"
+                placeholder="Logradouro"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.logradouro}
                 onChange={(e) => {
-                  setFormData({ ...formData, logradouro: e.target.value })
+                  setFormData({ ...formData, logradouro: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    logradouro: e.target.value
-                  })
+                    logradouro: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Número" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.numero} 
+              <input
+                type="text"
+                placeholder="Número"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.numero}
                 onChange={(e) => {
-                  setFormData({ ...formData, numero: e.target.value })
+                  setFormData({ ...formData, numero: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    numero: e.target.value
-                  })
+                    numero: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Complemento" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.complemento} 
+              <input
+                type="text"
+                placeholder="Complemento"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.complemento}
                 onChange={(e) => {
-                  setFormData({ ...formData, complemento: e.target.value })
+                  setFormData({ ...formData, complemento: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    complemento: e.target.value
-                  })
+                    complemento: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Estado" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.estado} 
+              <input
+                type="text"
+                placeholder="Estado"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.estado}
                 onChange={(e) => {
-                  setFormData({ ...formData, estado: e.target.value })
+                  setFormData({ ...formData, estado: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    estado: e.target.value
-                  })
+                    estado: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-2 mt-2">
-              <input 
-                type="text" 
-                placeholder="Bairro" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.bairro} 
+              <input
+                type="text"
+                placeholder="Bairro"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.bairro}
                 onChange={(e) => {
-                  setFormData({ ...formData, bairro: e.target.value })
+                  setFormData({ ...formData, bairro: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    bairro: e.target.value
-                  })
+                    bairro: e.target.value,
+                  });
                 }}
               />
             </div>
             <div className="col-span-1 mt-2">
-              <input 
-                type="text" 
-                placeholder="Cidade" 
-                className="w-full p-2 border border-gray-300 rounded-md" 
-                value={formData.cidade} 
+              <input
+                type="text"
+                placeholder="Cidade"
+                className="w-full p-2 border border-gray-300 rounded-md"
+                value={formData.cidade}
                 onChange={(e) => {
-                  setFormData({ ...formData, cidade: e.target.value })
+                  setFormData({ ...formData, cidade: e.target.value });
                   setUpdatedFields({
                     ...updatedFields,
-                    cidade: e.target.value
-                  })
+                    cidade: e.target.value,
+                  });
                 }}
               />
             </div>
           </div>
           <div className="mt-10 flex flex-row justify-end gap-2">
-          <button className="text-red-500 mr-4 cursor-pointer">
-            cancelar
-          </button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={handleUpdateSchedule}>
-            {loadingUpdateSchedule ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar agendamento"}
-          </button>
+            <button className="text-red-500 mr-4 cursor-pointer">cancelar</button>
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+              onClick={handleUpdateSchedule}
+            >
+              {loadingUpdateSchedule ? <Loader2 className="w-4 h-4 animate-spin" /> : "Salvar agendamento"}
+            </button>
           </div>
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default AgendamentoUpdate;

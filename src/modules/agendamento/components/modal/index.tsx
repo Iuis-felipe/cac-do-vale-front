@@ -48,6 +48,11 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
     uploadScheduleFile({ file, scheduleId }, {
       onSuccess: () => {
         toast.success("Arquivo enviado com sucesso", {
+          dismissible: true,
+          onDismiss: () => {
+            reloadData()
+            handleCloseModalActions()
+          },
           onAutoClose: () => {
             reloadData()
             handleCloseModalActions()
@@ -56,6 +61,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
       },
       onError: () => {
         toast.error("Erro ao enviar arquivo", {
+          dismissible: true,
           description: "Por favor, tente novamente."
         })
       }
@@ -66,6 +72,10 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
     if (isSuccess) {
       reloadData()
       toast.success("Status do agendamento atualizado com sucesso", {
+        dismissible: true,
+        onDismiss: () => {
+          handleCloseModalActions()
+        },
         onAutoClose: () => {
           handleCloseModalActions()
         }
@@ -76,6 +86,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
   useEffect(() => { 
     if (isError) {
       toast.error("Erro ao atualizar status do agendamento", {
+        dismissible: true,
         description: error?.message || "Erro ao atualizar o status do agendamento, procure o suporte por favor."
       })
     }
@@ -86,7 +97,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
       <div>
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
-            <AccordionTrigger>Status do agendamento</AccordionTrigger>
+            <AccordionTrigger className="cursor-pointer">Status do agendamento</AccordionTrigger>
             <AccordionContent className="flex flex-row items-center gap-2">
               <button 
                 disabled={isPending}
@@ -113,7 +124,7 @@ const ActionModal: React.FC<IActionModalProps> = ({ scheduleId, prontuario, isOp
           </AccordionItem>
           {!prontuario && (
             <AccordionItem value="item-2">
-              <AccordionTrigger>Adicionar prontuário</AccordionTrigger>
+              <AccordionTrigger className="cursor-pointer">Adicionar prontuário</AccordionTrigger>
               <AccordionContent>
               <div className="flex flex-row items-center gap-2">
                 <input type="file" className="hidden" ref={inputFileRef} onChange={(e) => handleUploadFile(e.target.files?.[0])} />

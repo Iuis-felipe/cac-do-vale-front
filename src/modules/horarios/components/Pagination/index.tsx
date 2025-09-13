@@ -7,6 +7,30 @@ interface IPaginationProps {
 }
 
 const SchedulePagination: React.FC<IPaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
+  const handlePaginationPages = () => {
+    if (totalPages <= 5) {
+      return 1; // If total pages are 5 or less, always start from 1
+    }
+    
+    if (currentPage <= 3) {
+      return 1; // First 3 pages show 1-5
+    }
+    
+    if (currentPage >= totalPages - 2) {
+      return totalPages - 4; // Last 3 pages show (totalPages-4) to totalPages
+    }
+    
+    return currentPage - 2; // Middle pages show 2 before and 2 after current
+  };
+
+  const pageNumber = () => {
+    if (totalPages <= 5) {
+      return totalPages
+    }
+
+    return 5
+  }
+
   return (
     <div className="flex flex-row items-center justify-end gap-2 mt-10">
       <button 
@@ -15,20 +39,17 @@ const SchedulePagination: React.FC<IPaginationProps> = ({ totalPages, currentPag
       >
         <ChevronDoubleLeftIcon className="size-6 text-slate-600"/>
       </button>
-      {Array.from({length: totalPages}).map((_, index) => {
-        let pageNumber;
-        if (currentPage <= 3) {
-          pageNumber = index + 1;
-        } else if (currentPage >= totalPages - 2) {
-          pageNumber = totalPages - 4 + index;
-        } else {
-          pageNumber = currentPage - 2 + index;
-        }
-          
+      {Array.from({ length: pageNumber() }).map((_, index) => {
+        const modifier = handlePaginationPages()
+        let pageNumber = index + modifier;
+
         return (
           <button 
             key={index} 
-            className="w-8 h-8 p-1 border-gray-200 border rounded-md flex items-center justify-center cursor-pointer"
+            className={`
+              w-8 h-8 p-1 rounded-md flex items-center justify-center cursor-pointer border
+              ${currentPage === pageNumber ? "border-blue-800" : "border-gray-200"}
+            `}
             onClick={() => onPageChange(pageNumber)}
           >
             {pageNumber}
