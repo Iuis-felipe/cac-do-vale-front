@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Loader2, PencilIcon, TrashIcon, CopyIcon } from "lucide-react"
+import { Loader2, PencilIcon, TrashIcon, CopyIcon, XCircleIcon, CalendarCheck, CalendarX } from "lucide-react"
 import { addHours, format } from "date-fns"
 import { toast } from "sonner"
 import { generateWhatsAppMessage, copyToClipboard } from "../../utils/messageGenerator"
@@ -12,6 +12,7 @@ interface ISchedule {
   id: string;
   intervalo: string;
   intervaloThreshold: string;
+  isHoliday: boolean;
   updated_at: string;
 }
 
@@ -21,10 +22,10 @@ interface IScheduleTable {
   isLoading: boolean;
   handleEditSchedule: (schedule: ISchedule) => void;
   handleDeleteSchedule: (id: string) => void;
+  handleUpdateStatus: (id: string, isHoliday: boolean) => void;
 }
 
-const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule }) => {
-
+const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule, handleUpdateStatus }) => {
   const handleCopyMessage = async (schedule: ISchedule) => {
     try {
       const message = await generateWhatsAppMessage(schedule);
@@ -49,6 +50,7 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
       <TableHeader>
         <TableRow>
           <TableHead>Dia</TableHead>
+          <TableHead className="text-center">Status</TableHead>
           <TableHead className="text-center">Inicio expediente</TableHead>
           <TableHead className="text-center">Fim expediente</TableHead>
           <TableHead className="text-center">Intervalo</TableHead>
@@ -60,23 +62,65 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
         {schedules.map((schedule) => (
           <TableRow key={schedule.id}>
             <TableCell>{format(addHours(schedule.dia, 3), "dd/MM/yyyy")}</TableCell>
-            <TableCell className="text-center">{schedule.horarioStart}</TableCell>
-            <TableCell className="text-center">{schedule.horarioEnd}</TableCell>
-            <TableCell className="text-center">{schedule.intervalo}</TableCell>
-            <TableCell className="text-center">{schedule.intervaloThreshold} hora</TableCell>
+            <TableCell className="text-center">
+              {schedule.isHoliday ? (
+                <div className="flex items-center justify-center gap-2 text-red-600">
+                  <XCircleIcon className="size-4" />
+                  <span className="text-sm font-medium">Fechado</span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-2 text-green-600">
+                  <div className="size-2 bg-green-600 rounded-full"></div>
+                  <span className="text-sm font-medium">Aberto</span>
+                </div>
+              )}
+            </TableCell>
+            <TableCell className="text-center">
+              {schedule.isHoliday ? (
+                <span className="text-gray-400">-</span>
+              ) : (
+                schedule.horarioStart
+              )}
+            </TableCell>
+            <TableCell className="text-center">
+              {schedule.isHoliday ? (
+                <span className="text-gray-400">-</span>
+              ) : (
+                schedule.horarioEnd
+              )}
+            </TableCell>
+            <TableCell className="text-center">
+              {schedule.isHoliday ? (
+                <span className="text-gray-400">-</span>
+              ) : (
+                schedule.intervalo
+              )}
+            </TableCell>
+            <TableCell className="text-center">
+              {schedule.isHoliday ? (
+                <span className="text-gray-400">-</span>
+              ) : (
+                `${schedule.intervaloThreshold} hora`
+              )}
+            </TableCell>
             <TableCell className="flex items-center gap-4">
-              <button
-                className="text-green-500 cursor-pointer hover:text-green-700 transition-colors"
-                onClick={() => handleCopyMessage(schedule)}
-                title="Copiar mensagem para WhatsApp"
-              >
-                <CopyIcon className="size-5" />
-              </button>
+              {!schedule.isHoliday && (
+                <button
+                  className="text-green-500 cursor-pointer hover:text-green-700 transition-colors"
+                  onClick={() => handleCopyMessage(schedule)}
+                  title="Copiar mensagem para WhatsApp"
+                >
+                  <CopyIcon className="size-5" />
+                </button>
+              )}
               <button className="text-blue-500 cursor-pointer hover:text-blue-700" onClick={() => handleEditSchedule(schedule)}>
                 <PencilIcon className="size-5" />
               </button>
               <button className="text-red-500 cursor-pointer hover:text-red-700" onClick={() => handleDeleteSchedule(schedule.id)}>
                 <TrashIcon className="size-5" />
+              </button>
+              <button className="text-yellow-500 cursor-pointer hover:text-yellow-700" onClick={() => handleUpdateStatus(schedule.id, !schedule.isHoliday)}>
+                {schedule.isHoliday ? <CalendarCheck className="size-5" /> : <CalendarX className="size-5" />}
               </button>
             </TableCell>
           </TableRow>

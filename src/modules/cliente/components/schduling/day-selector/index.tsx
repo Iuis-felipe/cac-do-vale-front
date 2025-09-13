@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, XCircle } from 'lucide-react';
 import { generateTimeSlots } from '@/core/utils/time';
 
 interface DaySelectorProps {
@@ -10,6 +10,7 @@ interface DaySelectorProps {
     horarioEnd: string;
     intervalo: string;
     intervaloThreshold: string;
+    isClosed?: boolean;
   };
   selectedDay: Date | undefined;
   selectedHour: string | undefined;
@@ -19,6 +20,10 @@ interface DaySelectorProps {
 const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour, setSelectedHour }: DaySelectorProps) => {
   const timeSlotsWithStatus = useMemo(() => {
     if (!selectedDay) return [];
+
+    if (availableHours?.isClosed) {
+      return [];
+    }
 
     const threshold = availableHours?.intervaloThreshold ? `${availableHours.intervaloThreshold}:00` : '01:00'
     const times = generateTimeSlots(availableHours?.horarioStart, availableHours?.horarioEnd, days, availableHours?.intervalo, threshold)
@@ -50,6 +55,16 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
     return (
       <div className="text-center text-gray-500 bg-gray-100 p-4 rounded-lg">
         <p>Selecione um dia para ver os horários.</p>
+      </div>
+    );
+  }
+
+  if (availableHours?.isClosed) {
+    return (
+      <div className="text-center text-gray-500 bg-red-50 p-6 rounded-lg border border-red-200">
+        <XCircle className="size-8 text-red-500 mx-auto mb-2" />
+        <p className="text-lg font-medium text-red-700 mb-2">Dia sem expediente</p>
+        <p className="text-sm text-gray-600">Este dia não possui horários disponíveis para agendamento.</p>
       </div>
     );
   }

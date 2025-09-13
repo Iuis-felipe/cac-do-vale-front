@@ -9,29 +9,33 @@ import HourSelectionFrame from "../components/schduling/frames/page-3";
 import PersonalDataFrame from "../components/schduling/frames/page-4";
 import AddressFrame from "../components/schduling/frames/page-5";
 import FinishFrame from "../components/schduling/frames/page-6";
+import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
+
+const initialFormData = {
+  dia: new Date(),
+  horario: '',
+  email: '',
+  telefone: '',
+  cpf: '',
+  nome_civil: '',
+  nome_social: '',
+  cep: '',
+  logradouro: '',
+  numero: '',
+  complemento: '',
+  bairro: '',
+  cidade: '',
+  estado: '',
+  tipo_exame: '',
+  origem: 'Site',
+  categoria: '',
+  forma_pagamento: 'Pix'
+};
 
 const Scheduling = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [formData, setFormData] = useState({
-    dia: new Date(),
-    horario: '',
-    email: '',
-    telefone: '',
-    cpf: '',
-    nome_civil: '',
-    nome_social: '',
-    cep: '',
-    logradouro: '',
-    numero: '',
-    complemento: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-    tipo_exame: '',
-    origem: 'Site',
-    categoria: '',
-    forma_pagamento: 'Pix'
-  });
+  const [formData, setFormData] = useState(initialFormData);
+  const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
 
   const totalPages = 6;
 
@@ -46,25 +50,25 @@ const Scheduling = () => {
 
   const isNextStepDisabled = () => {
     switch (currentPage) {
-      case 2: return !formData.dia;
-      case 3: return !formData.horario;
-      case 4: {
-        const hasRequiredFields = formData.nome_civil && 
-                                formData.cpf && 
-                                formData.telefone && 
-                                formData.forma_pagamento && 
-                                formData.categoria && 
-                                formData.tipo_exame;
-        
-        const isCpfValid = isValidCpf(formData.cpf);
-        const isPhoneValid = isValidPhone(formData.telefone);
-        const isEmailValid = !formData.email || isValidEmail(formData.email);
-        return !hasRequiredFields || !isCpfValid || !isPhoneValid || !isEmailValid;
-      }
-      case 5: return !(formData.cep && formData.logradouro && formData.numero && formData.cidade && formData.estado && formData.bairro);
-      default: return false;
+        case 2: return !formData.dia;
+        case 3: return !formData.horario;
+        case 4: {
+            const hasRequiredFields = formData.nome_civil && formData.cpf && formData.telefone && formData.forma_pagamento && formData.categoria && formData.tipo_exame;
+            const isCpfValid = isValidCpf(formData.cpf);
+            const isPhoneValid = isValidPhone(formData.telefone);
+            const isEmailValid = !formData.email || isValidEmail(formData.email);
+            return !hasRequiredFields || !isCpfValid || !isPhoneValid || !isEmailValid;
+        }
+        case 5: return !(formData.cep && formData.logradouro && formData.numero && formData.cidade && formData.estado && formData.bairro);
+        default: return false;
     }
   };
+
+  // const handleReset = () => {
+  //   setConfirmedAppointmentData(null);
+  //   setFormData(initialFormData);
+  //   setCurrentPage(1);
+  // };
 
   const BackButton = () => (
     <button
@@ -86,34 +90,39 @@ const Scheduling = () => {
       <ChevronRightIcon className="size-4" />
     </button>
   );
+  
+  const NavigationControls = () => (
+    <div className="w-full max-w-md grid grid-cols-2 gap-4">
+      <div>
+        {currentPage > 1 && <BackButton />}
+      </div>
+      <div>
+        {currentPage < totalPages && <NextButton />}
+      </div>
+    </div>
+  );
 
+  if (confirmedAppointmentData) {
+    return (
+      <div className="bg-gray-100 min-h-screen w-full flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden p-6 sm:p-8">
+            <ConfirmationFrame data={confirmedAppointmentData} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen w-full flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl flex flex-col overflow-hidden">
-
         <header className="p-6 border-b border-gray-200 flex flex-col items-center gap-y-6">
-
           <h1 className="text-xl font-bold text-center text-gray-800">
             {pageTitles[currentPage]}
           </h1>
-
           <div className="w-full">
             <Pagination currentPage={currentPage} totalPages={totalPages} />
           </div>
-
-          {currentPage > 1 && (
-            <div className="w-full max-w-md grid grid-cols-2 gap-4">
-              <div>
-                {currentPage > 1 && <BackButton />}
-              </div>
-
-              <div>
-                {currentPage < totalPages && <NextButton />}
-              </div>
-            </div>
-          )}
-
+          {currentPage > 1 && <NavigationControls />}
         </header>
 
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
@@ -122,8 +131,14 @@ const Scheduling = () => {
           {currentPage === 3 && <HourSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />}
           {currentPage === 4 && <PersonalDataFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />}
           {currentPage === 5 && <AddressFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />}
-          {currentPage === 6 && <FinishFrame data={formData} />}
+          {currentPage === 6 && <FinishFrame data={formData} onSuccess={setConfirmedAppointmentData} />}
         </main>
+        
+        {currentPage > 1 && currentPage < totalPages && (
+          <div className="p-6 border-t border-gray-200 flex justify-center">
+            <NavigationControls />
+          </div>
+        )}
       </div>
 
       <footer className="text-center mt-6">

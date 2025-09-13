@@ -13,6 +13,10 @@ const WelcomeFrame = ({ setCurrentPage }: WelcomeFrameProps) => {
         </div>
 
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Faça seu agendamento aqui!</h1>
+        <p className="mt-3 text-[20px] text-red-500">
+          <b>*</b>Antes de agendar o exame, certifique-se de que você foi <br />
+           redirecionado pelo DETRAN para a clínica CAC do Vale!
+        </p>
         <p className="mt-3 text-base text-gray-500">
           Siga o passo a passo para agendar sua consulta. <br />
           Não se esqueça de preencher todos os campos obrigatórios.
