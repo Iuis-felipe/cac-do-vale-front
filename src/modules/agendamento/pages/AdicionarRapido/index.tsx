@@ -34,7 +34,6 @@ const AgendamentoRapido = () => {
         nome_civil: '',
         cpf: '',
         telefone: '',
-        data_nascimento: '',
         email: '',
         nome_social: '',
         cep: '',
@@ -94,11 +93,6 @@ const AgendamentoRapido = () => {
         const body: any = { ...formData };
         body.dia = set(new Date(selectedDay), { hours: parseInt(selectedTime.split(':')[0]), minutes: parseInt(selectedTime.split(':')[1]) });
         body.horario = selectedTime;
-        if (formData.data_nascimento) {
-            try {
-                body.data_nascimento = new Date(formData.data_nascimento);
-            } catch { }
-        }
         createSchedule(body);
     };
 
@@ -165,11 +159,11 @@ const AgendamentoRapido = () => {
                 </div>
                 <div className="col-span-1">
                     <input
-                        type="date"
-                        placeholder="Data de Nascimento"
+                        type="email"
+                        placeholder="Email"
                         className="w-full p-2 border border-gray-300 rounded-md"
-                        value={formData.data_nascimento}
-                        onChange={(e) => setFormData({ ...formData, data_nascimento: e.target.value })}
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
                 </div>
                 <div className="col-span-1">
