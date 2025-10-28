@@ -57,7 +57,8 @@ export const createSchedule = async (body: IScheduleBody) => {
 
     return data;
   } catch(e: any) {
-    throw new Error(e.response.data.error)
+
+    throw new Error(e.response.data.error || e)
   }
 }
 

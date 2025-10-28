@@ -192,11 +192,14 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
           </div>
           <div className="col-span-1 mt-2">
             <label htmlFor="intervaloThreshold" className="text-sm font-semibold">Duração do intervalo</label>
-            <input
-              type="number"
-              placeholder="Duração do intervalo"
-              className="w-full p-2 border border-gray-300 rounded-md"
-              value={form.intervaloThreshold}
+            <InputMask
+              id="interval_threshold"
+              mask="__:__"
+              replacement={{ _: /\d/ }}
+              type="text" 
+              placeholder="Duração do intervalo" 
+              className="w-full p-2 border border-gray-300 rounded-md" 
+              value={form.intervaloThreshold} 
               onChange={(e) => setForm({ ...form, intervaloThreshold: e.target.value })}
               disabled={form.isHoliday}
             />
