@@ -25,7 +25,7 @@ const DaySelector = ({ loading, days, availableHours, selectedDay, selectedHour,
       return [];
     }
 
-    const threshold = availableHours?.intervaloThreshold ? `${availableHours.intervaloThreshold}:00` : '01:00'
+    const threshold = availableHours?.intervaloThreshold ? `${availableHours.intervaloThreshold.includes(":") ? availableHours.intervaloThreshold : availableHours.intervaloThreshold}:00` : '01:00'
     const times = generateTimeSlots(availableHours?.horarioStart, availableHours?.horarioEnd, days, availableHours?.intervalo, threshold)
 
     return times.map(it => {
