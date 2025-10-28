@@ -11,7 +11,8 @@ interface FinishFrameProps {
 }
 
 const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
-  const { mutate, isPending, isSuccess, isError: isMutationError } = useCreateClientSchedule();
+  const { mutate, isPending, isSuccess, isError: isMutationError, error } = useCreateClientSchedule();
+
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleValidation = () => {
@@ -50,6 +51,7 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
     const newSchedule = { ...data };
     const [hours, minutes] = data.horario.split(':').map(Number);
     newSchedule.dia = set(new Date(data.dia), { hours, minutes });
+    
     mutate(newSchedule);
   };
 
@@ -62,7 +64,7 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
 
   useEffect(() => {
     if (isMutationError) {
-      toast.error("Houve um erro ao criar o agendamento. Tente novamente.");
+      toast.error(`Houve um erro ao criar o agendamento: ${error?.toString().split(':')[1].trim() || 'Contate o suporte'}`);
     }
   }, [isMutationError]);
 
