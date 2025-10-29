@@ -1,6 +1,7 @@
 import { useMemo, useState, ReactNode, FC } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import useUpdateScheduleStatus from "@/modules/agendamento/hook/useUpdateScheduleStatus";
+import { useDeleteSchedule } from "@/modules/agendamento/hook/useDeleteSchedule";
 import { useNavigate } from "react-router-dom";
 import { format, parseISO, differenceInMinutes, isToday } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -137,6 +138,7 @@ const ScheduleCard: FC<{ schedule: ScheduleItem; variant?: ViewType }> = ({ sche
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate: updateStatus, isPending: isUpdating } = useUpdateScheduleStatus();
+  const { deleteSchedule, isPending: isDeleting } = useDeleteSchedule();
   const appointmentDate = schedule.dia ? parseISO(schedule.dia) : null;
 
   const isList = variant === "list";
@@ -153,6 +155,15 @@ const ScheduleCard: FC<{ schedule: ScheduleItem; variant?: ViewType }> = ({ sche
         },
       }
     );
+  };
+
+  const handleDelete = () => {
+    if (isDeleting) return;
+    deleteSchedule(String(schedule.id), {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["today-schedules"] });
+      },
+    });
   };
 
   if (isList) {
@@ -201,27 +212,25 @@ const ScheduleCard: FC<{ schedule: ScheduleItem; variant?: ViewType }> = ({ sche
               <span>{isUpdating ? "" : "Confirmar"}</span>
             </button>
           )}
-          {schedule.status !== "cancelado" && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleStatus("cancelado");
-              }}
-              disabled={isUpdating}
-              className={`px-2 h-7 rounded-md text-[11px] font-medium border cursor-pointer inline-flex items-center gap-1 ${
-                isUpdating
-                  ? "bg-rose-50 text-rose-400 border-rose-200 opacity-70 cursor-not-allowed"
-                  : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
-              }`}
-            >
-              {isUpdating ? (
-                <span className="size-3 animate-spin border-2 border-rose-600/40 border-t-transparent rounded-full" />
-              ) : (
-                <X className="size-3" />
-              )}
-              <span>{isUpdating ? "" : "Cancelar"}</span>
-            </button>
-          )}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
+            disabled={isDeleting}
+            className={`px-2 h-7 rounded-md text-[11px] font-medium border cursor-pointer inline-flex items-center gap-1 ${
+              isDeleting
+                ? "bg-rose-50 text-rose-400 border-rose-200 opacity-70 cursor-not-allowed"
+                : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
+            }`}
+          >
+            {isDeleting ? (
+              <span className="size-3 animate-spin border-2 border-rose-600/40 border-t-transparent rounded-full" />
+            ) : (
+              <X className="size-3" />
+            )}
+            <span>{isDeleting ? "" : "Remover"}</span>
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -281,27 +290,25 @@ const ScheduleCard: FC<{ schedule: ScheduleItem; variant?: ViewType }> = ({ sche
             <span>{isUpdating ? "" : "Confirmar"}</span>
           </button>
         )}
-        {schedule.status !== "cancelado" && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleStatus("cancelado");
-            }}
-            disabled={isUpdating}
-            className={`px-2 py-1 rounded-md text-[11px] font-medium border cursor-pointer inline-flex items-center gap-1 ${
-              isUpdating
-                ? "bg-rose-50 text-rose-400 border-rose-200 opacity-70 cursor-not-allowed"
-                : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
-            }`}
-          >
-            {isUpdating ? (
-              <span className="size-3 animate-spin border-2 border-rose-600/40 border-t-transparent rounded-full" />
-            ) : (
-              <X className="size-3" />
-            )}
-            <span>{isUpdating ? "" : "Cancelar"}</span>
-          </button>
-        )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+          disabled={isDeleting}
+          className={`px-2 py-1 rounded-md text-[11px] font-medium border cursor-pointer inline-flex items-center gap-1 ${
+            isDeleting
+              ? "bg-rose-50 text-rose-400 border-rose-200 opacity-70 cursor-not-allowed"
+              : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
+          }`}
+        >
+          {isDeleting ? (
+            <span className="size-3 animate-spin border-2 border-rose-600/40 border-t-transparent rounded-full" />
+          ) : (
+            <X className="size-3" />
+          )}
+          <span>{isDeleting ? "" : "Remover"}</span>
+        </button>
         <button
           onClick={(e) => {
             e.stopPropagation();

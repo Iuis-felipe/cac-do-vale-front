@@ -6,6 +6,7 @@ import {
   CalendarIcon,
   ClockIcon,
   ArrowRightEndOnRectangleIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline';
 import { useNavigate, useLocation } from 'react-router-dom';
 import userStore from '@/core/store/user';
@@ -87,6 +88,7 @@ export const Sidebar = () => {
     { path: '/', icon: <ChartPieIcon className="size-7" />, text: 'Dashboard' },
     { path: '/agendamento', icon: <CalendarIcon className="size-7" />, text: 'Agenda' },
     { path: '/horarios', icon: <ClockIcon className="size-7" />, text: 'Horários' },
+    { path: '/analytics', icon: <ChartBarIcon className="size-7" />, text: 'Analytics' },
     { path: '/usuario', icon: <UserGroupIcon className="size-7" />, text: 'Usuários' },
   ];
 
