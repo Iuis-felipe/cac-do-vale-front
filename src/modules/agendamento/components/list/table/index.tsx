@@ -11,6 +11,7 @@ interface ITableProps {
   page: number;
   setPage: (page: number) => void;
   handleActions: (id: string) => void;
+  orderBy?: string;
 }
 
 const Table: React.FC<ITableProps> = ({
@@ -20,6 +21,7 @@ const Table: React.FC<ITableProps> = ({
   page,
   setPage,
   handleActions,
+  orderBy,
 }) => {
   if (loading) {
     return (
