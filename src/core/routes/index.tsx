@@ -7,6 +7,7 @@ import { userRoutes } from "../../modules/user/routes";
 import clientRoutes from "@/modules/cliente/routes";
 import useLoggedBase from "../hooks";
 import horariosRoutes from "@/modules/horarios/routes";
+import { analyticsRoutes } from "@/modules/analytics/routes";
 
 const LoggedBase = ({ children }: { children: React.ReactNode }) => {
   const isLogged = useLoggedBase();
@@ -54,6 +55,11 @@ const Router = createBrowserRouter([
     path: "horarios",
     element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
     children: [...horariosRoutes]
+  },
+  {
+    path: "analytics",
+    element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
+    children: [...analyticsRoutes]
   }
 ]);
 
