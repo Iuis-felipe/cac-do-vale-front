@@ -21,7 +21,7 @@ const Table: React.FC<ITableProps> = ({
   page,
   setPage,
   handleActions,
-  orderBy,
+  // orderBy,
 }) => {
   if (loading) {
     return (
