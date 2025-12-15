@@ -1,4 +1,5 @@
 import api from "@/core/api";
+import { ICreateBulkHorarios, ICreateHorarios } from "../model";
 
 export const getHorarios = async (page: number, perPage: number, search?: string) => {
   try {
@@ -17,7 +18,7 @@ export const getHorarios = async (page: number, perPage: number, search?: string
   }
 }
 
-export const buildSchedule = async (period: string, body: { start?: string, end?: string, isHoliday?: boolean }) => {
+export const buildSchedule = async (period: string, body: ICreateBulkHorarios) => {
   try {
     const response = await api.post(`/availability/bulk/${period}`, body)
 
@@ -39,7 +40,7 @@ export const deleteSchedule = async (id: string) => {
   }
 }
 
-export const updateSchedule = async (id: string, body: { horarioStart?: string, horarioEnd?: string, intervalo?: string, intervaloThreshold?: string, isHoliday?: boolean }) => {
+export const updateSchedule = async (id: string, body: ICreateHorarios) => {
   try {
     const response = await api.put(`/availability/${id}`, body)
 
@@ -50,7 +51,7 @@ export const updateSchedule = async (id: string, body: { horarioStart?: string, 
   }
 }
 
-export const createSchedule = async (body: { dia: string, horarioStart: string, horarioEnd: string, intervalo: string, intervaloThreshold: string, isHoliday: boolean }) => {
+export const createSchedule = async (body: ICreateHorarios) => {
   try {
     const response = await api.post(`/availability`, body)
 
@@ -64,6 +65,17 @@ export const createSchedule = async (body: { dia: string, horarioStart: string, 
 export const updateIsHoliday = async (id: string, body: { isHoliday: boolean }) => {
   try {
     const response = await api.put(`/availability/isHoliday/${id}`, body)
+
+    return response.data
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export const updateIsRecess = async (id: string, body: { isRecess: boolean }) => {
+  try {
+    const response = await api.put(`/availability/isRecess/${id}`, body)
 
     return response.data
   } catch (error) {

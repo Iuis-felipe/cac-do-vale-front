@@ -3,19 +3,7 @@ import { Loader2, PencilIcon, TrashIcon, CopyIcon, XCircleIcon, CalendarCheck, C
 import { addHours, format } from "date-fns"
 import { toast } from "sonner"
 import { generateWhatsAppMessage, copyToClipboard } from "../../utils/messageGenerator"
-
-interface ISchedule {
-  created_at: string;
-  dia: string;
-  horarioEnd: string;
-  horarioStart: string;
-  id: string;
-  intervalo: string;
-  intervaloThreshold: string;
-  isHoliday: boolean;
-  updated_at: string;
-}
-
+import { ISchedule } from "../../model"
 
 interface IScheduleTable {
   schedules: ISchedule[];
@@ -25,7 +13,14 @@ interface IScheduleTable {
   handleUpdateStatus: (id: string, isHoliday: boolean) => void;
 }
 
-const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleEditSchedule, handleDeleteSchedule, handleUpdateStatus }) => {
+const ScheduleTable: React.FC<IScheduleTable> = ({ 
+  schedules, 
+  isLoading, 
+  handleEditSchedule, 
+  handleDeleteSchedule, 
+  handleUpdateStatus
+}) => {
+
   const handleCopyMessage = async (schedule: ISchedule) => {
     try {
       const message = await generateWhatsAppMessage(schedule);
@@ -43,6 +38,33 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
 
   if (isLoading) {
     return <Loader2 className="w-4 h-4 animate-spin" />
+  }
+
+  const handleShowStatus = (schedule: ISchedule) => {
+    if(schedule.isRecess) {
+      return (
+        <div className="flex items-center justify-center gap-2 text-yellow-600">
+          <XCircleIcon className="size-4" />
+          <span className="text-sm font-medium"> Recesso </span>
+        </div>
+      )
+    }
+
+    if(schedule.isHoliday) {
+      return (
+        <div className="flex items-center justify-center gap-2 text-red-600">
+          <XCircleIcon className="size-4" />
+          <span className="text-sm font-medium"> Fechado </span>
+        </div>
+      )
+    }
+
+    return (
+      <div className="flex items-center justify-center gap-2 text-green-600">
+        <XCircleIcon className="size-4" />
+        <span className="text-sm font-medium"> Aberto </span>
+      </div>
+    )
   }
 
   return (
@@ -63,17 +85,7 @@ const ScheduleTable: React.FC<IScheduleTable> = ({ schedules, isLoading, handleE
           <TableRow key={schedule.id}>
             <TableCell>{format(addHours(schedule.dia, 3), "dd/MM/yyyy")}</TableCell>
             <TableCell className="text-center">
-              {schedule.isHoliday ? (
-                <div className="flex items-center justify-center gap-2 text-red-600">
-                  <XCircleIcon className="size-4" />
-                  <span className="text-sm font-medium">Fechado</span>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center gap-2 text-green-600">
-                  <div className="size-2 bg-green-600 rounded-full"></div>
-                  <span className="text-sm font-medium">Aberto</span>
-                </div>
-              )}
+              {handleShowStatus(schedule)}
             </TableCell>
             <TableCell className="text-center">
               {schedule.isHoliday ? (

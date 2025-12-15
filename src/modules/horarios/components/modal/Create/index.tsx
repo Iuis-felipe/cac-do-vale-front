@@ -21,6 +21,7 @@ interface IScheduleForm {
   intervalo?: string;
   intervaloThreshold?: string;
   isHoliday: boolean;
+  isRecess: boolean;
 }
 
 const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, handleCloseModalActions, reloadData }) => {
@@ -34,6 +35,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
     intervalo: "",
     intervaloThreshold: "",
     isHoliday: false,
+    isRecess: false,
   });
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
         intervalo: schedule.intervalo,
         intervaloThreshold: schedule.intervaloThreshold,
         isHoliday: schedule.isHoliday || false,
+        isRecess: schedule.isRecess || false,
       });
     }
   }, [schedule]);
@@ -116,6 +119,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       intervalo: data.isHoliday ? "00:00" : data.intervalo,
       intervaloThreshold: data.isHoliday ? "0" : data.intervaloThreshold,
       isHoliday: data.isHoliday,
+      isRecess: data.isRecess,
     };
 
     createSchedule(body, {
@@ -145,6 +149,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       intervalo: data.isHoliday ? "00:00" : data.intervalo,
       intervaloThreshold: data.isHoliday ? "0" : data.intervaloThreshold,
       isHoliday: data.isHoliday,
+      isRecess: data.isRecess,
     };
 
     updateSchedule(
@@ -176,6 +181,7 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
       intervalo: "",
       intervaloThreshold: "",
       isHoliday: false,
+      isRecess: false,
     });
 
     handleCloseModalActions();
@@ -379,6 +385,39 @@ const ScheduleFormModal: React.FC<IActionModalProps> = ({ schedule, isOpen, hand
               </div>
               <p className={`text-xs mt-1 ${form.isHoliday ? "text-red-600" : "text-gray-500"} transition-colors`}>
                 {form.isHoliday
+                  ? "⚠️ Este dia não aparecerá como disponível para agendamento"
+                  : "Marque esta opção para feriados ou dias de fechamento"}
+              </p>
+            </div>
+          </label>
+        </div>
+
+        {/* Opção de Dia de Recesso */}
+        <div
+          className={`${
+            form.isRecess ? "bg-gradient-to-r from-red-50 to-pink-50 border-red-200" : "bg-gray-50 border-gray-200"
+          } border rounded-lg p-4 transition-all duration-300`}
+        >
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={form.isRecess}
+              onChange={(e) => setForm({ ...form, isRecess: e.target.checked })}
+              className="mt-1 w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-500 cursor-pointer transition-all"
+            />
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <AlertCircleIcon
+                  className={`w-5 h-5 ${form.isRecess ? "text-red-600" : "text-gray-400"} transition-colors`}
+                />
+                <span
+                  className={`text-sm font-bold ${form.isRecess ? "text-red-700" : "text-gray-600"} transition-colors`}
+                >
+                  Dia de recesso
+                </span>
+              </div>
+              <p className={`text-xs mt-1 ${form.isRecess ? "text-red-600" : "text-gray-500"} transition-colors`}>
+                {form.isRecess
                   ? "⚠️ Este dia não aparecerá como disponível para agendamento"
                   : "Marque esta opção para feriados ou dias de fechamento"}
               </p>
