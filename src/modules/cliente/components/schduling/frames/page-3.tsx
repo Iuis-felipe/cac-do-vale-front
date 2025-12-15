@@ -43,7 +43,28 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
         <div className="text-center text-gray-500 bg-red-50 p-8 rounded-lg border border-red-200 max-w-md">
           <XCircle className="size-12 text-red-500 mx-auto mb-4" />
           <p className="text-gray-600 mb-4">
-            O dia <span className="font-semibold">{format(data.dia, "EEEE, dd 'de' MMMM", { locale: ptBR })}</span> não possui horários disponíveis para agendamento.
+            O dia <span className="font-semibold">{format(data.dia, "EEEE, dd 'de' MMMM", { locale: ptBR })}</span> 
+            não possui horários disponíveis para agendamento.
+          </p>
+          <button 
+            onClick={() => setCurrentPage(2)} 
+            className="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition cursor-pointer"
+          >
+            Escolher outro dia
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (appointmentHours && appointmentHours.isRecess) {
+    return (
+      <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">
+        <div className="text-center text-gray-500 bg-red-50 p-8 rounded-lg border border-red-200 max-w-md">
+          <XCircle className="size-12 text-red-500 mx-auto mb-4" />
+          <p className="text-gray-600 mb-4">
+            No dia <span className="font-semibold">{format(data.dia, "EEEE, dd 'de' MMMM", { locale: ptBR })}</span> 
+            não possui horários disponíveis para agendamento pois está de recesso.
           </p>
           <button 
             onClick={() => setCurrentPage(2)} 

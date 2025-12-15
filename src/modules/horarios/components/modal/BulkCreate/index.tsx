@@ -17,10 +17,11 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
   const [inicio, setInicio] = useState<string>("08:00");
   const [fim, setFim] = useState<string>("18:00");
   const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [isRecess, setIsRecess] = useState<boolean>(false);
 
   const handleCreateSchedule = () => {
     createSchedule(
-      { period: periods.toString(), body: { start: inicio, end: fim, isHoliday: isClosed || false } },
+      { period: periods.toString(), body: { start: inicio, end: fim, isHoliday: isClosed || false, isRecess: isRecess || false } },
       {
         onSuccess: () => {
           reloadData();
@@ -179,6 +180,37 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
           </label>
         </div>
 
+        {/* Opção de Recessos */}
+        <div
+          className={`${
+            isRecess ? "bg-gradient-to-r from-red-50 to-pink-50 border-red-200" : "bg-gray-50 border-gray-200"
+          } border rounded-lg p-4 transition-all duration-300`}
+        >
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={isRecess}
+              onChange={(e) => setIsRecess(e.target.checked)}
+              className="mt-1 w-5 h-5 rounded border-gray-300 text-red-600 focus:ring-red-500 cursor-pointer transition-all"
+            />
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <AlertCircleIcon
+                  className={`w-5 h-5 ${isRecess ? "text-red-600" : "text-gray-400"} transition-colors`}
+                />
+                <span className={`text-sm font-bold ${isRecess ? "text-red-700" : "text-gray-600"} transition-colors`}>
+                  Marcar como dias de recesso
+                </span>
+              </div>
+              <p className={`text-xs mt-1 ${isRecess ? "text-red-600" : "text-gray-500"} transition-colors`}>
+                {isRecess
+                  ? "⚠️ Todos os dias do período serão marcados como fechados e aparecerão para agendamento bloqueados e com o aviso de recesso"
+                  : "Marque esta opção para criar um período de recesso lembre-se de que dias úteis não são contados"}
+              </p>
+            </div>
+          </label>
+        </div>
+
         {/* Botões de Ação */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
           <button
@@ -207,7 +239,7 @@ const ScheduleBulkCreateModal: React.FC<IBulkCreateModalProps> = ({ isOpen, relo
                 <span>Gerando...</span>
               </>
             ) : (
-              <span>{isClosed ? "Gerar Dias Fechados" : "Gerar Horários"}</span>
+              <span>{isClosed || isRecess ? "Gerar Dias Fechados" : "Gerar Horários"}</span>
             )}
           </button>
         </div>
