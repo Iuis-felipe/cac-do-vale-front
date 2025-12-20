@@ -1,5 +1,5 @@
 import api from "@/core/api";
-import { ICreateBulkHorarios, ICreateHorarios } from "../model";
+import { ICreateBulkHorarios, ICreateHorarios, IUpdateHorarios } from "../model";
 
 export const getHorarios = async (page: number, perPage: number, search?: string) => {
   try {
@@ -40,7 +40,7 @@ export const deleteSchedule = async (id: string) => {
   }
 }
 
-export const updateSchedule = async (id: string, body: ICreateHorarios) => {
+export const updateSchedule = async (id: string, body: IUpdateHorarios) => {
   try {
     const response = await api.put(`/availability/${id}`, body)
 
