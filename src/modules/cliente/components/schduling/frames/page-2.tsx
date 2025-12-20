@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { format, addDays, isSaturday, isSunday } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
+import useGetUnavailableDays from "@/core/hooks/useGetUnavailableDays";
+import { Loader } from "lucide-react";
 
 interface DaySelectionFrameProps {
   data: any;
@@ -15,17 +16,17 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
     data.dia ? new Date(data.dia) : undefined
   );
   const [closedDays, setClosedDays] = useState<string[]>([]);
-  const { mutate: getDefaultHours, data: defaultHours } = useGetDefaultHours();
+  const { mutate: getUnavailableDays, data: unavailableDays, isPending } = useGetUnavailableDays();
 
   useEffect(() => {
-    getDefaultHours();
+    getUnavailableDays();
   }, []);
 
   useEffect(() => {
-    if (defaultHours?.closedDays) {
-      setClosedDays(defaultHours.closedDays);
+    if (unavailableDays) {
+      setClosedDays(unavailableDays);
     }
-  }, [defaultHours]);
+  }, [unavailableDays]);
 
   const handleDaySelect = (date: Date | undefined) => {
     if (!date) return;
@@ -47,17 +48,22 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
 
   return (
     <div className="w-full h-full flex flex-col lg:flex-row gap-8 justify-center items-center p-4">
-      <div className="w-full max-w-sm flex justify-center">
-        <Calendar
-          locale={ptBR}
-          mode="single"
-          selected={selectedDay}
-          onSelect={handleDaySelect}
-          className="rounded-lg border shadow-sm"
-          disabled={isDateDisabled}
-        />
-      </div>
-
+      {isPending ? (
+        <div className="w-full max-w-sm flex justify-center">
+          <Loader className="w-12 h-12 animate-spin" />
+        </div>
+      ) : (
+        <div className="w-full max-w-sm flex justify-center">
+          <Calendar
+            locale={ptBR}
+            mode="single"
+            selected={selectedDay}
+            onSelect={handleDaySelect}
+            className="rounded-lg border shadow-sm"
+            disabled={isDateDisabled}
+          />
+        </div>
+      )}
       <div className="w-full lg:w-1/3 flex flex-col items-center text-center">
         <div className="h-24 flex items-center">
           {selectedDay ? (
