@@ -7,9 +7,11 @@ import {
   ClockIcon,
   ArrowRightEndOnRectangleIcon,
   ChartBarIcon,
+  BuildingOfficeIcon,
 } from '@heroicons/react/24/outline';
 import { useNavigate, useLocation } from 'react-router-dom';
 import userStore from '@/core/store/user';
+import clinicStore from '@/core/store/clinic';
 
 interface ISidebarButtonProps {
   icon: ReactNode;
@@ -17,9 +19,12 @@ interface ISidebarButtonProps {
   isExpanded: boolean;
   isActive: boolean;
   onClick: () => void;
+  show?: boolean;
 }
 
-const SidebarButton = ({ icon, text, isExpanded, isActive, onClick }: ISidebarButtonProps) => {
+const SidebarButton = ({ icon, text, isExpanded, isActive, onClick, show = true }: ISidebarButtonProps) => {
+  if (!show) return null;
+
   return (
     <button
       onClick={onClick}
@@ -59,6 +64,7 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = userStore();
+  const clinic = clinicStore.getState().clinic;
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleLabel = () => {
@@ -85,16 +91,18 @@ export const Sidebar = () => {
   };
 
   const navLinks = [
-    { path: '/', icon: <ChartPieIcon className="size-7" />, text: 'Dashboard' },
-    { path: '/agendamento', icon: <CalendarIcon className="size-7" />, text: 'Agenda' },
-    { path: '/horarios', icon: <ClockIcon className="size-7" />, text: 'Horários' },
-    { path: '/analytics', icon: <ChartBarIcon className="size-7" />, text: 'Analytics' },
-    { path: '/usuario', icon: <UserGroupIcon className="size-7" />, text: 'Usuários' },
+    { path: '/', icon: <ChartPieIcon className="size-7" />, text: 'Dashboard', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
+    { path: '/agendamento', icon: <CalendarIcon className="size-7" />, text: 'Agenda', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
+    { path: '/horarios', icon: <ClockIcon className="size-7" />, text: 'Horários', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
+    { path: '/analytics', icon: <ChartBarIcon className="size-7" />, text: 'Analytics', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
+    { path: '/usuario', icon: <UserGroupIcon className="size-7" />, text: 'Usuários', permission: ['ADMIN', 'OWNER'] },
+    { path: '/clinica', icon: <BuildingOfficeIcon className="size-7" />, text: 'Clinicas', permission: ['OWNER'] },
   ];
 
   return (
     <motion.aside
-      className="bg-[#101F59] h-screen flex flex-col justify-between shadow-xl"
+      style={{ background: clinic && clinic.cor ? clinic.cor : '#101F59' }}
+      className="h-screen flex flex-col justify-between shadow-xl"
       initial={{ width: '5rem' }}
       animate={{ width: isExpanded ? '16rem' : '5rem' }}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
@@ -102,9 +110,12 @@ export const Sidebar = () => {
       onMouseLeave={() => setIsExpanded(false)}
     >
       <div className="w-full flex flex-col p-2">
-        <div className="h-16 flex items-center justify-center w-full">
+        <div className="h-16 flex flex-col items-center justify-center w-full">
           <p className="text-center text-white font-bold text-2xl w-full whitespace-nowrap overflow-hidden">
             {isExpanded ? 'Agendamento' : 'A'}
+          </p>
+          <p className="text-center text-white font-light text-sm w-full whitespace-nowrap overflow-hidden">
+            {isExpanded && clinic && `${clinic.name}`}
           </p>
         </div>
 
@@ -117,6 +128,7 @@ export const Sidebar = () => {
               isExpanded={isExpanded}
               isActive={location.pathname === link.path}
               onClick={() => navigate(link.path)}
+              show={user ? link.permission.includes(user.role) : false}
             />
           ))}
         </div>

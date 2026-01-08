@@ -1,9 +1,16 @@
 import api from "@/core/api";
 import { ICreateBulkHorarios, ICreateHorarios } from "../model";
+import clinicStore from "@/core/store/clinic";
 
 export const getHorarios = async (page: number, perPage: number, search?: string) => {
   try {
-    let urlQuery = `page=${page}&perPage=${perPage}`;
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    let urlQuery = `page=${page}&perPage=${perPage}&clinicId=${clinic.id}`;
 
     if(search) {
       urlQuery = urlQuery + `&dia=${search}`;
@@ -20,7 +27,18 @@ export const getHorarios = async (page: number, perPage: number, search?: string
 
 export const buildSchedule = async (period: string, body: ICreateBulkHorarios) => {
   try {
-    const response = await api.post(`/availability/bulk/${period}`, body)
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const scheduleBody: any = {
+      ...body,
+      clinicId: clinic.id
+    };
+
+    const response = await api.post(`/availability/bulk/${period}`, scheduleBody)
 
     return response.data
   } catch (error) {
@@ -42,7 +60,18 @@ export const deleteSchedule = async (id: string) => {
 
 export const updateSchedule = async (id: string, body: ICreateHorarios) => {
   try {
-    const response = await api.put(`/availability/${id}`, body)
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const scheduleBody: any = {
+      ...body,
+      clinicId: clinic.id
+    };
+
+    const response = await api.put(`/availability/${id}`, scheduleBody)
 
     return response.data
   } catch (error) {
@@ -53,7 +82,18 @@ export const updateSchedule = async (id: string, body: ICreateHorarios) => {
 
 export const createSchedule = async (body: ICreateHorarios) => {
   try {
-    const response = await api.post(`/availability`, body)
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const scheduleBody: any = {
+      ...body,
+      clinicId: clinic.id
+    };
+    
+    const response = await api.post(`/availability`, scheduleBody)
 
     return response.data
   } catch (error) {
