@@ -4,24 +4,29 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import useUpdateUser from "../../hook/useUpdateUser";
 import useCreateUser from "../../hook/useCreateUser";
+import useGetUserClinicOptions from "../../hook/useGetUserClinicOptions";
 
 interface IActionModalProps {
-  user?: { id: string; nome: string; email: string; codigo: string, ativo: boolean };
+  user?: { id: string; nome: string; email: string; codigo: string, ativo: boolean, clinicId: string, role: string };
   isOpen: boolean;
   handleCloseModalActions: () => void;
   reloadData: () => void;
 }
 
 const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseModalActions, reloadData }) => {
+  const { clinics } = useGetUserClinicOptions()
+
   const { mutate, isPending, isError, error, isSuccess } = useUpdateUser()
   const { mutate: createUser, isPending: isCreating, isSuccess: isCreated, isError: isCreatedError } = useCreateUser()
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [form, setForm] = useState<{ nome: string; email: string; codigo: string, senha?: string | undefined, ativo: boolean }>({
+  const [form, setForm] = useState<{ nome: string; email: string; codigo: string, senha?: string | undefined, clinicId: string, role: string, ativo: boolean }>({
     nome: "",
     email: "",
     codigo: "",
     senha: undefined,
+    role: "",
+    clinicId: "",
     ativo: true
   })
 
@@ -40,15 +45,19 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
     createUser({
       nome: form.nome,
       email: form.email,
-      senha: form.senha
+      senha: form.senha,
+      clinicaId: form.clinicId,
+      role: form.role
     })
   }
 
   const handleUpdateUser = () => {
-    let payload: { nome: string; email: string; ativo: boolean; senha?: string } = {
+    let payload: { nome: string; email: string; ativo: boolean; senha?: string; clinicaId?: string; role?: string } = {
       nome: form.nome,
       email: form.email,
       ativo: form.ativo,
+      clinicaId: form.clinicId,
+      role: form.role
     }
 
     if (form.senha) {
@@ -63,6 +72,8 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
       nome: "",
       email: "",
       codigo: "",
+      clinicId: "",
+      role: "",
       senha: undefined,
       ativo: true
     })
@@ -139,6 +150,34 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
               value={form.email} 
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
+          </div>
+          <div className="col-span-2 mt-2">
+            <label htmlFor="clinica" className="text-sm font-semibold">Clinica</label>
+            <select 
+              name="clinica" 
+              id="clinica" 
+              className="w-full p-2 border border-gray-300 rounded-md" 
+              value={form.clinicId} 
+              onChange={(e) => setForm({ ...form, clinicId: e.target.value })}
+            >
+              {clinics && clinics.map((clinic: { label: string, value: string}) => (
+                <option key={clinic.value} value={clinic.value}>{clinic.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col-span-2 mt-2">
+            <label htmlFor="role" className="text-sm font-semibold">Permissão</label>
+            <select 
+              name="role" 
+              id="role" 
+              className="w-full p-2 border border-gray-300 rounded-md" 
+              value={form.role} 
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+            >
+              <option value="ADMIN">Admin local</option>
+              <option value="ATENDENTE">Gestor</option>
+              <option value="OWNER">Permissão total</option>
+            </select>
           </div>
           <div className="col-span-1 mt-2">
             <label htmlFor="ativo" className="text-sm font-semibold">Ativo</label>

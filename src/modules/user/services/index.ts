@@ -12,6 +12,17 @@ export const getUsers = async (page: number, name?: string) => {
   }
 }
 
+export const getClinics = async () => {
+  try {
+    const { data } = await api.get("/clinic/user/select")
+
+    return data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
 export const createUser = async (user: IUserBody) => {
   try {
     const response = await api.post("/admin", user)
