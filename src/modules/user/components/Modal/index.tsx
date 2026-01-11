@@ -42,23 +42,27 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
       return
     }
 
+    console.log(form)
+
     createUser({
       nome: form.nome,
       email: form.email,
       senha: form.senha,
-      clinicaId: form.clinicId,
+      clinicId: form.clinicId,
       role: form.role
     })
   }
 
   const handleUpdateUser = () => {
-    let payload: { nome: string; email: string; ativo: boolean; senha?: string; clinicaId?: string; role?: string } = {
+    let payload: { nome: string; email: string; ativo: boolean; senha?: string; clinicId?: string; role?: string } = {
       nome: form.nome,
       email: form.email,
       ativo: form.ativo,
-      clinicaId: form.clinicId,
+      clinicId: form.clinicId,
       role: form.role
     }
+
+    console.log(payload)
 
     if (form.senha) {
       payload.senha = form.senha
@@ -160,6 +164,7 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
               value={form.clinicId} 
               onChange={(e) => setForm({ ...form, clinicId: e.target.value })}
             >
+              <option value="">Selecione uma clínica</option>
               {clinics && clinics.map((clinic: { label: string, value: string}) => (
                 <option key={clinic.value} value={clinic.value}>{clinic.label}</option>
               ))}

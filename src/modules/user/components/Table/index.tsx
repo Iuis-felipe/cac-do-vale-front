@@ -11,9 +11,9 @@ const roleMap: Record<string, string> = {
 }
 
 interface IUserTable {
-  users: { id: string; nome: string; email: string; codigo: string, role: string, ativo: boolean, clinic: { nome: string } }[];
+  users: { id: string; nome: string; email: string; codigo: string, role: string, ativo: boolean, clinic: { nome: string, id: string } }[];
   isLoading: boolean;
-  handleEditUser: (user: { id: string; nome: string; email: string; codigo: string, ativo: boolean }) => void;
+  handleEditUser: (user: { id: string; nome: string; email: string; codigo: string, ativo: boolean, role: string, clinicId: string }) => void;
 }
 
 const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) => {   
@@ -69,7 +69,10 @@ const UserTable: React.FC<IUserTable> = ({ users, isLoading, handleEditUser }) =
             <TableCell>{user.clinic.nome}</TableCell>
             <TableCell>{user.ativo ? "Ativo" : "Inativo"}</TableCell>
             <TableCell className="flex items-center gap-4">
-              <button className="text-blue-500 cursor-pointer" onClick={() => handleEditUser(user)}>
+              <button className="text-blue-500 cursor-pointer" onClick={() => handleEditUser({
+                ...user,
+                clinicId: user.clinic.id
+              })}>
                 <PencilIcon className="size-5" />
               </button>
               <button className="text-red-500 cursor-pointer" onClick={() => handleDeleteUser(user.id)}>
