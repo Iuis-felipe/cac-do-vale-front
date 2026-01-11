@@ -13,7 +13,7 @@ const UserPage = () => {
   const [search, setSearch] = useState<string | undefined>(undefined)
   const [page, setPage] = useState<number>(1)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [user, setUser] = useState<{ id: string; nome: string; email: string; codigo: string, ativo: boolean } | undefined>(undefined)
+  const [user, setUser] = useState<{ id: string; nome: string; email: string; codigo: string, ativo: boolean, role: string, clinicId: string } | undefined>(undefined)
 
   useEffect(() => {
     mutate({ page: 1, name: "" })
@@ -23,7 +23,7 @@ const UserPage = () => {
     mutate({ page: page, name: search })
   }
 
-  const handleEditUser = (user: { id: string; nome: string; email: string; codigo: string, ativo: boolean }) => {
+  const handleEditUser = (user: { id: string; nome: string; email: string; codigo: string, ativo: boolean, role: string, clinicId: string }) => {
     setUser(user)
     setIsOpen(true)
   }
