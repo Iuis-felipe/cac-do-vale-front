@@ -49,3 +49,14 @@ export const deleteClinic = async (id: string) => {
     throw error
   }
 }
+
+export const getAllClinics = async () => {
+  try {
+    const { data } = await api.get("/clinic?page=1&perPage=100");
+
+    return data.clinic || [];
+  } catch (error) {
+    console.error('Erro ao buscar clínicas:', error)
+    throw error
+  }
+}

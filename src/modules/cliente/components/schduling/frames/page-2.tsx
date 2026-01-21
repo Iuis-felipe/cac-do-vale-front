@@ -12,14 +12,12 @@ interface DaySelectionFrameProps {
 }
 
 const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
-  const [selectedDay, setSelectedDay] = useState<Date | undefined>(
-    data.dia ? new Date(data.dia) : undefined
-  );
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(data.dia ? new Date(data.dia) : undefined);
   const [closedDays, setClosedDays] = useState<string[]>([]);
   const { mutate: getUnavailableDays, data: unavailableDays, isPending } = useGetUnavailableDays();
 
   useEffect(() => {
-    getUnavailableDays();
+    getUnavailableDays(data.clinicId);
   }, []);
 
   useEffect(() => {
@@ -42,7 +40,7 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
   const isDateDisabled = (date: Date) => {
     const dateString = format(date, "yyyy-MM-dd");
     const isClosedDay = closedDays.includes(dateString);
-    
+
     return date < today || date > maxDate || isSaturday(date) || isSunday(date) || isClosedDay;
   };
 
@@ -68,8 +66,8 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
         <div className="h-24 flex items-center">
           {selectedDay ? (
             <p className="text-xl font-semibold text-gray-800">
-              <span className="font-bold text-blue-800">{format(selectedDay, "dd/MM/yyyy")}</span> <br />
-              é o melhor dia para a consulta?
+              <span className="font-bold text-blue-800">{format(selectedDay, "dd/MM/yyyy")}</span> <br />é o melhor dia
+              para a consulta?
             </p>
           ) : (
             <p className="text-xl font-semibold text-gray-800">Qual o melhor dia para a consulta?</p>
@@ -78,7 +76,7 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
 
         <button
           className="w-full max-w-xs mt-4 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors cursor-pointer disabled:opacity-50"
-          onClick={() => setCurrentPage(3)}
+          onClick={() => setCurrentPage(4)}
           disabled={!selectedDay}
         >
           Selecionar horário

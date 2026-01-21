@@ -15,24 +15,24 @@ const useKpis = (schedules: { today?: ScheduleItem[]; pending?: ScheduleItem[] }
         icon: <CalendarIcon className="size-4" />,
         color: "from-blue-500 to-blue-600",
       },
-      {
-        label: "Pendentes",
-        value: totalPending,
-        icon: <Hourglass className="size-4" />,
-        color: "from-amber-500 to-amber-600",
-      },
+      // {
+      //   label: "Pendentes",
+      //   value: totalPending,
+      //   icon: <Hourglass className="size-4" />,
+      //   color: "from-amber-500 to-amber-600",
+      // },
       {
         label: "Total",
         value: totalToday + totalPending,
         icon: <Activity className="size-4" />,
         color: "from-indigo-500 to-indigo-600",
       },
-      {
-        label: "Próximo",
-        value: nextAppointment?.horario || "--:--",
-        icon: <ClockIcon className="size-4" />,
-        color: "from-emerald-500 to-emerald-600",
-      },
+      // {
+      //   label: "Próximo",
+      //   value: nextAppointment?.horario || "--:--",
+      //   icon: <ClockIcon className="size-4" />,
+      //   color: "from-emerald-500 to-emerald-600",
+      // },
     ];
   }, [schedules]);
 };

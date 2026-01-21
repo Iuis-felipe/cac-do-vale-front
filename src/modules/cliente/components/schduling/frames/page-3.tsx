@@ -20,9 +20,9 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
 
   useEffect(() => {
     if (data.dia) {
-      mutate(format(data.dia, "yyyy-MM-dd"));
-      getAppointmentHours(format(data.dia, "yyyy-MM-dd"));
-      getDefaultHours();
+      mutate({ date: format(data.dia, "yyyy-MM-dd"), clinicId: data.clinicId });
+      getAppointmentHours({ date: format(data.dia, "yyyy-MM-dd"), clinicId: data.clinicId });
+      getDefaultHours(data.clinicId);
     }
   }, [data.dia]);
 
