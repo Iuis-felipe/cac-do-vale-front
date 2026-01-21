@@ -1,8 +1,12 @@
 import api from "../api" 
 
-export const getAppointmentAvailableHours = async (date: string) => {
+export const getAppointmentAvailableHours = async (date: string, clinicId?: string) => {
   try {
-    const { data } = await api.get(`/availability/day/${date}`)
+    let url = `/availability/day/${date}`;
+    if (clinicId) {
+      url += `?clinicId=${clinicId}`;
+    }
+    const { data } = await api.get(url);
 
     return data;
   } catch(e: any) {
@@ -10,9 +14,13 @@ export const getAppointmentAvailableHours = async (date: string) => {
   }
 }
 
-export const getAllUnavailableDays = async () => {
+export const getAllUnavailableDays = async (clinicId?: string) => {
   try {
-    const { data } = await api.get(`/availability/unavailable`)
+    let url = `/availability/unavailable`;
+    if (clinicId) {
+      url += `?clinicId=${clinicId}`;
+    }
+    const { data } = await api.get(url);
 
     return data;
   } catch(e: any) {

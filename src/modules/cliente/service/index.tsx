@@ -11,9 +11,13 @@ export const createSchedule = async (body: IScheduleBody) => {
   }
 }
 
-export const getAvailableHours = async (date: string) => {
+export const getAvailableHours = async (date: string, clinicId?: string) => {
   try {
-    const { data } = await api.get(`/schedule/available/hours?dia=${date}`)
+    let url = `/schedule/available/hours?dia=${date}`;
+    if (clinicId) {
+      url += `&clinicId=${clinicId}`;
+    }
+    const { data } = await api.get(url);
 
     return data;
   } catch(e: any) {

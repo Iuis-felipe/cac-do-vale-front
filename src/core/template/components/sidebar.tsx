@@ -94,7 +94,7 @@ export const Sidebar = () => {
     { path: '/', icon: <ChartPieIcon className="size-7" />, text: 'Dashboard', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
     { path: '/agendamento', icon: <CalendarIcon className="size-7" />, text: 'Agenda', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
     { path: '/horarios', icon: <ClockIcon className="size-7" />, text: 'Horários', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
-    { path: '/analytics', icon: <ChartBarIcon className="size-7" />, text: 'Analytics', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
+    { path: '/analytics', icon: <ChartBarIcon className="size-7" />, text: 'Análise', permission: ['ATENDENTE', 'ADMIN', 'OWNER'] },
     { path: '/usuario', icon: <UserGroupIcon className="size-7" />, text: 'Usuários', permission: ['ADMIN', 'OWNER'] },
     { path: '/clinica', icon: <BuildingOfficeIcon className="size-7" />, text: 'Clinicas', permission: ['OWNER'] },
   ];

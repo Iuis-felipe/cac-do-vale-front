@@ -1,4 +1,4 @@
-import { STATUS_CONFIG } from "./aux";
+import { STATUS_CONFIG } from "./auxiliar";
 
 interface IStatusBadgeProps {
   status?: string;
