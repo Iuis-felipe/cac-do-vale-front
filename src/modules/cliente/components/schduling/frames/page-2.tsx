@@ -4,6 +4,7 @@ import { format, addDays, isSaturday, isSunday } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import useGetUnavailableDays from "@/core/hooks/useGetUnavailableDays";
 import { Loader } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 interface DaySelectionFrameProps {
   data: any;
@@ -12,12 +13,14 @@ interface DaySelectionFrameProps {
 }
 
 const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
+  const { slug } = useParams();
+
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(data.dia ? new Date(data.dia) : undefined);
   const [closedDays, setClosedDays] = useState<string[]>([]);
   const { mutate: getUnavailableDays, data: unavailableDays, isPending } = useGetUnavailableDays();
 
   useEffect(() => {
-    getUnavailableDays(data.clinicId);
+    getUnavailableDays(slug);
   }, []);
 
   useEffect(() => {

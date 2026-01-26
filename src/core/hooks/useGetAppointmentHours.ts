@@ -3,13 +3,13 @@ import { getAppointmentAvailableHours } from "../services/horarios"
 
 interface GetAppointmentHoursParams {
   date: string;
-  clinicId?: string;
+  clinicSlug?: string;
 }
 
 const useGetAppointmentHours = () => {
   const { mutate, isPending, data } = useMutation({
     mutationKey: ['get-appointment-hours'],
-    mutationFn: ({ date, clinicId }: GetAppointmentHoursParams) => getAppointmentAvailableHours(date, clinicId),
+    mutationFn: ({ date, clinicSlug }: GetAppointmentHoursParams) => getAppointmentAvailableHours(date, clinicSlug),
   })
  
   return {
