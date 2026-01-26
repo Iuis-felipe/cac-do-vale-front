@@ -3,13 +3,13 @@ import { getAvailableHours } from "../service";
 
 interface GetAvailableHoursParams {
   date: string;
-  clinicId?: string;
+  clinicSlug?: string;
 }
 
 const useGetAvailableHours = () => {
   const { mutate, isPending, data, isError } = useMutation({
     mutationKey: ['get-available-hours'],
-    mutationFn: ({ date, clinicId }: GetAvailableHoursParams) => getAvailableHours(date, clinicId),
+    mutationFn: ({ date, clinicSlug }: GetAvailableHoursParams) => getAvailableHours(date, clinicSlug), 
   })
 
   return {

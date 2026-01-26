@@ -1,6 +1,6 @@
 import { Building2Icon, MapPinIcon, PhoneIcon, Loader } from "lucide-react";
-import useGetAllClinics from "@/modules/clinica/hook/useGetAllClinics";
 import { IClinic } from "@/modules/clinica/model";
+import useGetAllClinic from "@/modules/cliente/hook/useGetAllClinic";
 
 interface ClinicSelectionFrameProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,12 +11,7 @@ interface ClinicSelectionFrameProps {
 }
 
 const ClinicSelectionFrame = ({ data, setData, setCurrentPage }: ClinicSelectionFrameProps) => {
-  const { data: clinics, isPending, isError, error } = useGetAllClinics();
-
-  console.log('Clínicas carregadas:', clinics);
-  console.log('isPending:', isPending);
-  console.log('isError:', isError);
-  console.log('error:', error);
+  const { data: clinics, isPending, isError, error } = useGetAllClinic();
 
   const handleClinicSelect = (clinic: IClinic) => {
     setData({ ...data, clinicId: clinic.id, clinicName: clinic.nome });

@@ -1,5 +1,5 @@
 export interface IScheduleBody  {
-  clinicId?: string;
+  clinicSlug: string;
   dia: Date;
   horario: string;
   email: string;
