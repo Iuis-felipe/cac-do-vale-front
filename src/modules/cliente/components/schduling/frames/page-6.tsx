@@ -22,7 +22,10 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
       setValidationError("Houve um erro ao carregar os dados. Tente novamente.");
       return false;
     }
-    const requiredFields = ['clinicId', 'dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'categoria', 'forma_pagamento'];
+
+    console.log('1', data);
+
+    const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'categoria', 'forma_pagamento'];
     const hasError = []
 
     for (const field of requiredFields) {

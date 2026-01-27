@@ -4,7 +4,7 @@ export const getAppointmentAvailableHours = async (date: string, clinicId?: stri
   try {
     let url = `/availability/day/${date}`;
     if (clinicId) {
-      url += `?clinicId=${clinicId}`;
+      url += `?clinicSlug=${clinicId}`;
     }
     const { data } = await api.get(url);
 
@@ -18,7 +18,7 @@ export const getAllUnavailableDays = async (clinicId?: string) => {
   try {
     let url = `/availability/unavailable`;
     if (clinicId) {
-      url += `?clinicId=${clinicId}`;
+      url += `?clinicSlug=${clinicId}`;
     }
     const { data } = await api.get(url);
 
