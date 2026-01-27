@@ -3,7 +3,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 
 import Pagination from "../components/schduling/pagination";
-import ClinicSelectionFrame from "../components/schduling/frames/page-0";
 import WelcomeFrame from "../components/schduling/frames/page-1";
 import DaySelectionFrame from "../components/schduling/frames/page-2";
 import HourSelectionFrame from "../components/schduling/frames/page-3";
@@ -13,8 +12,6 @@ import FinishFrame from "../components/schduling/frames/page-6";
 import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
 
 const initialFormData = {
-  clinicId: "",
-  clinicName: "",
   dia: new Date(),
   horario: "",
   email: "",
@@ -40,27 +37,24 @@ const Scheduling = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
 
-  const totalPages = 7;
+  const totalPages = 6;
 
   const pageTitles: { [key: number]: string } = {
     1: "Bem-vindo ao Agendamento",
-    2: "Selecione a Clínica",
-    3: "Escolha o Melhor Dia",
-    4: "Escolha o Melhor Horário",
-    5: "Seus Dados Pessoais",
-    6: "Seu Endereço",
-    7: "Revisão e Finalização",
+    2: "Escolha o Melhor Dia",
+    3: "Escolha o Melhor Horário",
+    4: "Seus Dados Pessoais",
+    5: "Seu Endereço",
+    6: "Revisão e Finalização",
   };
 
   const isNextStepDisabled = () => {
     switch (currentPage) {
       case 2:
-        return !formData.clinicId;
-      case 3:
         return !formData.dia;
-      case 4:
+      case 3:
         return !formData.horario;
-      case 5: {
+      case 4: {
         const hasRequiredFields =
           formData.nome_civil &&
           formData.cpf &&
@@ -73,7 +67,7 @@ const Scheduling = () => {
         const isEmailValid = !formData.email || isValidEmail(formData.email);
         return !hasRequiredFields || !isCpfValid || !isPhoneValid || !isEmailValid;
       }
-      case 6:
+      case 5:
         return !(
           formData.cep &&
           formData.logradouro &&
@@ -145,19 +139,20 @@ const Scheduling = () => {
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
           {currentPage === 1 && <WelcomeFrame setCurrentPage={setCurrentPage} />}
           {currentPage === 2 && (
-            <ClinicSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
-          )}
-          {currentPage === 3 && (
             <DaySelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
-          {currentPage === 4 && (
+          {currentPage === 3 && (
             <HourSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
-          {currentPage === 5 && (
+          {currentPage === 4 && (
             <PersonalDataFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
-          {currentPage === 6 && <AddressFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />}
-          {currentPage === 7 && <FinishFrame data={formData} onSuccess={setConfirmedAppointmentData} />}
+          {currentPage === 5 && (
+            <AddressFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === 6 && (
+            <FinishFrame data={formData} onSuccess={setConfirmedAppointmentData} />
+          )}
         </main>
 
         {currentPage > 1 && currentPage < totalPages && (

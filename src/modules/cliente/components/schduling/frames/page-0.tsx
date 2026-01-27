@@ -1,6 +1,5 @@
 import { Building2Icon, MapPinIcon, PhoneIcon, Loader } from "lucide-react";
 import { IClinic } from "@/modules/clinica/model";
-import useGetAllClinic from "@/modules/cliente/hook/useGetAllClinic";
 
 interface ClinicSelectionFrameProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,41 +10,21 @@ interface ClinicSelectionFrameProps {
 }
 
 const ClinicSelectionFrame = ({ data, setData, setCurrentPage }: ClinicSelectionFrameProps) => {
-  const { data: clinics, isPending, isError, error } = useGetAllClinic();
 
   const handleClinicSelect = (clinic: IClinic) => {
     setData({ ...data, clinicId: clinic.id, clinicName: clinic.nome });
     setCurrentPage(3);
   };
 
-  if (isPending) {
-    return (
-      <div className="w-full h-full flex flex-col justify-center items-center p-4">
-        <Loader className="size-8 animate-spin text-blue-800" />
-        <p className="mt-4 text-gray-600">Carregando clínicas...</p>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="w-full h-full flex flex-col justify-center items-center p-4 text-center">
-        <Building2Icon className="size-12 text-red-400 mb-4" />
-        <p className="text-red-600 font-semibold">Erro ao carregar clínicas</p>
-        <p className="text-sm text-gray-600 mt-2">{error?.toString()}</p>
-      </div>
-    );
-  }
-
-  if (!clinics || clinics.length === 0) {
-    return (
-      <div className="w-full h-full flex flex-col justify-center items-center p-4 text-center">
-        <Building2Icon className="size-12 text-gray-400 mb-4" />
-        <p className="text-gray-600">Nenhuma clínica disponível no momento.</p>
-        <p className="text-xs text-gray-500 mt-2">Dados recebidos: {JSON.stringify(clinics)}</p>
-      </div>
-    );
-  }
+  // if (!clinics || clinics.length === 0) {
+  //   return (
+  //     <div className="w-full h-full flex flex-col justify-center items-center p-4 text-center">
+  //       <Building2Icon className="size-12 text-gray-400 mb-4" />
+  //       <p className="text-gray-600">Nenhuma clínica disponível no momento.</p>
+  //       <p className="text-xs text-gray-500 mt-2">Dados recebidos: {JSON.stringify(clinics)}</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center p-4">
@@ -56,7 +35,7 @@ const ClinicSelectionFrame = ({ data, setData, setCurrentPage }: ClinicSelection
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-          {clinics.map((clinic: IClinic) => (
+          {/* {clinics.map((clinic: IClinic) => (
             <button
               key={clinic.id}
               onClick={() => handleClinicSelect(clinic)}
@@ -113,7 +92,7 @@ const ClinicSelectionFrame = ({ data, setData, setCurrentPage }: ClinicSelection
                 </div>
               )}
             </button>
-          ))}
+          ))} */}
         </div>
 
         {data.clinicId && (
