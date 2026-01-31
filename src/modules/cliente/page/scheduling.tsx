@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isSaturday, isSunday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
+import { useParams } from "react-router-dom";
 
 import Pagination from "../components/schduling/pagination";
 import WelcomeFrame from "../components/schduling/frames/page-1";
@@ -34,9 +35,44 @@ const initialFormData = {
 };
 
 const Scheduling = () => {
+  const { slug } = useParams();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const colorBySlug: Record<string, string> = {
+      "cac-do-vale": "#101F59",
+      "cac-blumed": "#005221",
+    };
+
+    const clinicColor = colorBySlug[slug];
+    if (!clinicColor) return;
+
+    const root = document.documentElement;
+
+    const getReadableTextColor = (hexColor: string) => {
+      const normalized = hexColor.replace("#", "");
+      const isShort = normalized.length === 3;
+      const r = parseInt(isShort ? normalized[0] + normalized[0] : normalized.slice(0, 2), 16);
+      const g = parseInt(isShort ? normalized[1] + normalized[1] : normalized.slice(2, 4), 16);
+      const b = parseInt(isShort ? normalized[2] + normalized[2] : normalized.slice(4, 6), 16);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      return luminance > 0.6 ? "#111827" : "#ffffff";
+    };
+
+    const foregroundColor = getReadableTextColor(clinicColor);
+
+    root.style.setProperty("--clinic-color", clinicColor);
+    root.style.setProperty("--primary", clinicColor);
+    root.style.setProperty("--ring", clinicColor);
+    root.style.setProperty("--sidebar-primary", clinicColor);
+    root.style.setProperty("--primary-foreground", foregroundColor);
+    root.style.setProperty("--sidebar-primary-foreground", foregroundColor);
+  }, [slug]);
 
   const totalPages = 6;
 
