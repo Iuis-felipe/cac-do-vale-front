@@ -65,8 +65,9 @@ const AgendamentoForm = () => {
     setSelectedDay(date);
 
     if (date) {
-      getAvailableHours(format(date, "yyyy-MM-dd"));
-      getAppointmentHours(format(date, "yyyy-MM-dd"));
+      const formattedDate = format(date, "yyyy-MM-dd");
+      getAvailableHours(formattedDate);
+      getAppointmentHours({ date: formattedDate });
     }
   }
 

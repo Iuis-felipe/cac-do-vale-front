@@ -82,8 +82,9 @@ const AgendamentoUpdate = () => {
       setSelectedTime(`${timeSplited[0]}:${timeSplited[1]}`);
       setFormData(schedule);
 
-      getAvailableHours(format(schedule.dia, "yyyy-MM-dd"));
-      getAppointmentHours(format(schedule.dia, "yyyy-MM-dd"));
+      const formattedDate = format(schedule.dia, "yyyy-MM-dd");
+      getAvailableHours(formattedDate);
+      getAppointmentHours({ date: formattedDate });
     }
   }, [schedule]);
 
@@ -91,8 +92,9 @@ const AgendamentoUpdate = () => {
     setSelectedDay(date);
 
     if (date) {
-      getAvailableHours(format(date, "yyyy-MM-dd"));
-      getAppointmentHours(format(date, "yyyy-MM-dd"));
+      const formattedDate = format(date, "yyyy-MM-dd");
+      getAvailableHours(formattedDate);
+      getAppointmentHours({ date: formattedDate });
 
       setUpdatedFields({
         ...updatedFields,
