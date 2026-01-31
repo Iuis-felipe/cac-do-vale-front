@@ -12,7 +12,13 @@ interface DefaultHoursResponse {
 const useGetDefaultHours = () => {
   const { mutate, isPending, data } = useMutation({
     mutationKey: ['get-default-hours'],
-    mutationFn: (): Promise<DefaultHoursResponse> => api.get('/availability/default').then(res => res.data),
+    mutationFn: (clinicSlug?: string): Promise<DefaultHoursResponse> => {
+      let url = '/availability/default';
+      if (clinicSlug) {
+        url += `?clinicSlug=${clinicSlug}`;
+      }
+      return api.get(url).then(res => res.data);
+    },
   })
  
   return {

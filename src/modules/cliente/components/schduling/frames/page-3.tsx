@@ -6,6 +6,7 @@ import { ptBR } from "date-fns/locale";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import { XCircle } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 interface HourSelectionFrameProps {
   data: any;
@@ -14,17 +15,21 @@ interface HourSelectionFrameProps {
 }
 
 const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFrameProps) => {
+  const { slug } = useParams();
+
   const { mutate, isPending, data: availableHours } = useGetAvailableHours();
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
   const { mutate: getDefaultHours, isPending: loadingDefaultHours, data: defaultHours } = useGetDefaultHours()
 
   useEffect(() => {
     if (data.dia) {
-      mutate(format(data.dia, "yyyy-MM-dd"));
-      getAppointmentHours(format(data.dia, "yyyy-MM-dd"));
-      getDefaultHours();
+      mutate({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: slug });
+      getAppointmentHours({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: slug });
+      getDefaultHours(slug);
     }
   }, [data.dia]);
+
+  console.log("1", data)
 
   if (!data.dia) {
     return (

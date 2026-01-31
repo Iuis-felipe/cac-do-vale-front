@@ -1,10 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
 import { getAppointmentAvailableHours } from "../services/horarios"
 
+interface GetAppointmentHoursParams {
+  date: string;
+  clinicSlug?: string;
+}
+
 const useGetAppointmentHours = () => {
   const { mutate, isPending, data } = useMutation({
     mutationKey: ['get-appointment-hours'],
-    mutationFn: (date: string) => getAppointmentAvailableHours(date),
+    mutationFn: ({ date, clinicSlug }: GetAppointmentHoursParams) => getAppointmentAvailableHours(date, clinicSlug),
   })
  
   return {
