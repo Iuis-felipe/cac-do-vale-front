@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isSaturday, isSunday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 
@@ -12,7 +13,7 @@ import FinishFrame from "../components/schduling/frames/page-6";
 import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
 
 const initialFormData = {
-  dia: new Date(),
+  dia: undefined,
   horario: "",
   email: "",
   telefone: "",
@@ -51,7 +52,7 @@ const Scheduling = () => {
   const isNextStepDisabled = () => {
     switch (currentPage) {
       case 2:
-        return !formData.dia;
+        return !formData.dia || isSaturday(formData.dia) || isSunday(formData.dia);
       case 3:
         return !formData.horario;
       case 4: {
