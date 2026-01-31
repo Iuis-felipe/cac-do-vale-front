@@ -1,13 +1,11 @@
 import { ScheduleItem } from "../model";
 import { useMemo } from "react";
-import { CalendarIcon, ClockIcon, Activity, Hourglass } from "lucide-react";
+import { CalendarIcon, Activity } from "lucide-react";
 
 const useKpis = (schedules: { today?: ScheduleItem[]; pending?: ScheduleItem[] } | undefined) => {
   return useMemo(() => {
     const totalToday = schedules?.today?.length || 0;
     const totalPending = schedules?.pending?.length || 0;
-    const nextAppointment = schedules?.today?.[0];
-
     return [
       {
         label: "Hoje",

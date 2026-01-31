@@ -1,5 +1,3 @@
-import { Building2Icon, MapPinIcon, PhoneIcon, Loader } from "lucide-react";
-import { IClinic } from "@/modules/clinica/model";
 
 interface ClinicSelectionFrameProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -9,12 +7,7 @@ interface ClinicSelectionFrameProps {
   setCurrentPage: (page: number) => void;
 }
 
-const ClinicSelectionFrame = ({ data, setData, setCurrentPage }: ClinicSelectionFrameProps) => {
-
-  const handleClinicSelect = (clinic: IClinic) => {
-    setData({ ...data, clinicId: clinic.id, clinicName: clinic.nome });
-    setCurrentPage(3);
-  };
+const ClinicSelectionFrame = ({ data }: ClinicSelectionFrameProps) => {
 
   // if (!clinics || clinics.length === 0) {
   //   return (
