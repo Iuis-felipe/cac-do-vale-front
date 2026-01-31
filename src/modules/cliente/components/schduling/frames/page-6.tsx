@@ -23,8 +23,6 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
       return false;
     }
 
-    console.log('1', data);
-
     const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'categoria', 'forma_pagamento'];
     const hasError = []
 
@@ -53,6 +51,7 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
     if (!handleValidation()) {
       return;
     }
+
     const newSchedule = { ...data };
     const [hours, minutes] = data.horario.split(':').map(Number);
     newSchedule.dia = set(new Date(data.dia), { hours, minutes });

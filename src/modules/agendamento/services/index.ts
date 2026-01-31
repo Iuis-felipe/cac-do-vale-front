@@ -60,25 +60,10 @@ export const getScheduleByDate = async (date: string) => {
 
 export const createSchedule = async (body: IScheduleBody) => {
   try {
-    const clinic = clinicStore.getState().clinic;
-
-    // Se clinicId não vier no body, pega da store (para usuários logados)
-    const clinicId = body.clinicId || clinic?.id;
-
-    if(!clinicId) {
-      throw new Error('Clinica não encontrada');
-    }
-
-    const scheduleBody: any = {
-      ...body,
-      clinicId
-    };
-
-    const { data } = await api.post(`/schedule`, scheduleBody)
+    const { data } = await api.post(`/schedule`, body)
 
     return data;
   } catch(e: any) {
-
     throw new Error(e.response.data.error || e)
   }
 }
@@ -93,7 +78,7 @@ export const updateSchedule = async (id: string, body: IScheduleBodyUpdate) => {
 
     const scheduleBody: any = {
       ...body,
-      clinicId: clinic.id
+      clinicSlug: clinic.slug
     };
 
     const { data } = await api.put(`/schedule/${id}`, scheduleBody)
