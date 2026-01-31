@@ -3,6 +3,7 @@ import { isSaturday, isSunday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 import { useParams } from "react-router-dom";
+import clinicStore from "@/core/store/clinic";
 
 import Pagination from "../components/schduling/pagination";
 import WelcomeFrame from "../components/schduling/frames/page-1";
@@ -43,6 +44,9 @@ const Scheduling = () => {
 
   useEffect(() => {
     if (!slug) return;
+
+    clinicStore.getState().logout();
+    localStorage.removeItem("clinic");
 
     const colorBySlug: Record<string, string> = {
       "cac-do-vale": "#101F59",
