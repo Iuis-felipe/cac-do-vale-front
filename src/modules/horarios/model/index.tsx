@@ -25,3 +25,13 @@ export interface ICreateHorarios {
   isHoliday: boolean;
   isRecess: boolean;
 }
+
+export interface IUpdateHorarios {
+  dia?: string;
+  horarioStart?: string;
+  horarioEnd?: string;
+  intervalo?: string;
+  intervaloThreshold?: string;
+  isHoliday?: boolean;
+  isRecess?: boolean;
+}
