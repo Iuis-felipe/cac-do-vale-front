@@ -31,6 +31,7 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
 
   const handleDaySelect = (date: Date | undefined) => {
     if (!date) return;
+    if (isDateDisabled(date)) return;
     setSelectedDay(date);
     setData({ ...data, dia: date });
   };
@@ -79,8 +80,8 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
 
         <button
           className="w-full max-w-xs mt-4 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors cursor-pointer disabled:opacity-50"
-          onClick={() => setCurrentPage(4)}
-          disabled={!selectedDay}
+          onClick={() => setCurrentPage(3)}
+          disabled={!selectedDay || isDateDisabled(selectedDay)}
         >
           Selecionar horário
         </button>
