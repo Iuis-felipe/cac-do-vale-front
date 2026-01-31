@@ -4,6 +4,7 @@ import { set } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useParams } from "react-router-dom";
 
 interface FinishFrameProps {
   data: any;
@@ -11,6 +12,7 @@ interface FinishFrameProps {
 }
 
 const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
+  const { slug } = useParams();
   const { mutate, isPending, isSuccess, isError: isMutationError, error } = useCreateClientSchedule();
 
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -20,6 +22,9 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
       setValidationError("Houve um erro ao carregar os dados. Tente novamente.");
       return false;
     }
+
+    console.log('1', data);
+
     const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'categoria', 'forma_pagamento'];
     const hasError = []
 
@@ -51,6 +56,7 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
     const newSchedule = { ...data };
     const [hours, minutes] = data.horario.split(':').map(Number);
     newSchedule.dia = set(new Date(data.dia), { hours, minutes });
+    newSchedule.clinicSlug = slug;
     
     mutate(newSchedule);
   };

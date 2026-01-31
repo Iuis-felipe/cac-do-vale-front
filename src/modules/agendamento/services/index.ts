@@ -1,9 +1,16 @@
+import clinicStore from "@/core/store/clinic";
 import api from "../../../core/api"
 import { IScheduleBody, IScheduleBodyUpdate } from "../model";
 
 export const getSchedules = async (page: number, perPage: number,  search?: string, order?: string) => {
   try {
-    let urlQuery = `pagina=${page}&perPage=${perPage}`;
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    let urlQuery = `pagina=${page}&perPage=${perPage}&clinicId=${clinic.id}`;
 
     if(search) {
       urlQuery = urlQuery + `&search=${search}`;
@@ -53,7 +60,21 @@ export const getScheduleByDate = async (date: string) => {
 
 export const createSchedule = async (body: IScheduleBody) => {
   try {
-    const { data } = await api.post(`/schedule`, body)
+    const clinic = clinicStore.getState().clinic;
+
+    // Se clinicId não vier no body, pega da store (para usuários logados)
+    const clinicId = body.clinicId || clinic?.id;
+
+    if(!clinicId) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const scheduleBody: any = {
+      ...body,
+      clinicId
+    };
+
+    const { data } = await api.post(`/schedule`, scheduleBody)
 
     return data;
   } catch(e: any) {
@@ -64,7 +85,18 @@ export const createSchedule = async (body: IScheduleBody) => {
 
 export const updateSchedule = async (id: string, body: IScheduleBodyUpdate) => {
   try {
-    const { data } = await api.put(`/schedule/${id}`, body)
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const scheduleBody: any = {
+      ...body,
+      clinicId: clinic.id
+    };
+
+    const { data } = await api.put(`/schedule/${id}`, scheduleBody)
 
     return data;
   } catch(e: any) {
