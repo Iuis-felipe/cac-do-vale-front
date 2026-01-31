@@ -43,6 +43,9 @@
 
 :root {
   --radius: 0.625rem;
+  --clinic-color: var(--primary);
+  --clinic-color-hover: color-mix(in srgb, var(--clinic-color) 85%, transparent);
+  --clinic-color-soft: color-mix(in srgb, var(--clinic-color) 12%, transparent);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -74,6 +77,59 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Map legacy blue utility classes to the clinic color */
+.bg-blue-600,
+.bg-blue-700,
+.bg-blue-800,
+.bg-blue-900 {
+  background-color: var(--clinic-color) !important;
+}
+
+.hover\:bg-blue-600:hover,
+.hover\:bg-blue-700:hover,
+.hover\:bg-blue-800:hover,
+.hover\:bg-blue-900:hover {
+  background-color: var(--clinic-color-hover) !important;
+}
+
+.text-blue-600,
+.text-blue-700,
+.text-blue-800,
+.text-blue-900 {
+  color: var(--clinic-color) !important;
+}
+
+.border-blue-600,
+.border-blue-700,
+.border-blue-800,
+.border-blue-900 {
+  border-color: var(--clinic-color) !important;
+}
+
+.hover\:border-blue-600:hover,
+.hover\:border-blue-700:hover,
+.hover\:border-blue-800:hover,
+.hover\:border-blue-900:hover {
+  border-color: var(--clinic-color-hover) !important;
+}
+
+.focus\:ring-blue-600:focus,
+.focus\:ring-blue-700:focus,
+.focus\:ring-blue-800:focus,
+.focus\:ring-blue-900:focus,
+.ring-blue-600,
+.ring-blue-700,
+.ring-blue-800,
+.ring-blue-900 {
+  --tw-ring-color: var(--clinic-color) !important;
+}
+
+.bg-blue-50,
+.bg-blue-100,
+.bg-blue-200 {
+  background-color: var(--clinic-color-soft) !important;
 }
 
 .dark {
