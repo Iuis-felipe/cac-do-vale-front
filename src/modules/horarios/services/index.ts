@@ -1,5 +1,6 @@
 import api from "@/core/api";
 import { ICreateBulkHorarios, ICreateHorarios, IUpdateHorarios } from "../model";
+import clinicStore from "@/core/store/clinic";
 
 export const getHorarios = async (page: number, perPage: number, search?: string) => {
   try {
