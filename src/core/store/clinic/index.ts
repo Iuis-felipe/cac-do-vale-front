@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 interface ClinicModel {
   id: string;
   name: string;
+  slug: string;
   cor: string;
 }
 
