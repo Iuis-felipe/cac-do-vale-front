@@ -32,9 +32,6 @@ const Dashboard = () => {
       <header className="mt-10 flex items-center justify-between">
         <h2 className="text-[20px] font-semibold flex items-center gap-2">
           Agendamentos
-          {schedules?.today?.length ? (
-            <span className="text-xs text-gray-500 font-normal">({schedules.today.length} hoje)</span>
-          ) : null}
         </h2>
         <ViewToggleButton view={view} setView={setView} />
       </header>
