@@ -13,6 +13,7 @@ import PersonalDataFrame from "../components/schduling/frames/page-4";
 import AddressFrame from "../components/schduling/frames/page-5";
 import FinishFrame from "../components/schduling/frames/page-6";
 import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
+import useGetClinicBySlug from "@/core/hooks/useGetClinicBySlug";
 
 const initialFormData = {
   dia: undefined,
@@ -42,8 +43,12 @@ const Scheduling = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
 
+  const { mutate: getClinicBySlug } = useGetClinicBySlug();
+
   useEffect(() => {
     if (!slug) return;
+
+    getClinicBySlug(slug);
 
     clinicStore.getState().logout();
     localStorage.removeItem("clinic");
