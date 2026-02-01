@@ -30,6 +30,7 @@ const useUserLogin = () => {
           id: data.clinic.id,
           name: data.clinic.nome,
           cor: data.clinic.cor,
+          slug: data.clinic.slug
         });
       }
     },

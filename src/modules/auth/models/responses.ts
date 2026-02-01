@@ -6,6 +6,7 @@ export interface ILoginUser {
 }
 
 export interface ILoginClinic {
+  slug: string;
   id: string;
   nome: string;
   cor: string;
