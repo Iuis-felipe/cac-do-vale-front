@@ -24,7 +24,6 @@ export const getAllUnavailableDays = async (clinicSlug?: string) => {
     }
 
     const { data } = await api.get(url);
-    console.log('1', data)
 
     return data;
   } catch(e: any) {
