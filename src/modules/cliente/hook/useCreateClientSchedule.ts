@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { createSchedule } from "@/modules/agendamento/services";
+import { createSchedule } from "@/modules/cliente/service";
 import { IScheduleBody } from "@/modules/agendamento/model";
 
 const useCreateClientSchedule = () => {
