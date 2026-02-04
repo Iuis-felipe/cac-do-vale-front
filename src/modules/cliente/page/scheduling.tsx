@@ -34,6 +34,8 @@ const initialFormData = {
   origem: "Site",
   categoria: "",
   forma_pagamento: "Pix",
+  clinicSlug: "",
+  clinicId: "",
 };
 
 const Scheduling = () => {

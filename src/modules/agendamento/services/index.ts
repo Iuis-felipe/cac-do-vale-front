@@ -60,6 +60,11 @@ export const getScheduleByDate = async (date: string) => {
 
 export const createSchedule = async (body: IScheduleBody) => {
   try {
+    const clinic = clinicStore.getState().clinic;
+
+    body.clinicSlug = clinic?.slug;
+    body.clinicId = clinic?.id;
+
     const { data } = await api.post(`/schedule`, body)
 
     return data;
