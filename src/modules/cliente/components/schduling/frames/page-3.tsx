@@ -29,8 +29,6 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
     }
   }, [data.dia]);
 
-  console.log("1", data)
-
   if (!data.dia) {
     return (
       <div className="w-full h-full flex flex-col gap-6 justify-center items-center text-center p-4">

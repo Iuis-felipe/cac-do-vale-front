@@ -42,8 +42,6 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
       return
     }
 
-    console.log(form)
-
     createUser({
       nome: form.nome,
       email: form.email,
@@ -61,8 +59,6 @@ const UserFormModal: React.FC<IActionModalProps> = ({ user, isOpen, handleCloseM
       clinicId: form.clinicId,
       role: form.role
     }
-
-    console.log(payload)
 
     if (form.senha) {
       payload.senha = form.senha
