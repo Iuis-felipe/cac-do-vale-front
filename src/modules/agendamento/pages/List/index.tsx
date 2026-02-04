@@ -7,18 +7,17 @@ import Filter from "../../components/filter";
 import Table from "../../components/list/table";
 import ActionModal from "../../components/modal";
 import { useNavigate } from "react-router-dom";
-import userStore from "@/core/store/user";
+import { ISchedule } from "@/core/models";
 
 const AgendamentoList = () => {
   const navigate = useNavigate()
-  const user = userStore(state => state.user)
   const { mutate, isPending, data } = useGetSchedule()
 
   const [order, setOrder] = useState<string | undefined>();
   const [search, setSearch] = useState<string | undefined>();
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [schedules, setSchedules] = useState<any[]>([])
+  const [schedules, setSchedules] = useState<ISchedule[]>([])
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [actionId, setActionId] = useState<string | undefined>();
 
