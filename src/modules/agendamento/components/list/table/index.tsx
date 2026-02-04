@@ -3,9 +3,10 @@ import CellItem from "../cell";
 import Pagination from "../../pagination";
 import TableRow from "../row";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { ISchedule } from "@/core/models";
 
 interface ITableProps {
-  schedules: any[];
+  schedules: ISchedule[];
   loading?: boolean;
   totalPages: number;
   page: number;
