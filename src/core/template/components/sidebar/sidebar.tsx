@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import {
-  ArrowRightEndOnRectangleIcon,
   BuildingOfficeIcon,
+  ArrowRightEndOnRectangleIcon,
   CalendarIcon,
   ChartBarIcon,
   ClockIcon,
@@ -50,7 +50,6 @@ export const Sidebar = () => {
   const location = useLocation();
   const { user } = userStore();
   const [isHovered, setIsHovered] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleLabel = () => {
     if (!user || !user.name) return "-";
@@ -127,7 +126,7 @@ export const Sidebar = () => {
     [],
   );
 
-  const isOpen = isHovered || isExpanded;
+  const isOpen = isHovered;
   const roleLabel = user?.role ?? "-";
 
   const handleItemClick = (event: MouseEvent) => {
@@ -147,10 +146,9 @@ export const Sidebar = () => {
 
   return (
     <aside
-      className={`sidebar ${isExpanded ? "expanded" : ""}`}
+      className={`sidebar ${isOpen ? "is-open" : ""}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => setIsExpanded((prev) => !prev)}
       role="navigation"
       aria-label="Navegacao principal"
       aria-expanded={isOpen}
@@ -158,10 +156,18 @@ export const Sidebar = () => {
       <div className="sidebarWrapper">
         <div className="sidebar-logo">
           <img
-            src={isOpen ? "src/assets/nova-full-logo.svg" : "src/assets/nova-small-logo.svg"}
+            src="src/assets/nova-small-logo.svg"
             alt="Nova Developments logo"
-            width={isOpen ? 120 : 32}
+            width={32}
             height={32}
+            className="logo-small"
+          />
+          <img
+            src="src/assets/nova-full-logo.svg"
+            alt="Nova Developments logo"
+            width={120}
+            height={32}
+            className="logo-full"
           />
         </div>
 
