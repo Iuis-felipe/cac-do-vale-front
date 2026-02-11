@@ -4,14 +4,17 @@ import './core/styles/index.css'
 import App from './App.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
+import { AppThemeProvider } from './core/components/AppThemeProvider';
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Toaster />
-      <App />
+      <AppThemeProvider>
+        <Toaster />
+        <App />
+      </AppThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
 )
