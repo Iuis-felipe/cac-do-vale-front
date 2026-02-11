@@ -1,0 +1,1 @@
+export { ExamTypes } from './ExamTypes';

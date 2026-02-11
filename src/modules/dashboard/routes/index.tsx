@@ -1,6 +1,6 @@
 import Dashboard from "../pages";
 
-export const DashboardRoutes = [
+export const dashboardRoutes = [
   {
     path: "",
     element: <Dashboard />

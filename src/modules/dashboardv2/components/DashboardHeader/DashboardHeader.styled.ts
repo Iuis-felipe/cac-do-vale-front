@@ -1,0 +1,22 @@
+import { styled } from '@mui/material/styles';
+import { Box, Typography } from '@mui/material';
+
+export const DashboardHeaderRoot = styled(Box)({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  marginBottom: 24,
+});
+
+export const HeaderInfo = styled(Box)({});
+
+export const HeaderTitle = styled(Typography)(({ theme }) => ({
+  fontSize: 24,
+  fontWeight: 600,
+  color: theme.palette.grey[500],
+}));
+
+export const HeaderSubtitle = styled(Typography)(({ theme }) => ({
+  fontSize: 14,
+  color: theme.palette.grey[200],
+}));

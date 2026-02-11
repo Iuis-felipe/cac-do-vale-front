@@ -1,10 +1,8 @@
 import Horarios from "../page";
 
-const horariosRoutes = [
+export const schedulesRoutes = [
   {
     path: "",
     element: <Horarios />
   }
 ];
-
-export default horariosRoutes;

@@ -1,14 +1,15 @@
-import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
-import { AuthRoutes } from "../../modules/auth/routes";
-import { DashboardRoutes } from "../../modules/dashboard/routes";
-import Template from "../template";
-import { ScheduleRoutes } from "../../modules/agendamento/routes";
-import { userRoutes } from "../../modules/user/routes";
-import clientRoutes from "@/modules/cliente/routes";
-import useLoggedBase from "../hooks";
-import horariosRoutes from "@/modules/horarios/routes";
+import { scheduleRoutes } from "@/modules/agendamento/routes";
 import { analyticsRoutes } from "@/modules/analytics/routes";
+import { authRoutes } from "@/modules/auth/routes";
+import { clientRoutes } from "@/modules/cliente/routes";
 import { clinicRoutes } from "@/modules/clinica/routes";
+import { dashboardRoutes } from "@/modules/dashboard/routes";
+import { dashboardsV2Routes } from "@/modules/dashboardv2/routes";
+import { schedulesRoutes } from "@/modules/horarios/routes";
+import { userRoutes } from "@/modules/user/routes";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import useLoggedBase from "../hooks";
+import Template from "../template";
 
 const LoggedBase = ({ children }: { children: React.ReactNode }) => {
   const isLogged = useLoggedBase();
@@ -24,7 +25,7 @@ const Router = createBrowserRouter([
   {
     path: "/auth",
     element: <LoggedBase><Outlet /></LoggedBase>,
-    children: [...AuthRoutes],
+    children: [...authRoutes],
   },
   {
     path: "/",
@@ -35,12 +36,17 @@ const Router = createBrowserRouter([
         </Template>
       </LoggedBase>
     ),
-    children: [...DashboardRoutes]
+    children: [...dashboardsV2Routes]
+  },
+  {
+    path: "dashboard",
+    element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
+    children: [...dashboardRoutes]
   },
   {
     path: "agendamento",
     element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
-    children: [...ScheduleRoutes]
+    children: [...scheduleRoutes]
   },
   {
     path: "usuario",
@@ -55,7 +61,7 @@ const Router = createBrowserRouter([
   {
     path: "horarios",
     element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
-    children: [...horariosRoutes]
+    children: [...schedulesRoutes]
   },
   {
     path: "analytics",
