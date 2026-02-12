@@ -13,10 +13,10 @@ export const HeaderInfo = styled(Box)({});
 export const HeaderTitle = styled(Typography)(({ theme }) => ({
   fontSize: 24,
   fontWeight: 600,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
 }));
 
 export const HeaderSubtitle = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
 }));

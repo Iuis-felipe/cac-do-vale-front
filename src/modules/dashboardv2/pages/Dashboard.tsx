@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress, Divider, Typography } from '@mui/material';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { StatCard } from '../components/StatCard';
 import { OverviewChart } from '../components/OverviewChart';
@@ -7,9 +7,9 @@ import { ExamTypes } from '../components/ExamTypes';
 import { Team } from '../components/Team';
 import {
   DashboardContainer,
-  StatsGrid,
-  ContentGrid,
-  BottomGrid,
+  StatsRow,
+  ContentRow,
+  BottomRow,
   LoadingContainer,
 } from './Dashboard.styled';
 
@@ -80,8 +80,10 @@ const DashboardPage = () => {
         loading={isLoading}
       />
 
+      <Divider />
+
       {/* Stats Cards */}
-      <StatsGrid>
+      <StatsRow>
         <StatCard
           title="Total de Agendamentos"
           subtitle="Todos os registros"
@@ -101,15 +103,15 @@ const DashboardPage = () => {
           badge={mockStats.mediaPorMesTrend}
           trend="up"
         />
-      </StatsGrid>
+      </StatsRow>
 
       {/* Overview Chart */}
-      <ContentGrid>
+      <ContentRow>
         <OverviewChart data={mockWeeklyData} month="Fevereiro" year="2025" />
-      </ContentGrid>
+      </ContentRow>
 
-      {/* Bottom Grid: Exam Types + Team */}
-      <BottomGrid>
+      {/* Bottom Row: Exam Types + Team */}
+      <BottomRow>
         <ExamTypes data={mockExamesData} />
         <Team
           members={mockTeamMembers}
@@ -117,7 +119,7 @@ const DashboardPage = () => {
           onAddMember={() => console.log('Adicionar membro')}
           onEmailMember={(member) => console.log('Email:', member.email)}
         />
-      </BottomGrid>
+      </BottomRow>
     </DashboardContainer>
   );
 };

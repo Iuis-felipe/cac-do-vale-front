@@ -4,7 +4,7 @@ import { Card, Box, Typography, Avatar, Button, IconButton } from '@mui/material
 export const TeamRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.grey[100]}`,
+  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   background: theme.palette.background.paper,
 }));
@@ -19,12 +19,12 @@ export const TeamHeader = styled(Box)({
 export const TeamTitle = styled(Typography)(({ theme }) => ({
   fontSize: 16,
   fontWeight: 600,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
 }));
 
 export const ViewAllLink = styled(Typography)(({ theme }) => ({
   fontSize: 13,
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
   cursor: 'pointer',
   '&:hover': {
     color: theme.palette.secondary.main,
@@ -57,16 +57,16 @@ export const MemberAvatar = styled(Avatar)(() => ({
 export const MemberName = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   fontWeight: 500,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
 }));
 
 export const MemberEmail = styled(Typography)(({ theme }) => ({
   fontSize: 12,
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
 }));
 
 export const MemberAction = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
   padding: 8,
   '&:hover': {
     color: theme.palette.secondary.main,
@@ -82,12 +82,12 @@ export const AddButton = styled(Button)(({ theme }) => ({
   backgroundImage: `linear-gradient(white, white), ${theme.palette.gradient.secondary}`,
   backgroundOrigin: 'border-box',
   backgroundClip: 'padding-box, border-box',
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
   textTransform: 'none',
   fontWeight: 500,
   fontSize: 14,
   padding: '10px 16px',
   '&:hover': {
-    color: theme.palette.green.normalHover,
+    color: theme.palette.custom.green.normalHover,
   },
 }));
