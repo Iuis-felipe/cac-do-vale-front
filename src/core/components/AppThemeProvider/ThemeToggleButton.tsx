@@ -11,7 +11,7 @@ export const ThemeToggleButton = () => {
 
   return (
     <Tooltip title={`Alternar para modo ${mode === 'light' ? 'escuro' : 'claro'}`}>
-      <IconButton onClick={toggleMode} color="inherit" aria-label="toggle theme">
+      <IconButton disableRipple onClick={toggleMode} color="inherit" aria-label="toggle theme">
         {mode === 'light' ? <Moon size={20} /> : <Sun size={20} />}
       </IconButton>
     </Tooltip>

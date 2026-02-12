@@ -49,11 +49,11 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
         </Box>
         <OverviewChartLegend>
           <LegendItem>
-            <LegendDot color={theme.palette.blue.normalHover} />
+            <LegendDot color={theme.palette.custom.blue.normalHover} />
             <LegendText>Aguardando</LegendText>
           </LegendItem>
           <LegendItem>
-            <LegendDot color={theme.palette.green.normalHover} />
+            <LegendDot color={theme.palette.custom.green.normalHover} />
             <LegendText>Confirmado</LegendText>
           </LegendItem>
         </OverviewChartLegend>
@@ -65,11 +65,11 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
             <BarsContainer>
               <Bar
                 height={getBarHeight(item.waiting)}
-                color={theme.palette.blue.normalHover}
+                color={theme.palette.custom.blue.normalHover}
               />
               <Bar
                 height={getBarHeight(item.confirmed)}
-                color={theme.palette.green.normalHover}
+                color={theme.palette.custom.green.normalHover}
               />
             </BarsContainer>
             <BarLabel>{item.day}</BarLabel>

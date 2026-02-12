@@ -17,7 +17,7 @@ export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   // TODO: Implementar hover
   },
   '&:disabled': {
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.custom.grey.lightActive,
     color: theme.palette.common.white,
   },
 }));

@@ -1,86 +1,47 @@
 import { createTheme, PaletteOptions } from '@mui/material/styles';
 
+// Tipos reutilizáveis para as paletas customizadas
+type GradientColors = {
+  primary: string;
+  secondary: string;
+  greenToBlue: string;
+  blueToGreen: string;
+};
+
+type ColorScale = {
+  light: string;
+  lightHover: string;
+  lightActive: string;
+  normal: string;
+  normalHover: string;
+  normalActive: string;
+  dark: string;
+  darkHover: string;
+  darkActive: string;
+  darker: string;
+};
+
+// Tipos para cores customizadas agrupadas
+type CustomColors = {
+  blue: ColorScale;
+  green: ColorScale;
+  grey: ColorScale;
+};
+
 // Extend the Theme interface to include custom colors and gradients
 declare module '@mui/material/styles' {
   interface Palette {
-    custom: {
-      black: string;
-      grey: string;
-      lightGrey: string;
-      lighterGrey: string;
-      blue: string;
-      green: string;
-    };
-    gradient: {
-      primary: string;
-      secondary: string;
-      greenToBlue: string;
-      blueToGreen: string;
-    };
-    blue: {
-      light: string;
-      lightHover: string;
-      lightActive: string;
-      normal: string;
-      normalHover: string;
-      normalActive: string;
-      dark: string;
-      darkHover: string;
-      darkActive: string;
-      darker: string;
-    };
-    green: {
-      light: string;
-      lightHover: string;
-      lightActive: string;
-      normal: string;
-      normalHover: string;
-      normalActive: string;
-      dark: string;
-      darkHover: string;
-      darkActive: string;
-      darker: string;
-    };
+    gradient: GradientColors;
+    custom: CustomColors;
   }
+
   interface PaletteOptions {
-    custom?: {
-      black?: string;
-      grey?: string;
-      lightGrey?: string;
-      lighterGrey?: string;
-      blue?: string;
-      green?: string;
-    };
-    gradient?: {
-      primary?: string;
-      secondary?: string;
-      greenToBlue?: string;
-      blueToGreen?: string;
-    };
-    blue?: {
-      light?: string;
-      lightHover?: string;
-      lightActive?: string;
-      normal?: string;
-      normalHover?: string;
-      normalActive?: string;
-      dark?: string;
-      darkHover?: string;
-      darkActive?: string;
-      darker?: string;
-    };
-    green?: {
-      light?: string;
-      lightHover?: string;
-      lightActive?: string;
-      normal?: string;
-      normalHover?: string;
-      normalActive?: string;
-      dark?: string;
-      darkHover?: string;
-      darkActive?: string;
-      darker?: string;
-    };
+    gradient?: Partial<GradientColors>;
+    custom?: Partial<{
+      blue?: Partial<ColorScale>;
+      green?: Partial<ColorScale>;
+      grey?: Partial<ColorScale>;
+    }>;
   }
 }
 
@@ -152,44 +113,47 @@ const lightPalette: PaletteOptions = {
     light: '#81F3B2',
     dark: '#00994D',
   },
-  // Paleta Grey completa
-  grey: {
-    50: '#F3F2F2',  // Cinza Claríssimo
-    100: '#E9E9E9', // Cinza Claro
-    200: '#A6A6A6', // Cinza
-    300: '#868686',
-    400: '#5A5A5A',
-    500: '#212121', // Preto
-    600: '#121212',
-    700: '#0B0B0B',
-    800: '#000000',
-    900: '#000000',
-  },
-  // Paleta Blue completa (do design system)
-  blue: {
-    light: '#E5FAFB',
-    lightHover: '#C2F6F8',
-    lightActive: '#B2F2F7',
-    normal: '#72F3FA',
-    normalHover: '#05E3EA',
-    normalActive: '#05B6C2',
-    dark: '#0097A7',
-    darkHover: '#007B8A',
-    darkActive: '#005A63',
-    darker: '#00363A',
-  },
-  // Paleta Green completa (do design system)
-  green: {
-    light: '#E5FAF0',
-    lightHover: '#C2F6DF',
-    lightActive: '#B2F7D8',
-    normal: '#81F3B2',
-    normalHover: '#1DCC66',
-    normalActive: '#1DBF5E',
-    dark: '#00994D',
-    darkHover: '#007A3A',
-    darkActive: '#005A2C',
-    darker: '#00361A',
+  // Cores customizadas do design system
+  custom: {
+    // Paleta Blue completa
+    blue: {
+      light: '#E5FAFB',
+      lightHover: '#C2F6F8',
+      lightActive: '#B2F2F7',
+      normal: '#72F3FA',
+      normalHover: '#05E3EA',
+      normalActive: '#05B6C2',
+      dark: '#0097A7',
+      darkHover: '#007B8A',
+      darkActive: '#005A63',
+      darker: '#00363A',
+    },
+    // Paleta Green completa
+    green: {
+      light: '#E5FAF0',
+      lightHover: '#C2F6DF',
+      lightActive: '#B2F7D8',
+      normal: '#81F3B2',
+      normalHover: '#1DCC66',
+      normalActive: '#1DBF5E',
+      dark: '#00994D',
+      darkHover: '#007A3A',
+      darkActive: '#005A2C',
+      darker: '#00361A',
+    },
+    // Paleta Grey customizada
+    grey: {
+      light: '#F3F2F2',      // Cinza Claríssimo
+      lightHover: '#E9E9E9', // Cinza Claro
+      lightActive: '#A6A6A6',// Cinza
+      normal: '#868686',     // Cinza Médio
+      normalHover: '#5A5A5A',// Cinza Médio Escuro
+      normalActive: '#212121',// Preto
+      dark: '#121212',       // Mais Escuro
+      darkHover: '#0B0B0B',  // Quase Preto
+      darkActive: '#000000', // Preto Total
+      darker: '#000000',     // Preto Total
+    },
   },
   background: {
     default: '#F3F2F2',
@@ -198,14 +162,6 @@ const lightPalette: PaletteOptions = {
   text: {
     primary: '#212121',
     secondary: '#A6A6A6',
-  },
-  custom: {
-    black: '#212121',
-    grey: '#A6A6A6',
-    lightGrey: '#E9E9E9',
-    lighterGrey: '#F3F2F2',
-    blue: '#05E3EA',
-    green: '#1DCC66',
   },
   gradient: {
     primary: 'linear-gradient(135deg, #24FF80 0%, #05E3EA 100%)',
@@ -230,44 +186,47 @@ const darkPalette: PaletteOptions = {
     light: '#81F3B2',
     dark: '#00994D',
   },
-  // Paleta Grey invertida para dark mode
-  grey: {
-    50: '#000000',
-    100: '#0B0B0B',
-    200: '#121212',
-    300: '#212121',
-    400: '#5A5A5A',
-    500: '#868686',
-    600: '#A6A6A6',
-    700: '#E9E9E9',
-    800: '#F3F2F2',
-    900: '#FFFFFF',
-  },
-  // Paleta Blue (mesma do light mode - cores funcionam em ambos)
-  blue: {
-    light: '#E5FAFB',
-    lightHover: '#C2F6F8',
-    lightActive: '#B2F2F7',
-    normal: '#72F3FA',
-    normalHover: '#05E3EA',
-    normalActive: '#05B6C2',
-    dark: '#0097A7',
-    darkHover: '#007B8A',
-    darkActive: '#005A63',
-    darker: '#00363A',
-  },
-  // Paleta Green (mesma do light mode - cores funcionam em ambos)
-  green: {
-    light: '#E5FAF0',
-    lightHover: '#C2F6DF',
-    lightActive: '#B2F7D8',
-    normal: '#81F3B2',
-    normalHover: '#1DCC66',
-    normalActive: '#1DBF5E',
-    dark: '#00994D',
-    darkHover: '#007A3A',
-    darkActive: '#005A2C',
-    darker: '#00361A',
+  // Cores customizadas do design system
+  custom: {
+    // Paleta Blue (mesma do light mode - cores funcionam em ambos)
+    blue: {
+      light: '#E5FAFB',
+      lightHover: '#C2F6F8',
+      lightActive: '#B2F2F7',
+      normal: '#72F3FA',
+      normalHover: '#05E3EA',
+      normalActive: '#05B6C2',
+      dark: '#0097A7',
+      darkHover: '#007B8A',
+      darkActive: '#005A63',
+      darker: '#00363A',
+    },
+    // Paleta Green (mesma do light mode - cores funcionam em ambos)
+    green: {
+      light: '#E5FAF0',
+      lightHover: '#C2F6DF',
+      lightActive: '#B2F7D8',
+      normal: '#81F3B2',
+      normalHover: '#1DCC66',
+      normalActive: '#1DBF5E',
+      dark: '#00994D',
+      darkHover: '#007A3A',
+      darkActive: '#005A2C',
+      darker: '#00361A',
+    },
+    // Paleta Grey customizada invertida para dark mode
+    grey: {
+      light: '#000000',      // Preto Total
+      lightHover: '#0B0B0B', // Quase Preto
+      lightActive: '#121212',// Mais Escuro
+      normal: '#212121',     // Preto
+      normalHover: '#5A5A5A',// Cinza Médio Escuro
+      normalActive: '#868686',// Cinza Médio
+      dark: '#A6A6A6',       // Cinza
+      darkHover: '#E9E9E9',  // Cinza Claro
+      darkActive: '#F3F2F2', // Cinza Claríssimo
+      darker: '#FFFFFF',     // Branco
+    },
   },
   background: {
     default: '#121212',
@@ -276,14 +235,6 @@ const darkPalette: PaletteOptions = {
   text: {
     primary: '#F3F2F2',
     secondary: '#A6A6A6',
-  },
-  custom: {
-    black: '#212121',
-    grey: '#A6A6A6',
-    lightGrey: '#E9E9E9',
-    lighterGrey: '#F3F2F2',
-    blue: '#05E3EA',
-    green: '#1DCC66',
   },
   // Gradientes lineares do design system
   gradient: {
@@ -301,12 +252,12 @@ export const createAppTheme = (
 ) => {
   // Usa paleta padrão baseada no modo
   const basePalette = mode === 'light' ? lightPalette : darkPalette;
-  
+
   // Se receber paleta customizada, faz merge preservando o modo
   const finalPalette: PaletteOptions = customPalette
     ? { ...basePalette, ...customPalette, mode }
     : basePalette;
-  
+
   return createTheme({
     ...baseThemeConfig,
     palette: finalPalette,

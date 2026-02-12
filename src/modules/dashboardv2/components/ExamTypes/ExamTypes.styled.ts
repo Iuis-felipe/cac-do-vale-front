@@ -4,7 +4,7 @@ import { Card, Box, Typography, LinearProgress } from '@mui/material';
 export const ExamTypesRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.grey[100]}`,
+  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   background: theme.palette.background.paper,
 }));
@@ -12,7 +12,7 @@ export const ExamTypesRoot = styled(Card)(({ theme }) => ({
 export const ExamTypesTitle = styled(Typography)(({ theme }) => ({
   fontSize: 16,
   fontWeight: 600,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
   marginBottom: 20,
 }));
 
@@ -32,18 +32,18 @@ export const ExamItemHeader = styled(Box)({
 
 export const ExamItemName = styled(Typography)(({ theme }) => ({
   fontSize: 13,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
 }));
 
 export const ExamItemStats = styled(Typography)(({ theme }) => ({
   fontSize: 13,
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
 }));
 
 export const ExamProgressBar = styled(LinearProgress)(({ theme }) => ({
   height: 8,
   borderRadius: 4,
-  backgroundColor: theme.palette.grey[100],
+  backgroundColor: theme.palette.custom.grey.lightHover,
   '& .MuiLinearProgress-bar': {
     borderRadius: 4,
     background: theme.palette.gradient.primary,

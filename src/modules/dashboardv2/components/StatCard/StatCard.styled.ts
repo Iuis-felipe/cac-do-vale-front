@@ -4,7 +4,7 @@ import { Card, Box, Typography } from '@mui/material';
 export const StatCardRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.grey[100]}`,
+  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   minHeight: 140,
   display: 'flex',
@@ -16,13 +16,13 @@ export const StatCardRoot = styled(Card)(({ theme }) => ({
 export const StatCardTitle = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   fontWeight: 500,
-  color: theme.palette.grey[500],
+  color: theme.palette.custom.grey.normalActive,
   marginBottom: 4,
 }));
 
 export const StatCardSubtitle = styled(Typography)(({ theme }) => ({
   fontSize: 12,
-  color: theme.palette.grey[200],
+  color: theme.palette.custom.grey.lightActive,
   marginBottom: 12,
 }));
 
