@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { CircularProgress, Divider, Typography } from '@mui/material';
-import { DashboardHeader } from '../components/DashboardHeader';
 import { StatCard } from '../components/StatCard';
 import { OverviewChart } from '../components/OverviewChart';
 import { ExamTypes } from '../components/ExamTypes';
@@ -12,6 +11,7 @@ import {
   BottomRow,
   LoadingContainer,
 } from './Dashboard.styled';
+import { DashboardHeader } from '@/components';
 
 // Mock data conforme o print
 const mockStats = {

@@ -1,4 +1,4 @@
-import { RefreshButton } from '../RefreshButton';
+import { RefreshButton } from '@/modules/dashboardv2/components/RefreshButton';
 import {
   DashboardHeaderRoot,
   HeaderInfo,
@@ -9,7 +9,7 @@ import {
 interface DashboardHeaderProps {
   userName: string;
   date: Date;
-  onRefresh: () => void;
+  onRefresh?: () => void;
   loading?: boolean;
 }
 
@@ -21,7 +21,7 @@ function toPascalCase(value: string, separator = ' '): string {
     .join(separator);
 }
 
-export function DashboardHeader({ userName, date, onRefresh, loading }: DashboardHeaderProps) {
+export function DashboardHeader({ userName, date, onRefresh, loading,  }: DashboardHeaderProps) {
   const weekday = toPascalCase(
     date.toLocaleDateString('pt-BR', { weekday: 'long' }),
     '-'
@@ -34,7 +34,7 @@ export function DashboardHeader({ userName, date, onRefresh, loading }: Dashboar
         <HeaderTitle>Olá, {userName}!</HeaderTitle>
         <HeaderSubtitle>{weekday} {formattedDate}</HeaderSubtitle>
       </HeaderInfo>
-      <RefreshButton onClick={onRefresh} loading={loading} />
+     {onRefresh && <RefreshButton onClick={onRefresh} loading={loading} />}
     </DashboardHeaderRoot>
   );
 }
