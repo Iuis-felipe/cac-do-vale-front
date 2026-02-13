@@ -1,10 +1,7 @@
 import { styled } from '@mui/material/styles';
 import { Box, Stack } from '@mui/material';
 
-export const DashboardContainer = styled(Stack)(({ theme }) => ({
-  padding: '24px',
-  backgroundColor: theme.palette.background.default,
-  minHeight: '100vh',
+export const DashboardContainer = styled(Stack)(() => ({
   gap: 17,
 }));
 

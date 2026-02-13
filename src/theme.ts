@@ -156,7 +156,7 @@ const lightPalette: PaletteOptions = {
     },
   },
   background: {
-    default: '#F3F2F2',
+    default: '#fff',
     paper: '#fff',
   },
   text: {
