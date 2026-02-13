@@ -2,16 +2,15 @@ import { styled } from '@mui/material/styles';
 import { Box, Stack } from '@mui/material';
 
 export const DashboardContainer = styled(Stack)(() => ({
-  gap: 17,
+  gap: 20,
 }));
 
-export const StatsRow = styled(Box)({
-  display: 'flex',
+export const StatsRow = styled(Stack)({
   flexWrap: 'wrap',
-  gap: 24,
+  flexDirection: 'row',
+  gap: 20,
   '& > *': {
-    flex: '1 1 calc(33.333% - 16px)',
-    minWidth: 280,
+    flex: '1 1 366px',
   },
 });
 

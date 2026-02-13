@@ -5,6 +5,7 @@ import {
   StatCardValue,
   StatCardBadge,
   StatCardHeader,
+  StatCardContainer,
 } from './StatCard.styled';
 
 interface StatCardProps {
@@ -18,11 +19,13 @@ interface StatCardProps {
 export function StatCard({ title, value, subtitle, badge, trend }: StatCardProps) {
   return (
     <StatCardRoot>
-      <StatCardHeader>
-        <StatCardTitle>{title}</StatCardTitle>
-        {badge && <StatCardBadge trend={trend}>{badge}</StatCardBadge>}
-      </StatCardHeader>
-      <StatCardSubtitle>{subtitle}</StatCardSubtitle>
+      <StatCardContainer>
+        <StatCardHeader>
+          <StatCardTitle>{title}</StatCardTitle>
+          {badge && <StatCardBadge trend={trend}>{badge}</StatCardBadge>}
+        </StatCardHeader>
+        <StatCardSubtitle>{subtitle}</StatCardSubtitle>
+      </StatCardContainer>
       <StatCardValue>{value}</StatCardValue>
     </StatCardRoot>
   );

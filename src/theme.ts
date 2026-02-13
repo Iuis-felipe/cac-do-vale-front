@@ -2,10 +2,10 @@ import { createTheme, PaletteOptions } from '@mui/material/styles';
 
 // Tipos reutilizáveis para as paletas customizadas
 type GradientColors = {
-  primary: string;
-  secondary: string;
-  greenToBlue: string;
-  blueToGreen: string;
+  blueToGreenHorizontal: string;
+  blueToGreenVertical: string;
+  greenToBlueHorizontal: string;
+  greenToBlueVertical: string;
 };
 
 type ColorScale = {
@@ -102,57 +102,57 @@ const baseThemeConfig = {
 const lightPalette: PaletteOptions = {
   mode: 'light',
   primary: {
-    main: '#05E3EA', // Azul
+    main: '#05E3EA',
     contrastText: '#212121',
-    light: '#72F3FA',
-    dark: '#0097A7',
+    light: '#E6FCFD',
+    dark: '#04AAB0',
   },
   secondary: {
-    main: '#1DCC66', // Verde
-    contrastText: '#fff',
-    light: '#81F3B2',
-    dark: '#00994D',
+    main: '#24FF80',
+    contrastText: '#212121',
+    light: '#E9FFF2',
+    dark: '#16BF60',
   },
   // Cores customizadas do design system
   custom: {
     // Paleta Blue completa
     blue: {
-      light: '#E5FAFB',
-      lightHover: '#C2F6F8',
-      lightActive: '#B2F2F7',
-      normal: '#72F3FA',
-      normalHover: '#05E3EA',
-      normalActive: '#05B6C2',
-      dark: '#0097A7',
-      darkHover: '#007B8A',
-      darkActive: '#005A63',
-      darker: '#00363A',
+      light: '#E6FCFD',
+      lightHover: '#DAFBFC',
+      lightActive: '#B2F6F8',
+      normal: '#05E3EA',
+      normalHover: '#05CCD3',
+      normalActive: '#04B6BB',
+      dark: '#04AAB0',
+      darkHover: '#03888C',
+      darkActive: '#026069',
+      darker: '#024F52',
     },
     // Paleta Green completa
     green: {
-      light: '#E5FAF0',
-      lightHover: '#C2F6DF',
-      lightActive: '#B2F7D8',
-      normal: '#81F3B2',
-      normalHover: '#1DCC66',
-      normalActive: '#1DBF5E',
-      dark: '#00994D',
-      darkHover: '#007A3A',
-      darkActive: '#005A2C',
-      darker: '#00361A',
+      light: '#E9FFF2',
+      lightHover: '#DEFFEC',
+      lightActive: '#BBFFD8',
+      normal: '#24FF80',
+      normalHover: '#20E673',
+      normalActive: '#1DCC66',
+      dark: '#16BF60',
+      darkHover: '#16994D',
+      darkActive: '#107336',
+      darker: '#0D502D',
     },
     // Paleta Grey customizada
     grey: {
-      light: '#F3F2F2',      // Cinza Claríssimo
-      lightHover: '#E9E9E9', // Cinza Claro
-      lightActive: '#A6A6A6',// Cinza
-      normal: '#868686',     // Cinza Médio
-      normalHover: '#5A5A5A',// Cinza Médio Escuro
-      normalActive: '#212121',// Preto
-      dark: '#121212',       // Mais Escuro
-      darkHover: '#0B0B0B',  // Quase Preto
-      darkActive: '#000000', // Preto Total
-      darker: '#000000',     // Preto Total
+      light: '#E9E9E9',
+      lightHover: '#DEDEDE',
+      lightActive: '#BABABA',
+      normal: '#212121',
+      normalHover: '#1E1E1E',
+      normalActive: '#1A1A1A',
+      dark: '#191919',
+      darkHover: '#141414',
+      darkActive: '#0F0F0F',
+      darker: '#0C0C0C',
     },
   },
   background: {
@@ -164,10 +164,10 @@ const lightPalette: PaletteOptions = {
     secondary: '#A6A6A6',
   },
   gradient: {
-    primary: 'linear-gradient(135deg, #24FF80 0%, #05E3EA 100%)',
-    secondary: 'linear-gradient(135deg, #05E3EA 0%, #24FF80 100%)',
-    greenToBlue: 'linear-gradient(to right, #24FF80 0%, #05E3EA 100%)',
-    blueToGreen: 'linear-gradient(to right, #05E3EA 0%, #24FF80 100%)',
+    blueToGreenHorizontal: 'linear-gradient(to right, #05E3EA 0%, #24FF80 100%)',
+    blueToGreenVertical: 'linear-gradient(to bottom, #05E3EA 0%, #24FF80 100%)',
+    greenToBlueHorizontal: 'linear-gradient(to right, #24FF80 0%, #05E3EA 100%)',
+    greenToBlueVertical: 'linear-gradient(to bottom, #24FF80 0%, #05E3EA 100%)',
   },
 };
 
@@ -238,10 +238,10 @@ const darkPalette: PaletteOptions = {
   },
   // Gradientes lineares do design system
   gradient: {
-    primary: 'linear-gradient(135deg, #24FF80 0%, #05E3EA 100%)',
-    secondary: 'linear-gradient(135deg, #05E3EA 0%, #24FF80 100%)',
-    greenToBlue: 'linear-gradient(to right, #24FF80 0%, #05E3EA 100%)',
-    blueToGreen: 'linear-gradient(to right, #05E3EA 0%, #24FF80 100%)',
+    blueToGreenHorizontal: 'linear-gradient(to right, #05E3EA 0%, #24FF80 100%)',
+    blueToGreenVertical: 'linear-gradient(to bottom, #05E3EA 0%, #24FF80 100%)',
+    greenToBlueHorizontal: 'linear-gradient(to right, #24FF80 0%, #05E3EA 100%)',
+    greenToBlueVertical: 'linear-gradient(to bottom, #24FF80 0%, #05E3EA 100%)',
   },
 };
 

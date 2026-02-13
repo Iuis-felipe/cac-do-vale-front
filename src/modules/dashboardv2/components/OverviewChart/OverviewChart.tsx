@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material';
+import { Divider, useTheme } from '@mui/material';
 import {
   OverviewChartRoot,
   OverviewChartHeader,
@@ -53,7 +53,7 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
             <LegendText>Aguardando</LegendText>
           </LegendItem>
           <LegendItem>
-            <LegendDot color={theme.palette.custom.green.normalHover} />
+            <LegendDot color={theme.palette.custom.green.normal} />
             <LegendText>Confirmado</LegendText>
           </LegendItem>
         </OverviewChartLegend>
@@ -69,7 +69,7 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
               />
               <Bar
                 height={getBarHeight(item.confirmed)}
-                color={theme.palette.custom.green.normalHover}
+                color={theme.palette.custom.green.normal}
               />
             </BarsContainer>
             <BarLabel>{item.day}</BarLabel>

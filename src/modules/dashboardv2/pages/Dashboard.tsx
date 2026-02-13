@@ -11,7 +11,7 @@ import {
   BottomRow,
   LoadingContainer,
 } from './Dashboard.styled';
-import { DashboardHeader } from '@/components';
+import { DashboardHeader, Footer } from '@/components';
 
 // Mock data conforme o print
 const mockStats = {
@@ -120,6 +120,8 @@ const DashboardPage = () => {
           onEmailMember={(member) => console.log('Email:', member.email)}
         />
       </BottomRow>
+
+      <Footer />
     </DashboardContainer>
   );
 };
