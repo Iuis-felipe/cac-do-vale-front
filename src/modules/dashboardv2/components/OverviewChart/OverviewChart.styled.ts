@@ -4,7 +4,7 @@ import { Card, Box, Typography } from '@mui/material';
 export const OverviewChartRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
+  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   background: theme.palette.background.paper,
 }));
@@ -17,13 +17,13 @@ export const OverviewChartHeader = styled(Box)({
 });
 
 export const OverviewChartTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
-  fontWeight: 600,
-  color: theme.palette.custom.grey.normalActive,
+  fontSize: 24,
+  fontWeight: theme.typography.fontWeightMedium,
+  color: theme.palette.custom.grey.normal,
 }));
 
 export const OverviewChartSubtitle = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 16,
   color: theme.palette.custom.grey.lightActive,
 }));
 
@@ -40,14 +40,15 @@ export const LegendItem = styled(Box)({
 });
 
 export const LegendDot = styled(Box)<{ color: string }>(({ color }) => ({
-  width: 12,
-  height: 12,
+  width: 20,
+  height: 20,
   borderRadius: 4,
   backgroundColor: color,
 }));
 
 export const LegendText = styled(Typography)(({ theme }) => ({
   fontSize: 12,
+  fontWeight: theme.typography.fontWeightMedium,
   color: theme.palette.custom.grey.normalActive,
 }));
 
@@ -68,15 +69,16 @@ export const BarGroup = styled(Box)({
   gap: 8,
 });
 
-export const BarsContainer = styled(Box)({
+export const BarsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'flex-end',
-  gap: 4,
+  gap: 8,
   height: 180,
-});
+  borderBottom: `2px solid ${theme.palette.custom.grey.lightHover}`,
+}));
 
 export const Bar = styled(Box)<{ height: number; color: string }>(({ height, color }) => ({
-  width: 32,
+  width: 62,
   height: `${height}%`,
   backgroundColor: color,
   borderRadius: '4px 4px 0 0',
@@ -85,7 +87,6 @@ export const Bar = styled(Box)<{ height: number; color: string }>(({ height, col
 }));
 
 export const BarLabel = styled(Typography)(({ theme }) => ({
-  fontSize: 11,
-  color: theme.palette.custom.grey.normalActive,
-  textAlign: 'center',
+  fontSize: 16,
+  color: theme.palette.custom.grey.lightActive,
 }));

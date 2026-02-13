@@ -1,18 +1,19 @@
-import { Stack, Typography } from "@mui/material";
-import { AplicationName, FooterRoot } from "./Footer.styled";
+import { Typography } from "@mui/material";
+import { AplicationName, FooterContent, FooterRoot, Version } from "./Footer.styled";
 import { useState } from "react";
 
 export function Footer() {
   const [companyName, setCompanyName] = useState("CAC Do Vale");
   return (
-    <FooterRoot direction="row" spacing={2} justifyContent="space-between">
-      <Stack direction="row">
+    <FooterRoot>
+      <FooterContent>
         <AplicationName variant="body2">Nova Weekly</AplicationName>
         <Typography variant="body2">
-          , Licença para <b>{companyName}</b>. Todos os direitos reservados.
+          , Licença para <b>{companyName}</b>
         </Typography>
-      </Stack>
-      <Typography>Versão 202601</Typography>
+        <Typography variant="body2"><i>. Todos os direitos reservados.</i></Typography>
+      </FooterContent>
+      <Version variant="body2">Versão 202601</Version>
     </FooterRoot>
   );
 }

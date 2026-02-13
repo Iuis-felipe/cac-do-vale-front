@@ -1,45 +1,41 @@
 import { styled } from '@mui/material/styles';
-import { Card, Box, Typography } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 
-export const StatCardRoot = styled(Card)(({ theme }) => ({
-  borderRadius: 16,
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
-  padding: '24px',
-  minHeight: 140,
-  display: 'flex',
-  flexDirection: 'column',
+export const StatCardRoot = styled(Stack)(({ theme }) => ({
+  borderRadius: 20,
+  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
+  padding: 20,
+  minHeight: 185,
+  minWidth: 366,
   justifyContent: 'space-between',
   background: theme.palette.background.paper,
 }));
 
 export const StatCardTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 14,
-  fontWeight: 500,
-  color: theme.palette.custom.grey.normalActive,
-  marginBottom: 4,
+  fontSize: 24,
+  fontWeight: theme.typography.fontWeightMedium,
+  color: theme.palette.custom.grey.normal,
 }));
 
 export const StatCardSubtitle = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 16,
   color: theme.palette.custom.grey.lightActive,
-  marginBottom: 12,
 }));
 
 export const StatCardValue = styled(Typography)(({ theme }) => ({
-  fontSize: 48,
-  fontWeight: 700,
-  background: theme.palette.gradient.primary,
+  fontSize: 64,
+  fontWeight: theme.typography.fontWeightMedium,
+  background: theme.palette.gradient.greenToBlueVertical,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
-  lineHeight: 1.2,
+  lineHeight: 1,
 }));
 
 export const StatCardBadge = styled(Box)<{ trend?: 'up' | 'down' }>(({ theme, trend }) => ({
   fontSize: 18,
-  fontWeight: 600,
+  fontWeight: theme.typography.fontWeightMedium,
   ...(trend === 'up' ? {
-    background: theme.palette.gradient.primary,
+    background: theme.palette.gradient.greenToBlueHorizontal,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
   } : {
@@ -47,14 +43,20 @@ export const StatCardBadge = styled(Box)<{ trend?: 'up' | 'down' }>(({ theme, tr
   }),
 }));
 
-export const StatCardHeader = styled(Box)({
-  display: 'flex',
+export const StatCardContainer = styled(Stack)({
   justifyContent: 'space-between',
   alignItems: 'flex-start',
 });
 
-export const StatCardFooter = styled(Box)({
-  display: 'flex',
+export const StatCardHeader = styled(Stack)({
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  flexDirection: 'row',
+  gap: 10,
+  width: '100%',
+});
+
+export const StatCardFooter = styled(Stack)({
   alignItems: 'flex-end',
   justifyContent: 'space-between',
   gap: 8,

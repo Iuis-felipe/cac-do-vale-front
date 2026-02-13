@@ -4,7 +4,7 @@ import { Card, Box, Typography, Avatar, Button, IconButton } from '@mui/material
 export const TeamRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
+  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   background: theme.palette.background.paper,
 }));
@@ -17,9 +17,9 @@ export const TeamHeader = styled(Box)({
 });
 
 export const TeamTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
-  fontWeight: 600,
-  color: theme.palette.custom.grey.normalActive,
+  fontSize: 24,
+  fontWeight: theme.typography.fontWeightMedium,
+  color: theme.palette.custom.grey.normal,
 }));
 
 export const ViewAllLink = styled(Typography)(({ theme }) => ({
@@ -79,7 +79,7 @@ export const AddButton = styled(Button)(({ theme }) => ({
   marginTop: 16,
   borderRadius: 24,
   border: '1px solid transparent',
-  backgroundImage: `linear-gradient(white, white), ${theme.palette.gradient.secondary}`,
+  backgroundImage: `linear-gradient(white, white), ${theme.palette.gradient.blueToGreenHorizontal}`,
   backgroundOrigin: 'border-box',
   backgroundClip: 'padding-box, border-box',
   color: theme.palette.custom.grey.normalActive,

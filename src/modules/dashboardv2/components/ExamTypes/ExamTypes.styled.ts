@@ -4,15 +4,15 @@ import { Card, Box, Typography, LinearProgress } from '@mui/material';
 export const ExamTypesRoot = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
+  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
   padding: '24px',
   background: theme.palette.background.paper,
 }));
 
 export const ExamTypesTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
-  fontWeight: 600,
-  color: theme.palette.custom.grey.normalActive,
+  fontSize: 24,
+  fontWeight: theme.typography.fontWeightMedium,
+  color: theme.palette.custom.grey.normal,
   marginBottom: 20,
 }));
 
@@ -46,6 +46,6 @@ export const ExamProgressBar = styled(LinearProgress)(({ theme }) => ({
   backgroundColor: theme.palette.custom.grey.lightHover,
   '& .MuiLinearProgress-bar': {
     borderRadius: 4,
-    background: theme.palette.gradient.primary,
+    background: theme.palette.gradient.greenToBlueHorizontal,
   },
 }));
