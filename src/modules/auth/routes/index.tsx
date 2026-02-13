@@ -1,6 +1,6 @@
 import Login from "../pages/login";
 
-export const AuthRoutes = [
+export const authRoutes = [
   {
     path: "login",
     element: <Login />

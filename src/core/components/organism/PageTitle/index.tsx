@@ -1,22 +1,15 @@
-import React from "react"
+import React from "react";
 
 interface IPageTitle {
   title: string;
-  subtitle: string;
 }
 
-const PageTitle: React.FC<IPageTitle> = ({ title, subtitle }) => {
-
+const PageTitle: React.FC<IPageTitle> = ({ title }) => {
   return (
     <div>
-      <p className="text-2xl font-bold">
-        {title}
-      </p>
-      <p className="text-sm text-slate-600">
-        {subtitle}
-      </p>
+      <p className="text-2xl font-bold">{title}</p>
     </div>
-  )
-}
+  );
+};
 
-export default PageTitle
+export default PageTitle;
