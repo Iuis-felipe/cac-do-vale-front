@@ -6,15 +6,15 @@ export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   color: theme.palette.common.white,
   fontWeight: 500,
   fontSize: 14,
-  padding: '10px 20px',
+  py: 8,
+  px: 21,
   borderRadius: 8,
   display: 'flex',
   alignItems: 'center',
-  gap: 8,
-  textTransform: 'none',
+  gap: 10,
   boxShadow: 'none',
   '&:hover': {
-  // TODO: Implementar hover
+    // TODO: Implementar hover
   },
   '&:disabled': {
     backgroundColor: theme.palette.custom.grey.lightActive,

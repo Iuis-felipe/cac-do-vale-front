@@ -4,8 +4,8 @@ import { Box, Typography } from '@mui/material';
 export const DashboardHeaderRoot = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'flex-start',
-  marginBottom: 24,
+  alignItems: 'center',
+  marginBottom: 13,
 });
 
 export const HeaderInfo = styled(Box)({});
