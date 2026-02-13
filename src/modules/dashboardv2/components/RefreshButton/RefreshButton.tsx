@@ -1,4 +1,5 @@
-import { RefreshCw } from 'lucide-react';
+import RefreshCwIcon from '@/assets/icons/refresh-cw.svg?react';
+import { SvgIcon } from '@/components';
 import { RefreshButtonRoot } from './RefreshButton.styled';
 
 interface RefreshButtonProps {
@@ -13,13 +14,13 @@ export function RefreshButton({ onClick, loading, disabled }: RefreshButtonProps
       onClick={onClick}
       disabled={disabled || loading}
       variant="contained"
+      startIcon={
+        <SvgIcon
+          icon={RefreshCwIcon}
+          sx={{ animation: loading ? 'spin 1s linear infinite' : 'none' }}
+        />
+      }
     >
-      <RefreshCw
-        size={16}
-        style={{
-          animation: loading ? 'spin 1s linear infinite' : 'none',
-        }}
-      />
       Atualizar
     </RefreshButtonRoot>
   );
