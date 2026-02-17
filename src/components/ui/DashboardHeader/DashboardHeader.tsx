@@ -1,4 +1,4 @@
-import { RefreshButton } from '@/modules/dashboardv2/components/RefreshButton';
+import { RefreshButton } from '@/modules/dashboardv2/components';
 import {
   DashboardHeaderRoot,
   HeaderInfo,

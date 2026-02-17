@@ -1,9 +1,10 @@
 import { Typography } from "@mui/material";
 import { AplicationName, FooterContent, FooterRoot, Version } from "./Footer.styled";
 import { useState } from "react";
+import { version } from '../../../../package.json'
 
 export function Footer() {
-  const [companyName, setCompanyName] = useState("CAC Do Vale");
+  const [companyName, _setCompanyName] = useState("CAC Do Vale");
   return (
     <FooterRoot>
       <FooterContent>
@@ -13,7 +14,7 @@ export function Footer() {
         </Typography>
         <Typography variant="body2"><i>. Todos os direitos reservados.</i></Typography>
       </FooterContent>
-      <Version variant="body2">Versão 202601</Version>
+      <Version variant="body2">Versão {version}</Version>
     </FooterRoot>
   );
 }

@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   background: theme.palette.gradient.greenToBlueHorizontal,
   color: theme.palette.common.white,
-  fontWeight: 500,
+  fontWeight: theme.typography.fontWeightMedium,
   fontSize: 14,
   padding: '8px 20px',
   display: 'flex',
@@ -14,5 +14,9 @@ export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   '&:disabled': {
     background: theme.palette.custom.grey.normal,
     color: theme.palette.common.white,
+  },
+  '&:hover': {
+    background: theme.palette.gradient.blueToGreenHorizontal,
+    boxShadow: 'none',
   },
 }));

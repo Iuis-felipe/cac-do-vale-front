@@ -11,6 +11,7 @@ interface RefreshButtonProps {
 export function RefreshButton({ onClick, loading, disabled }: RefreshButtonProps) {
   return (
     <RefreshButtonRoot
+    
       onClick={onClick}
       disabled={disabled || loading}
       variant="contained"

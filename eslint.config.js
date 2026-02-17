@@ -23,6 +23,26 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      /* Detectar variáveis e imports não usados */
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+      'no-unused-expressions': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+      '@typescript-eslint/prefer-optional-chain': 'warn',
+      'no-console': [
+        'warn',
+        { allow: ['warn', 'error'] },
+      ],
+      'prefer-const': 'error',
+      'no-var': 'error',
     },
   },
 )
