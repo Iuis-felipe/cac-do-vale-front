@@ -1,1 +1,1 @@
-export { CardSubtitle } from './CardSubtitle';
+export * from './CardSubtitle';

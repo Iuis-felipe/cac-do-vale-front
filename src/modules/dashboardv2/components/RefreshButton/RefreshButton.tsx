@@ -1,6 +1,5 @@
 import RefreshCwIcon from '@/assets/icons/refresh-cw.svg?react';
-import { SvgIcon } from '@/components';
-import { RefreshButtonRoot } from './RefreshButton.styled';
+import { SvgIcon, GradientButton } from '@/components';
 
 interface RefreshButtonProps {
   onClick: () => void;
@@ -10,11 +9,9 @@ interface RefreshButtonProps {
 
 export function RefreshButton({ onClick, loading, disabled }: RefreshButtonProps) {
   return (
-    <RefreshButtonRoot
-    
+    <GradientButton
       onClick={onClick}
       disabled={disabled || loading}
-      variant="contained"
       startIcon={
         <SvgIcon
           icon={RefreshCwIcon}
@@ -23,6 +20,6 @@ export function RefreshButton({ onClick, loading, disabled }: RefreshButtonProps
       }
     >
       Atualizar
-    </RefreshButtonRoot>
+    </GradientButton>
   );
 }
