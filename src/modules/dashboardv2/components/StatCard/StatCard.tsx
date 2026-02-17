@@ -1,7 +1,6 @@
+import { CardTitle, CardSubtitle } from '@/components';
 import {
   StatCardRoot,
-  StatCardTitle,
-  StatCardSubtitle,
   StatCardValue,
   StatCardBadge,
   StatCardHeader,
@@ -21,10 +20,10 @@ export function StatCard({ title, value, subtitle, badge, trend }: StatCardProps
     <StatCardRoot>
       <StatCardContainer>
         <StatCardHeader>
-          <StatCardTitle>{title}</StatCardTitle>
+          <CardTitle>{title}</CardTitle>
           {badge && <StatCardBadge trend={trend}>{badge}</StatCardBadge>}
         </StatCardHeader>
-        <StatCardSubtitle>{subtitle}</StatCardSubtitle>
+        <CardSubtitle>{subtitle}</CardSubtitle>
       </StatCardContainer>
       <StatCardValue>{value}</StatCardValue>
     </StatCardRoot>

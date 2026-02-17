@@ -1,6 +1,5 @@
+import { CardRoot, CardTitle } from '@/components';
 import {
-  ExamTypesRoot,
-  ExamTypesTitle,
   ExamItem,
   ExamItemHeader,
   ExamItemName,
@@ -20,8 +19,8 @@ interface ExamTypesProps {
 
 export function ExamTypes({ data }: ExamTypesProps) {
   return (
-    <ExamTypesRoot>
-      <ExamTypesTitle>Tipos de Exames</ExamTypesTitle>
+    <CardRoot>
+      <CardTitle>Tipos de Exames</CardTitle>
       {data.map((item, index) => (
         <ExamItem key={index}>
           <ExamItemHeader>
@@ -33,6 +32,6 @@ export function ExamTypes({ data }: ExamTypesProps) {
           <ExamProgressBar variant="determinate" value={item.percentage} />
         </ExamItem>
       ))}
-    </ExamTypesRoot>
+    </CardRoot>
   );
 }

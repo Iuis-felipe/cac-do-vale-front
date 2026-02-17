@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 export const StatCardRoot = styled(Stack)(({ theme }) => ({
   borderRadius: 20,
@@ -9,17 +9,6 @@ export const StatCardRoot = styled(Stack)(({ theme }) => ({
   minWidth: 366,
   justifyContent: 'space-between',
   background: theme.palette.background.paper,
-}));
-
-export const StatCardTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 24,
-  fontWeight: theme.typography.fontWeightMedium,
-  color: theme.palette.custom.grey.normal,
-}));
-
-export const StatCardSubtitle = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
-  color: theme.palette.custom.grey.lightActive,
 }));
 
 export const StatCardValue = styled(Typography)(({ theme }) => ({
