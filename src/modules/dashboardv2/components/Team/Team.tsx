@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { Mail, Plus } from 'lucide-react';
 import { CardRoot, CardHeader, CardTitle } from '@/components';
 import {
@@ -11,6 +11,7 @@ import {
   MemberEmail,
   MemberAction,
   AddButton,
+  MemberContainer,
 } from './Team.styled';
 
 interface TeamMember {
@@ -27,6 +28,10 @@ interface TeamProps {
   onEmailMember?: (member: TeamMember) => void;
 }
 
+function getMockAvatar(memberId: string | number): string {
+  return `https://i.pravatar.cc/150?img=${memberId}`;
+}
+
 export function Team({ members, onViewAll, onAddMember, onEmailMember }: TeamProps) {
   return (
     <CardRoot>
@@ -36,25 +41,26 @@ export function Team({ members, onViewAll, onAddMember, onEmailMember }: TeamPro
       </CardHeader>
 
       <MemberList>
-        {members.map((member) => (
-          <MemberItem key={member.id}>
-            <MemberInfo>
-              <MemberAvatar src={member.avatar} alt={member.name}>
-                {member.name.charAt(0)}
-              </MemberAvatar>
-              <Box>
-                <MemberName>{member.name}</MemberName>
-                <MemberEmail>{member.email}</MemberEmail>
-              </Box>
-            </MemberInfo>
-            <MemberAction onClick={() => onEmailMember?.(member)}>
-              <Mail size={18} />
-            </MemberAction>
-          </MemberItem>
+        {members.map((member, index) => (
+          <MemberContainer key={member.id}>
+            <MemberItem>
+              <MemberInfo>
+                <MemberAvatar src={member.avatar || getMockAvatar(member.id)} alt={member.name} />
+                <Box>
+                  <MemberName>{member.name}</MemberName>
+                  <MemberEmail>{member.email}</MemberEmail>
+                </Box>
+              </MemberInfo>
+              <MemberAction onClick={() => onEmailMember?.(member)}>
+                <Mail size={24} />
+              </MemberAction>
+            </MemberItem>
+            {index < members.length - 1 && <Divider />}
+          </MemberContainer>
         ))}
       </MemberList>
 
-      <AddButton variant="outlined" startIcon={<Plus size={16} />} onClick={onAddMember}>
+      <AddButton variant="outlined" startIcon={<Plus size={21} />} onClick={onAddMember}>
         Adicionar
       </AddButton>
     </CardRoot>

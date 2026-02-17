@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Avatar, Button, IconButton } from '@mui/material';
+import { Box, Typography, Avatar, Button, IconButton, Stack } from '@mui/material';
 
 export const ViewAllLink = styled(Typography)(({ theme }) => ({
-  fontSize: 13,
+  fontSize: 16,
   color: theme.palette.custom.grey.lightActive,
   cursor: 'pointer',
   '&:hover': {
@@ -10,32 +10,34 @@ export const ViewAllLink = styled(Typography)(({ theme }) => ({
   },
 }));
 
-export const MemberList = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 12,
+export const MemberList = styled(Stack)({
+  gap: 20,
 });
 
-export const MemberItem = styled(Box)({
-  display: 'flex',
+export const MemberItem = styled(Stack)({
+  flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
 });
 
-export const MemberInfo = styled(Box)({
-  display: 'flex',
+export const MemberContainer = styled(Stack)({
+  gap: 20
+});
+
+export const MemberInfo = styled(Stack)({
+  flexDirection: 'row',
   alignItems: 'center',
-  gap: 12,
+  gap: 16,
 });
 
 export const MemberAvatar = styled(Avatar)(() => ({
-  width: 40,
-  height: 40,
+  width: 46,
+  height: 46,
 }));
 
 export const MemberName = styled(Typography)(({ theme }) => ({
-  fontSize: 14,
-  fontWeight: 500,
+  fontSize: 16,
+  fontWeight: theme.typography.fontWeightMedium,
   color: theme.palette.custom.grey.normalActive,
 }));
 
@@ -55,7 +57,7 @@ export const MemberAction = styled(IconButton)(({ theme }) => ({
 
 export const AddButton = styled(Button)(({ theme }) => ({
   width: '100%',
-  marginTop: 16,
+  marginTop: 20,
   borderRadius: 24,
   border: '1px solid transparent',
   backgroundImage: `linear-gradient(white, white), ${theme.palette.gradient.blueToGreenHorizontal}`,
@@ -64,7 +66,7 @@ export const AddButton = styled(Button)(({ theme }) => ({
   color: theme.palette.custom.grey.normalActive,
   textTransform: 'none',
   fontWeight: 500,
-  fontSize: 14,
+  fontSize: 16,
   padding: '10px 16px',
   '&:hover': {
     color: theme.palette.custom.green.normalHover,
