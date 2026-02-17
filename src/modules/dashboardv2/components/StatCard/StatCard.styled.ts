@@ -9,6 +9,11 @@ export const StatCardRoot = styled(Stack)(({ theme }) => ({
   minWidth: 366,
   justifyContent: 'space-between',
   background: theme.palette.background.paper,
+  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+  },
 }));
 
 export const StatCardValue = styled(Typography)(({ theme }) => ({
