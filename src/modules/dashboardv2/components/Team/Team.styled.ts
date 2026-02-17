@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Avatar, Button, IconButton, Stack } from '@mui/material';
+import { Typography, Avatar, Button, IconButton, Stack } from '@mui/material';
 
 export const ViewAllLink = styled(Typography)(({ theme }) => ({
   fontSize: 16,
@@ -69,6 +69,7 @@ export const AddButton = styled(Button)(({ theme }) => ({
   fontSize: 16,
   padding: '10px 16px',
   '&:hover': {
-    color: theme.palette.custom.green.normalHover,
+    color: theme.palette.common.white,
+    background: theme.palette.gradient.greenToBlueHorizontal,
   },
 }));
