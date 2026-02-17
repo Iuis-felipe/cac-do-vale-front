@@ -1,20 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Card, Box, Typography, LinearProgress } from '@mui/material';
-
-export const ExamTypesRoot = styled(Card)(({ theme }) => ({
-  borderRadius: 16,
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
-  padding: '24px',
-  background: theme.palette.background.paper,
-}));
-
-export const ExamTypesTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 24,
-  fontWeight: theme.typography.fontWeightMedium,
-  color: theme.palette.custom.grey.normal,
-  marginBottom: 20,
-}));
+import { Box, Typography, LinearProgress } from '@mui/material';
 
 export const ExamItem = styled(Box)({
   marginBottom: 16,

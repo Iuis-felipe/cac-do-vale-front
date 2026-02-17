@@ -1,9 +1,7 @@
 import { Divider, useTheme } from '@mui/material';
+import { CardRoot, CardTitle, CardSubtitle } from '@/components';
 import {
-  OverviewChartRoot,
   OverviewChartHeader,
-  OverviewChartTitle,
-  OverviewChartSubtitle,
   OverviewChartLegend,
   LegendItem,
   LegendDot,
@@ -41,11 +39,11 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
   };
 
   return (
-    <OverviewChartRoot>
+    <CardRoot>
       <OverviewChartHeader>
         <Box>
-          <OverviewChartTitle>Visão Geral</OverviewChartTitle>
-          <OverviewChartSubtitle>{month}/{year}</OverviewChartSubtitle>
+          <CardTitle>Visão Geral</CardTitle>
+          <CardSubtitle>{month}/{year}</CardSubtitle>
         </Box>
         <OverviewChartLegend>
           <LegendItem>
@@ -76,6 +74,6 @@ export function OverviewChart({ data, month = 'Fevereiro', year = '2025' }: Over
           </BarGroup>
         ))}
       </ChartContainer>
-    </OverviewChartRoot>
+    </CardRoot>
   );
 }

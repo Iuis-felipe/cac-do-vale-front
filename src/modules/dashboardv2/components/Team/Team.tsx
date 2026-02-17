@@ -1,9 +1,7 @@
 import { Box } from '@mui/material';
 import { Mail, Plus } from 'lucide-react';
+import { CardRoot, CardHeader, CardTitle } from '@/components';
 import {
-  TeamRoot,
-  TeamHeader,
-  TeamTitle,
   ViewAllLink,
   MemberList,
   MemberItem,
@@ -31,11 +29,11 @@ interface TeamProps {
 
 export function Team({ members, onViewAll, onAddMember, onEmailMember }: TeamProps) {
   return (
-    <TeamRoot>
-      <TeamHeader>
-        <TeamTitle>Equipe</TeamTitle>
+    <CardRoot>
+      <CardHeader>
+        <CardTitle>Equipe</CardTitle>
         <ViewAllLink onClick={onViewAll}>Ver tudo</ViewAllLink>
-      </TeamHeader>
+      </CardHeader>
 
       <MemberList>
         {members.map((member) => (
@@ -59,6 +57,6 @@ export function Team({ members, onViewAll, onAddMember, onEmailMember }: TeamPro
       <AddButton variant="outlined" startIcon={<Plus size={16} />} onClick={onAddMember}>
         Adicionar
       </AddButton>
-    </TeamRoot>
+    </CardRoot>
   );
 }

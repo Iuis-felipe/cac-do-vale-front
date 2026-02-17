@@ -1,13 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Card, Box, Typography } from '@mui/material';
-
-export const OverviewChartRoot = styled(Card)(({ theme }) => ({
-  borderRadius: 16,
-  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-  border: `2px solid ${theme.palette.custom.grey.lightHover}`,
-  padding: '24px',
-  background: theme.palette.background.paper,
-}));
+import { Box, Typography } from '@mui/material';
 
 export const OverviewChartHeader = styled(Box)({
   display: 'flex',
@@ -15,17 +7,6 @@ export const OverviewChartHeader = styled(Box)({
   alignItems: 'flex-start',
   marginBottom: 24,
 });
-
-export const OverviewChartTitle = styled(Typography)(({ theme }) => ({
-  fontSize: 24,
-  fontWeight: theme.typography.fontWeightMedium,
-  color: theme.palette.custom.grey.normal,
-}));
-
-export const OverviewChartSubtitle = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
-  color: theme.palette.custom.grey.lightActive,
-}));
 
 export const OverviewChartLegend = styled(Box)({
   display: 'flex',
