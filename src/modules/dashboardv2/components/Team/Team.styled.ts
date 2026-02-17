@@ -5,6 +5,7 @@ export const ViewAllLink = styled(Typography)(({ theme }) => ({
   fontSize: 16,
   color: theme.palette.custom.grey.lightActive,
   cursor: 'pointer',
+  transition: 'color 0.2s ease',
   '&:hover': {
     color: theme.palette.secondary.main,
   },
@@ -33,6 +34,10 @@ export const MemberInfo = styled(Stack)({
 export const MemberAvatar = styled(Avatar)(() => ({
   width: 46,
   height: 46,
+  transition: 'transform 0.2s ease',
+  '&:hover': {
+    transform: 'scale(1.05)',
+  },
 }));
 
 export const MemberName = styled(Typography)(({ theme }) => ({
@@ -49,9 +54,11 @@ export const MemberEmail = styled(Typography)(({ theme }) => ({
 export const MemberAction = styled(IconButton)(({ theme }) => ({
   color: theme.palette.custom.grey.lightActive,
   padding: 8,
+  transition: 'color 0.2s ease, transform 0.2s ease',
   '&:hover': {
     color: theme.palette.secondary.main,
     backgroundColor: 'transparent',
+    transform: 'scale(1.1)',
   },
 }));
 
@@ -68,8 +75,13 @@ export const AddButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
   fontSize: 16,
   padding: '10px 16px',
+  transition: 'all 0.3s ease',
   '&:hover': {
     color: theme.palette.common.white,
     background: theme.palette.gradient.greenToBlueHorizontal,
+    transform: 'translateY(-2px)',
+  },
+  '&:active': {
+    transform: 'translateY(0)',
   },
 }));

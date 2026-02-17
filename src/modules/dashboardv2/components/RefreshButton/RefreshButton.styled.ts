@@ -11,6 +11,7 @@ export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   gap: 10,
   boxShadow: 'none',
+  transition: 'all 0.3s ease',
   '&:disabled': {
     background: theme.palette.custom.grey.normal,
     color: theme.palette.common.white,
@@ -18,5 +19,9 @@ export const RefreshButtonRoot = styled(Button)(({ theme }) => ({
   '&:hover': {
     background: theme.palette.gradient.blueToGreenHorizontal,
     boxShadow: 'none',
+    transform: 'translateY(-1px)',
+  },
+  '&:active': {
+    transform: 'translateY(0)',
   },
 }));
