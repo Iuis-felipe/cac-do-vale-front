@@ -1,11 +1,11 @@
-import { scheduleRoutes } from "@/modules/agendamento/routes";
+import { agendamentosV2Routes } from "@/modules/agendamentov2/routes";
 import { analyticsRoutes } from "@/modules/analytics/routes";
 import { authRoutes } from "@/modules/auth/routes";
 import { clientRoutes } from "@/modules/cliente/routes";
 import { clinicRoutes } from "@/modules/clinica/routes";
 import { dashboardRoutes } from "@/modules/dashboard/routes";
 import { dashboardsV2Routes } from "@/modules/dashboardv2/routes";
-import { schedulesRoutes } from "@/modules/horarios/routes";
+import { horariosV2Routes } from "@/modules/horariosv2/routes";
 import { userRoutes } from "@/modules/user/routes";
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import useLoggedBase from "../hooks";
@@ -46,7 +46,7 @@ const Router = createBrowserRouter([
   {
     path: "agendamento",
     element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
-    children: [...scheduleRoutes]
+    children: [...agendamentosV2Routes]
   },
   {
     path: "usuario",
@@ -61,7 +61,7 @@ const Router = createBrowserRouter([
   {
     path: "horarios",
     element: <LoggedBase><Template><Outlet /></Template></LoggedBase>,
-    children: [...schedulesRoutes]
+    children: [...horariosV2Routes]
   },
   {
     path: "analytics",

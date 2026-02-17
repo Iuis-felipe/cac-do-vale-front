@@ -1,1 +1,1 @@
-export { RefreshButton } from './RefreshButton';
+export * from './RefreshButton';

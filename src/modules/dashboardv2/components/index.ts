@@ -1,5 +1,5 @@
-export { ExamTypes } from './ExamTypes';
-export { OverviewChart } from './OverviewChart';
-export { RefreshButton } from './RefreshButton';
-export { StatCard } from './StatCard';
-export { Team } from './Team';
+export * from './ExamTypes';
+export * from './OverviewChart';
+export * from './RefreshButton';
+export * from './StatCard';
+export * from './Team';

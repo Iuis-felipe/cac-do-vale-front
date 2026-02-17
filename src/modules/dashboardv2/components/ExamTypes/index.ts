@@ -1,1 +1,1 @@
-export { ExamTypes } from './ExamTypes';
+export * from './ExamTypes';
