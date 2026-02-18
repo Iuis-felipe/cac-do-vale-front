@@ -1,19 +1,12 @@
-import { Calendar, Clock } from 'lucide-react';
-import {
-  AppointmentCardRoot,
-  CardName,
-  CardInfo,
-  CardInfoText,
-  StatusIndicator,
-  CardWrapper,
-} from './AppointmentCard.styled';
+import { Calendar, Clock, User2Icon } from "lucide-react";
+import { AppointmentCardRoot, CardInfo, CardInfoText, CardName } from "./AppointmentCard.styled";
 
 export interface AppointmentCardData {
   id: string;
   name: string;
   date: string;
   time: string;
-  status?: 'confirmed' | 'waiting' | 'cancelled';
+  status?: "confirmed" | "waiting" | "cancelled";
 }
 
 interface AppointmentCardProps {
@@ -23,19 +16,20 @@ interface AppointmentCardProps {
 
 export function AppointmentCard({ data, onClick }: AppointmentCardProps) {
   return (
-    <CardWrapper>
-      <StatusIndicator status={data.status} />
-      <AppointmentCardRoot onClick={() => onClick?.(data.id)}>
+    <AppointmentCardRoot onClick={() => onClick?.(data.id)}>
+      <CardInfo>
+        <User2Icon size={20} color="#212121" />
         <CardName>{data.name}</CardName>
-        <CardInfo>
-          <Calendar size={14} color="#9CA3AF" />
-          <CardInfoText>{data.date}</CardInfoText>
-        </CardInfo>
-        <CardInfo>
-          <Clock size={14} color="#9CA3AF" />
-          <CardInfoText>{data.time}</CardInfoText>
-        </CardInfo>
-      </AppointmentCardRoot>
-    </CardWrapper>
+      </CardInfo>
+
+      <CardInfo>
+        <Calendar size={20} color="#212121" />
+        <CardInfoText>{data.date}</CardInfoText>
+      </CardInfo>
+      <CardInfo>
+        <Clock size={20} color="#212121" />
+        <CardInfoText>{data.time}</CardInfoText>
+      </CardInfo>
+    </AppointmentCardRoot>
   );
 }

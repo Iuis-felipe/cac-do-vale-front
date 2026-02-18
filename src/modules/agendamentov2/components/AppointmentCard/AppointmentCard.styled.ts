@@ -1,12 +1,11 @@
+import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Stack } from '@mui/material';
 
 export const AppointmentCardRoot = styled(Stack)(({ theme }) => ({
   borderRadius: 12,
   border: `2px solid ${theme.palette.custom.grey.lightHover}`,
-  padding: 16,
-  minWidth: 180,
-  maxWidth: 220,
+  paddingInline: 20,
+  paddingBlock: 26,
   gap: 8,
   backgroundColor: theme.palette.background.paper,
   cursor: 'pointer',
@@ -20,7 +19,7 @@ export const AppointmentCardRoot = styled(Stack)(({ theme }) => ({
 
 export const CardName = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  fontWeight: theme.typography.fontWeightMedium,
+  fontWeight: theme.typography.fontWeightRegular,
   color: theme.palette.custom.grey.normalActive,
   lineHeight: 1.3,
   overflow: 'hidden',
@@ -37,25 +36,7 @@ export const CardInfo = styled(Stack)({
 });
 
 export const CardInfoText = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
-  color: theme.palette.custom.grey.lightActive,
+  fontSize: 14,
+  color: theme.palette.custom.grey.normalActive,
+  fontWeight: theme.typography.fontWeightRegular,
 }));
-
-export const StatusIndicator = styled(Box)<{ status?: 'confirmed' | 'waiting' | 'cancelled' }>(({ theme, status }) => ({
-  position: 'absolute',
-  left: 0,
-  top: 0,
-  bottom: 0,
-  width: 4,
-  borderRadius: '12px 0 0 12px',
-  backgroundColor: status === 'confirmed' 
-    ? theme.palette.custom.green.normal 
-    : status === 'cancelled'
-    ? '#EF4444'
-    : theme.palette.custom.blue.normalHover,
-}));
-
-export const CardWrapper = styled(Box)({
-  position: 'relative',
-  paddingLeft: 4,
-});
