@@ -1,26 +1,29 @@
 import { AppointmentCard, AppointmentCardData } from '../AppointmentCard';
 import {
-  GroupRoot,
-  GroupHeader,
-  GroupDate,
-  GroupCount,
   GroupCards,
+  GroupCount,
+  GroupDate,
+  GroupHeader,
+  GroupRoot,
 } from './AppointmentGroup.styled';
+
+type ViewMode = 'grid' | 'list';
 
 interface AppointmentGroupProps {
   date: string;
   appointments: AppointmentCardData[];
   onCardClick?: (id: string) => void;
+  view?: ViewMode;
 }
 
-export function AppointmentGroup({ date, appointments, onCardClick }: AppointmentGroupProps) {
+export function AppointmentGroup({ date, appointments, onCardClick, view }: AppointmentGroupProps) {
   return (
     <GroupRoot>
       <GroupHeader>
         <GroupDate>{date}</GroupDate>
         <GroupCount>{appointments.length} agendamentos</GroupCount>
       </GroupHeader>
-      <GroupCards>
+      <GroupCards view={view}>
         {appointments.map((appointment) => (
           <AppointmentCard
             key={appointment.id}

@@ -1,11 +1,11 @@
+import { InputAdornment, MenuItem } from '@mui/material';
 import { Search } from 'lucide-react';
-import { MenuItem, InputAdornment } from '@mui/material';
 import {
   FilterBarRoot,
   FilterGroup,
   FilterSelect,
-  SearchInput,
   SearchContainer,
+  SearchInput,
 } from './FilterBar.styled';
 
 export interface FilterOption {
@@ -26,6 +26,7 @@ interface FilterBarProps {
   onSearchChange?: (search: string) => void;
   searchPlaceholder?: string;
   showSearch?: boolean;
+  actions?: React.ReactNode;
 }
 
 export function FilterBar({ 
@@ -34,11 +35,13 @@ export function FilterBar({
   onSearchChange,
   searchPlaceholder = 'Buscar...',
   showSearch = true,
+  actions,
 }: FilterBarProps) {
   return (
     <FilterBarRoot>
       {filters.length > 0 && (
         <FilterGroup>
+          {actions && <>{actions}</>}
           {filters.map((filter, index) => (
             <FilterSelect
               key={index}

@@ -1,12 +1,16 @@
+import ViewToggleButton from '@/core/components/molecules/ToggleButton';
+import { InputAdornment, MenuItem } from '@mui/material';
 import { Search } from 'lucide-react';
-import { MenuItem, InputAdornment } from '@mui/material';
 import {
-  FilterRoot,
   FilterGroup,
+  FilterRoot,
   FilterSelect,
-  SearchInput,
   SearchContainer,
+  SearchInput,
 } from './AppointmentFilter.styled';
+
+
+type ViewMode = 'grid' | 'list';
 
 interface AppointmentFilterProps {
   day?: string;
@@ -15,10 +19,13 @@ interface AppointmentFilterProps {
   onDayChange?: (day: string) => void;
   onMonthChange?: (month: string) => void;
   onSearchChange?: (search: string) => void;
+  view?: ViewMode;
+  setView?: (view: ViewMode) => void;
 }
 
 const days = ['Dia', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 const months = ['Mês', 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
 
 export function AppointmentFilter({ 
   day = 'Dia', 
@@ -27,6 +34,8 @@ export function AppointmentFilter({
   onDayChange,
   onMonthChange,
   onSearchChange,
+  view = 'grid',
+  setView,
 }: AppointmentFilterProps) {
   return (
     <FilterRoot>
@@ -49,6 +58,7 @@ export function AppointmentFilter({
             <MenuItem key={m} value={m}>{m}</MenuItem>
           ))}
         </FilterSelect>
+        {setView && <ViewToggleButton view={view} setView={setView} />}
       </FilterGroup>
 
       <SearchContainer>
