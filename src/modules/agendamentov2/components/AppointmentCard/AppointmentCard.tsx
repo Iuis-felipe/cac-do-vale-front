@@ -1,5 +1,5 @@
 import { Calendar, Clock, User2Icon } from "lucide-react";
-import { AppointmentCardRoot, CardInfo, CardInfoText, CardName } from "./AppointmentCard.styled";
+import { AppointmentCardRoot, CardInfo, CardInfoText, CardName, truncateText } from "./AppointmentCard.styled";
 
 export interface AppointmentCardData {
   id: string;
@@ -19,7 +19,7 @@ export function AppointmentCard({ data, onClick }: AppointmentCardProps) {
     <AppointmentCardRoot onClick={() => onClick?.(data.id)}>
       <CardInfo>
         <User2Icon size={20} color="#212121" />
-        <CardName>{data.name}</CardName>
+        <CardName>{truncateText(data.name, 25)}</CardName>
       </CardInfo>
 
       <CardInfo>

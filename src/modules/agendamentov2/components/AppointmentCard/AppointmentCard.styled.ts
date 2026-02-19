@@ -1,6 +1,13 @@
 import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+export function truncateText(texto: string, limite: number): string{
+  if(texto.length > limite){
+    return texto.slice(0, limite-3) + '...'
+  }
+  return texto;
+}
+
 export const AppointmentCardRoot = styled(Stack)(({ theme }) => ({
   borderRadius: 12,
   border: `2px solid ${theme.palette.custom.grey.lightHover}`,
