@@ -14,8 +14,9 @@ export const StyledTable = styled(Table)({
 
 export const StyledTableHead = styled(TableHead)(({ theme }) => ({
   backgroundColor: theme.palette.custom.grey.lightHover,
+  textAlign: 'center',
   '& .MuiTableCell-head': {
-    fontWeight: theme.typography.fontWeightMedium,
+    fontWeight: theme.typography.fontWeightBold,
     color: theme.palette.custom.grey.normalActive,
     fontSize: 14,
     padding: '12px 16px',
@@ -51,11 +52,11 @@ export const StatusBadge = styled(Box)<{ status: 'open' | 'closed' | 'recess' }>
     backgroundColor: theme.palette.custom.green.normal + '15',
   }),
   ...(status === 'closed' && {
-    color: '#EF4444',
+    color: '#BF0000',
     backgroundColor: '#EF444415',
   }),
   ...(status === 'recess' && {
-    color: '#F59E0B',
+    color: '#F1CB00',
     backgroundColor: '#F59E0B15',
   }),
 }));
@@ -74,7 +75,7 @@ export const ActionButtonEdit = styled(ActionButton)(({ theme }) => ({
 }));
 
 export const ActionButtonDelete = styled(ActionButton)({
-  color: '#EF4444',
+  color: '#BF0000',
 });
 
 export const ActionButtonCopy = styled(ActionButton)(({ theme }) => ({
@@ -82,7 +83,7 @@ export const ActionButtonCopy = styled(ActionButton)(({ theme }) => ({
 }));
 
 export const ActionButtonToggle = styled(ActionButton)<{ isActive?: boolean }>(({ theme, isActive }) => ({
-  color: isActive ? theme.palette.custom.green.normal : '#EF4444',
+  color: isActive ? theme.palette.custom.green.normal : '#BF0000',
 }));
 
 export const ActionsCell = styled(Box)({

@@ -73,7 +73,7 @@ export function ScheduleTable({
       <StyledTable>
         <StyledTableHead>
           <TableRow>
-            <TableCell>Data</TableCell>
+            <TableCell align="center">Data</TableCell>
             <TableCell align="center">Status</TableCell>
             <TableCell align="center">Início do Expediente</TableCell>
             <TableCell align="center">Fim do Expediente</TableCell>
@@ -92,7 +92,7 @@ export function ScheduleTable({
           ) : (
             data.map((schedule) => (
               <TableRow key={schedule.id}>
-                <TableCell>{schedule.date}</TableCell>
+                <TableCell align="center">{schedule.date}</TableCell>
                 <TableCell align="center">
                   <StatusBadge variant={getStatusVariant(schedule.status)}>
                     {getStatusLabel(schedule.status)}
@@ -110,23 +110,23 @@ export function ScheduleTable({
                 <TableCell align="center">
                   {schedule.status === 'closed' ? '-' : schedule.breakDuration}
                 </TableCell>
-                <TableCell align="center">
+                <TableCell>
                   <ActionsCell>
+                     <TableActionButtonCopy size="small" onClick={() => onCopy?.(schedule)}>
+                      <Copy size={20} />
+                    </TableActionButtonCopy>
                     <TableActionButtonEdit size="small" onClick={() => onEdit?.(schedule)}>
-                      <Pencil size={16} />
+                      <Pencil size={20} />
                     </TableActionButtonEdit>
                     <TableActionButtonDelete size="small" onClick={() => onDelete?.(schedule.id)}>
-                      <Trash2 size={16} />
+                      <Trash2 size={20} />
                     </TableActionButtonDelete>
-                    <TableActionButtonCopy size="small" onClick={() => onCopy?.(schedule)}>
-                      <Copy size={16} />
-                    </TableActionButtonCopy>
                     <TableActionButtonToggle 
                       size="small" 
                       isActive={!schedule.isHoliday}
                       onClick={() => onToggleStatus?.(schedule.id, !schedule.isHoliday)}
                     >
-                      {schedule.isHoliday ? <CalendarX size={16} /> : <CalendarCheck size={16} />}
+                      {schedule.isHoliday ? <CalendarX size={20} /> : <CalendarCheck size={20} />}
                     </TableActionButtonToggle>
                   </ActionsCell>
                 </TableCell>
