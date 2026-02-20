@@ -13,13 +13,14 @@ export const StyledTable = styled(Table)({
 });
 
 export const StyledTableHead = styled(TableHead)(({ theme }) => ({
-  backgroundColor: theme.palette.custom.grey.lightHover,
+  borderBottom: `1px solid ${theme.palette.custom.grey.lightHover}`,
   '& .MuiTableCell-head': {
     fontWeight: theme.typography.fontWeightMedium,
     color: theme.palette.custom.grey.normalActive,
+    lineHeight: '130%',
     fontSize: 14,
     padding: '12px 16px',
-    borderBottom: 'none',
+    borderBottom: 'none'
   },
 }));
 
@@ -32,7 +33,7 @@ export const StyledTableBody = styled(TableBody)(({ theme }) => ({
   },
   '& .MuiTableCell-body': {
     fontSize: 14,
-    padding: '12px 16px',
+    padding: '10px 16px',
     color: theme.palette.custom.grey.normalActive,
     borderBottom: `1px solid ${theme.palette.custom.grey.lightHover}`,
   },
@@ -92,6 +93,7 @@ export const TableActionButtonToggle = styled(TableActionButton)<{ isActive?: bo
 export const ActionsCell = styled(Box)({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: 4,
 });
 

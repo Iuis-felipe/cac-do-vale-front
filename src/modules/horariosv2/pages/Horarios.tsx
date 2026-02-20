@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CircularProgress, Divider, Typography } from '@mui/material';
-import { Plus, Calendar } from 'lucide-react';
+import { Plus, Zap } from 'lucide-react';
 import { 
   DashboardHeader, 
   Footer, 
@@ -133,7 +133,7 @@ const HorariosPage = () => {
       <Divider />
 
       <PageHeader title="Horários">
-        <GradientButton startIcon={<Calendar size={18} />} onClick={handleCreatePeriod}>
+        <GradientButton startIcon={<Zap size={18} />} onClick={handleCreatePeriod}>
           Criar período
         </GradientButton>
         <OutlineButton startIcon={<Plus size={18} />} onClick={handleAdd}>
@@ -145,7 +145,7 @@ const HorariosPage = () => {
         filters={filters}
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Buscar agendamento"
+        searchPlaceholder="Buscar horário"
       />
 
       <ContentArea>
