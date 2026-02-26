@@ -40,7 +40,7 @@ export const GroupCards = styled(Box, {
 
   return {
     display: "grid",
-    gridTemplateColumns: "repeat(6, 1fr)",
+    gridTemplateColumns: "repeat(5, 1fr)",
     gap: 16,
 
     [theme.breakpoints.down("lg")]: {

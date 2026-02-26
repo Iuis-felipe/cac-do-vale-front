@@ -1,40 +1,10 @@
 import { styled } from '@mui/material/styles';
-import { Box, Select, InputBase } from '@mui/material';
+import { InputBase } from '@mui/material';
 
-export const FilterBarRoot = styled(Box)({
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  gap: 16,
-  marginBottom: 24,
-});
-
-export const FilterGroup = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 12,
-});
-
-export const FilterSelect = styled(Select)(({ theme }) => ({
-  minWidth: 100,
-  height: 40,
-  borderRadius: 8,
-  backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.custom.grey.lightHover}`,
-  '& .MuiSelect-select': {
-    padding: '8px 12px',
-    fontSize: 14,
-  },
-  '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
-  },
-  transition: 'border-color 0.2s ease',
-  '&:hover': {
-    borderColor: theme.palette.custom.grey.lightActive,
-  },
-}));
-
+/**
+ * FilterBar uses a compact rectangular search input instead of the pill shape.
+ * All other filter primitives come straight from FilterBase.styled.ts.
+ */
 export const SearchInput = styled(InputBase)(({ theme }) => ({
   height: 40,
   minWidth: 250,
@@ -55,9 +25,3 @@ export const SearchInput = styled(InputBase)(({ theme }) => ({
     padding: 0,
   },
 }));
-
-export const SearchContainer = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 8,
-});

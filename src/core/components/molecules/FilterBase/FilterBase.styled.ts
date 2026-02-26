@@ -1,6 +1,11 @@
 import { styled } from '@mui/material/styles';
 import { Box, Select, InputBase } from '@mui/material';
 
+// ---------------------------------------------------------------------------
+// Base filter layout — shared by all filter bars across the app.
+// Import these in feature-specific *.styled.ts and re-export (or extend).
+// ---------------------------------------------------------------------------
+
 export const FilterRoot = styled(Box)({
   display: 'flex',
   flexWrap: 'wrap',
@@ -24,7 +29,7 @@ export const FilterSelect = styled(Select)(({ theme }) => ({
   border: `1px solid ${theme.palette.custom.grey.lightHover}`,
   '& .MuiSelect-select': {
     padding: '8px 12px',
-    fontSize: 14,
+    fontSize: 13,
   },
   '& .MuiOutlinedInput-notchedOutline': {
     border: 'none',
@@ -35,13 +40,27 @@ export const FilterSelect = styled(Select)(({ theme }) => ({
   },
 }));
 
+export const selectMenuProps = {
+  PaperProps: {
+    sx: {
+      borderRadius: 2,
+      mt: 0.5,
+      '& .MuiMenuItem-root': {
+        fontSize: 13,
+        minHeight: 'unset',
+        padding: '6px 12px',
+      },
+    },
+  },
+};
+
+/** Pill-shaped search input — default search style across the app. */
 export const SearchInput = styled(InputBase)(({ theme }) => ({
-  height: 40,
-  minWidth: 250,
-  borderRadius: 8,
+  minWidth: 285,
+  borderRadius: 24,
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.custom.grey.lightHover}`,
-  padding: '0 16px',
+  padding: '10px 5px 10px 16px',
   fontSize: 14,
   transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
   '&:hover': {

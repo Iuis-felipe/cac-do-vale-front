@@ -1,12 +1,13 @@
 import { InputAdornment, MenuItem } from '@mui/material';
 import { Search } from 'lucide-react';
 import {
-  FilterBarRoot,
+  FilterRoot as FilterBarRoot,
   FilterGroup,
   FilterSelect,
   SearchContainer,
-  SearchInput,
-} from './FilterBar.styled';
+  selectMenuProps,
+} from '@/core/components/molecules/FilterBase/FilterBase.styled';
+import { SearchInput } from './FilterBar.styled';
 
 export interface FilterOption {
   value: string;
@@ -48,6 +49,7 @@ export function FilterBar({
               value={filter.value}
               onChange={(e) => filter.onChange(e.target.value as string)}
               displayEmpty
+              MenuProps={selectMenuProps}
             >
               {filter.options.map((option) => (
                 <MenuItem key={option.value} value={option.value}>

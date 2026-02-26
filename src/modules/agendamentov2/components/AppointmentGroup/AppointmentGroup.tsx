@@ -21,7 +21,7 @@ export function AppointmentGroup({ date, appointments, onCardClick, view }: Appo
     <GroupRoot>
       <GroupHeader>
         <GroupDate>{date}</GroupDate>
-        <GroupCount>{appointments.length} agendamentos</GroupCount>
+        <GroupCount>{appointments.length} AGENDAMENTO(S)</GroupCount>
       </GroupHeader>
       <GroupCards view={view}>
         {appointments.map((appointment) => (
@@ -29,6 +29,7 @@ export function AppointmentGroup({ date, appointments, onCardClick, view }: Appo
             key={appointment.id}
             data={appointment}
             onClick={onCardClick}
+            view={view}
           />
         ))}
       </GroupCards>

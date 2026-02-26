@@ -6,7 +6,8 @@ import {
   FilterSelect,
   SearchInput,
   SearchContainer,
-} from './ScheduleFilter.styled';
+  selectMenuProps,
+} from '@/core/components/molecules/FilterBase/FilterBase.styled';
 
 interface ScheduleFilterProps {
   day?: string;
@@ -35,6 +36,7 @@ export function ScheduleFilter({
           value={day}
           onChange={(e) => onDayChange?.(e.target.value as string)}
           displayEmpty
+          MenuProps={selectMenuProps}
         >
           {days.map((d) => (
             <MenuItem key={d} value={d}>{d}</MenuItem>
@@ -44,6 +46,7 @@ export function ScheduleFilter({
           value={month}
           onChange={(e) => onMonthChange?.(e.target.value as string)}
           displayEmpty
+          MenuProps={selectMenuProps}
         >
           {months.map((m) => (
             <MenuItem key={m} value={m}>{m}</MenuItem>
@@ -56,8 +59,8 @@ export function ScheduleFilter({
           placeholder="Buscar agendamento"
           value={search}
           onChange={(e) => onSearchChange?.(e.target.value)}
-          startAdornment={
-            <InputAdornment position="start">
+          endAdornment={
+            <InputAdornment position="end">
               <Search size={18} color="#9CA3AF" />
             </InputAdornment>
           }
