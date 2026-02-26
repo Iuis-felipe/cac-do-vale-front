@@ -1,11 +1,17 @@
 import React from "react";
 import { X } from "lucide-react";
-import { StyledDialog, StyledDialogTitle, StyledDialogContent, CloseButton } from "./Modal.styled";
+import {
+  StyledDialog,
+  StyledDialogTitle,
+  StyledDialogContent,
+  CloseButton,
+} from "./Modal.styled";
+import { Divider } from "@mui/material";
 
 function parseTailwindWidth(size: string): string {
-  if (size === 'w-1/3') return '33.333%';
-  if (size === 'w-1/2') return '50%';
-  if (size === 'w-2/3') return '66.667%';
+  if (size === "w-1/3") return "33.333%";
+  if (size === "w-1/2") return "50%";
+  if (size === "w-2/3") return "66.667%";
   const match = size.match(/w-\[(.+?)\]/);
   if (match) return match[1];
   return size;
@@ -20,14 +26,20 @@ interface IModalProps {
   onClose: () => void;
 }
 
-const Modal: React.FC<IModalProps> = ({ children, isOpen, title, size = 'w-1/3', onClose }) => {
+const Modal: React.FC<IModalProps> = ({
+  children,
+  isOpen,
+  title,
+  size = "w-1/3",
+  onClose,
+}) => {
   const width = parseTailwindWidth(size);
 
   return (
     <StyledDialog
       open={isOpen}
       onClose={onClose}
-      PaperProps={{ sx: { width, maxWidth: 'none' } }}
+      slotProps={{ paper: { sx: { width, maxWidth: "none" } } }}
     >
       <StyledDialogTitle>
         {title}
@@ -35,9 +47,8 @@ const Modal: React.FC<IModalProps> = ({ children, isOpen, title, size = 'w-1/3',
           <X size={24} />
         </CloseButton>
       </StyledDialogTitle>
-      <StyledDialogContent>
-        {children}
-      </StyledDialogContent>
+      <Divider />
+      <StyledDialogContent>{children}</StyledDialogContent>
     </StyledDialog>
   );
 };

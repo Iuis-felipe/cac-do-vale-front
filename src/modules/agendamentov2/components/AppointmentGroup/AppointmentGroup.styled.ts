@@ -14,7 +14,6 @@ export const GroupHeader = styled(Stack)({
 
 export const GroupDate = styled(Typography)(({ theme }) => ({
   fontSize: 16,
-  fontWeight: theme.typography.fontWeightMedium,
   color: theme.palette.custom.grey.normalActive,
 }));
 

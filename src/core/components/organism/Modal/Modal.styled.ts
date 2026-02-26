@@ -16,10 +16,10 @@ export const StyledDialogTitle = styled(DialogTitle)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: 0,
-  marginBottom: 16,
-  fontSize: 18,
-  fontWeight: theme.typography.fontWeightMedium,
-  color: theme.palette.custom.grey.normalActive,
+  marginBottom: 5,
+  fontSize: 24,
+  fontWeight: theme.typography.fontWeightRegular,
+  color: theme.palette.custom.grey.normal,
 }));
 
 export const StyledDialogContent = styled(DialogContent)({

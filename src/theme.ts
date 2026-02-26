@@ -49,29 +49,6 @@ declare module '@mui/material/styles' {
 const baseThemeConfig = {
   typography: {
     fontFamily: 'Poppins, Arial, sans-serif',
-    h1: {
-      fontWeight: 700,
-      fontSize: '48px',
-      letterSpacing: 0,
-    },
-    h2: {
-      fontWeight: 400,
-      fontSize: '32px',
-      letterSpacing: 0,
-    },
-    body1: {
-      fontWeight: 400,
-      fontSize: '24px',
-      letterSpacing: 0,
-    },
-    subtitle1: {
-      fontWeight: 400,
-      fontSize: '16px',
-    },
-    subtitle2: {
-      fontWeight: 400,
-      fontSize: '14px',
-    },
     button: {
       fontWeight: 500,
       fontSize: '16px',

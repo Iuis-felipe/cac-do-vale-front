@@ -11,6 +11,8 @@ import {
   SelectFilter,
 } from '@/components';
 import { ScheduleTable, ScheduleData } from '../components/ScheduleTable';
+import { ScheduleCreateModal } from '../components/ScheduleCreateModal';
+import { ScheduleBulkCreateModal } from '../components/ScheduleBulkCreateModal';
 import {
   HorariosContainer,
   ContentArea,
@@ -72,21 +74,38 @@ const HorariosPage = () => {
   const [search, setSearch] = useState('');
   const [schedules, setSchedules] = useState<ScheduleData[]>(mockSchedules);
 
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenBulk, setIsOpenBulk] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState<any>(undefined);
+
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 500);
     return () => clearTimeout(timer);
   }, []);
 
-  const handleCreatePeriod = () => {
-    console.log('Criar período');
+  const reloadData = () => {
+    // TODO: buscar dados da API
   };
 
+  const handleCreatePeriod = () => setIsOpenBulk(true);
+
   const handleAdd = () => {
-    console.log('Adicionar horário');
+    setEditingSchedule(undefined);
+    setIsOpenCreate(true);
   };
 
   const handleEdit = (schedule: ScheduleData) => {
-    console.log('Editar:', schedule);
+    setEditingSchedule({
+      id: schedule.id,
+      dia: schedule.date,
+      horarioStart: schedule.startTime,
+      horarioEnd: schedule.endTime,
+      intervalo: schedule.breakTime,
+      intervaloThreshold: schedule.breakDuration,
+      isHoliday: schedule.isHoliday,
+      isRecess: schedule.status === 'recess',
+    });
+    setIsOpenCreate(true);
   };
 
   const handleDelete = (id: string) => {
@@ -160,6 +179,20 @@ const HorariosPage = () => {
       </ContentArea>
 
       <Footer />
+
+      <ScheduleCreateModal
+        isOpen={isOpenCreate}
+        schedule={editingSchedule}
+        onClose={() => setIsOpenCreate(false)}
+        reloadData={reloadData}
+      />
+
+      <ScheduleBulkCreateModal
+        isOpen={isOpenBulk}
+        onClose={() => setIsOpenBulk(false)}
+        reloadData={reloadData}
+      />
+
     </HorariosContainer>
   );
 };
