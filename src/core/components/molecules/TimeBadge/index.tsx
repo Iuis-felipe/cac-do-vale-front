@@ -1,5 +1,6 @@
 import { FC, useMemo } from "react";
 import { differenceInMinutes } from "date-fns";
+import { TimeBadgeRoot } from "./TimeBadge.styled";
 
 interface ITimeBadge {
   date: Date | null;
@@ -24,11 +25,7 @@ const TimeBadge: FC<ITimeBadge> = ({ date, time }) => {
   const isLate = minutesUntil < 0;
   const isSoon = minutesUntil < 30 && !isLate;
 
-  const badgeColor = isLate
-    ? "bg-red-50 text-red-600 border-red-200"
-    : isSoon
-    ? "bg-amber-50 text-amber-600 border-amber-200"
-    : "bg-emerald-50 text-emerald-600 border-emerald-200";
+  const status = isLate ? 'late' : isSoon ? 'soon' : 'ok';
 
   const badgeText = isLate
     ? `${Math.abs(minutesUntil)}m atrasado`
@@ -36,7 +33,7 @@ const TimeBadge: FC<ITimeBadge> = ({ date, time }) => {
     ? `${minutesUntil}m`
     : `${Math.floor(minutesUntil / 60)}h`;
 
-  return <span className={`text-[11px] px-2 py-0.5 rounded-full font-medium border ${badgeColor}`}>{badgeText}</span>;
+  return <TimeBadgeRoot status={status}>{badgeText}</TimeBadgeRoot>;
 };
 
-export default TimeBadge
+export default TimeBadge;

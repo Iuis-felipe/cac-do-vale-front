@@ -7,7 +7,8 @@ import {
   FilterSelect,
   SearchContainer,
   SearchInput,
-} from './AppointmentFilter.styled';
+  selectMenuProps,
+} from '@/core/components/molecules/FilterBase/FilterBase.styled';
 
 
 type ViewMode = 'grid' | 'list';
@@ -40,10 +41,12 @@ export function AppointmentFilter({
   return (
     <FilterRoot>
       <FilterGroup>
+        {setView && <ViewToggleButton view={view} setView={setView} />}
         <FilterSelect
           value={day}
           onChange={(e) => onDayChange?.(e.target.value as string)}
           displayEmpty
+          MenuProps={selectMenuProps}
         >
           {days.map((d) => (
             <MenuItem key={d} value={d}>{d}</MenuItem>
@@ -53,12 +56,12 @@ export function AppointmentFilter({
           value={month}
           onChange={(e) => onMonthChange?.(e.target.value as string)}
           displayEmpty
+          MenuProps={selectMenuProps}
         >
           {months.map((m) => (
             <MenuItem key={m} value={m}>{m}</MenuItem>
           ))}
         </FilterSelect>
-        {setView && <ViewToggleButton view={view} setView={setView} />}
       </FilterGroup>
 
       <SearchContainer>
@@ -66,7 +69,7 @@ export function AppointmentFilter({
           placeholder="Buscar agendamento"
           value={search}
           onChange={(e) => onSearchChange?.(e.target.value)}
-          startAdornment={
+          endAdornment={
             <InputAdornment position="start">
               <Search size={18} color="#9CA3AF" />
             </InputAdornment>

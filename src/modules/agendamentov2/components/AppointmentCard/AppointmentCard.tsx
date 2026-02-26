@@ -12,14 +12,17 @@ export interface AppointmentCardData {
 interface AppointmentCardProps {
   data: AppointmentCardData;
   onClick?: (id: string) => void;
+  view?: 'grid' | 'list';
 }
 
-export function AppointmentCard({ data, onClick }: AppointmentCardProps) {
+export function AppointmentCard({ data, onClick, view = 'grid' }: AppointmentCardProps) {
+  const textLimit = view === 'list' ? 200 : 40;
+
   return (
     <AppointmentCardRoot onClick={() => onClick?.(data.id)}>
       <CardInfo>
         <User2Icon size={20} color="#212121" />
-        <CardName>{truncateText(data.name, 25)}</CardName>
+        <CardName>{truncateText(data.name, textLimit)}</CardName>
       </CardInfo>
 
       <CardInfo>
