@@ -5,9 +5,9 @@ import {
   FilterGroup,
   FilterSelect,
   SearchContainer,
+  SearchInput,
   selectMenuProps,
 } from '@/core/components/molecules/FilterBase/FilterBase.styled';
-import { SearchInput } from './FilterBar.styled';
 
 export interface FilterOption {
   value: string;
@@ -67,7 +67,7 @@ export function FilterBar({
             placeholder={searchPlaceholder}
             value={search}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            startAdornment={
+            endAdornment={
               <InputAdornment position="start">
                 <Search size={18} color="#9CA3AF" />
               </InputAdornment>
