@@ -1,13 +1,19 @@
 import { FC } from "react";
+import { SkeletonProps } from "@mui/material";
+import { SkeletonStyled } from "./Skeleton.styled";
 
-interface ISkeleton {
+interface ISkeleton extends Pick<SkeletonProps, 'variant' | 'width' | 'height' | 'sx'> {
   className?: string;
 }
 
-const Skeleton: FC<ISkeleton> = ({ className = "" }) => (
-  <div
-    className={`animate-pulse rounded-md bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:400%_100%] ${className}`}
+const Skeleton: FC<ISkeleton> = ({ className, variant = 'rectangular', width, height, sx }) => (
+  <SkeletonStyled
+    variant={variant}
+    width={width}
+    height={height}
+    className={className}
+    sx={sx}
   />
 );
 
-export default Skeleton
+export default Skeleton;

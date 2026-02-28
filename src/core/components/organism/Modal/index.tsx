@@ -1,4 +1,21 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import React from "react";
+import { X } from "lucide-react";
+import {
+  StyledDialog,
+  StyledDialogTitle,
+  StyledDialogContent,
+  CloseButton,
+} from "./Modal.styled";
+import { Divider } from "@mui/material";
+
+function parseTailwindWidth(size: string): string {
+  if (size === "w-1/3") return "33.333%";
+  if (size === "w-1/2") return "50%";
+  if (size === "w-2/3") return "66.667%";
+  const match = size.match(/w-\[(.+?)\]/);
+  if (match) return match[1];
+  return size;
+}
 
 interface IModalProps {
   children: React.ReactNode;
@@ -9,33 +26,31 @@ interface IModalProps {
   onClose: () => void;
 }
 
-const Modal: React.FC<IModalProps> = ({ children, isOpen, title, size = "w-1/3", height = "h-fit", onClose }) => {
-  if (!isOpen) return null;
-
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+const Modal: React.FC<IModalProps> = ({
+  children,
+  isOpen,
+  title,
+  size = "w-1/3",
+  onClose,
+}) => {
+  const width = parseTailwindWidth(size);
 
   return (
-    <div
-      className="absolute top-0 left-0 w-full h-screen bg-black/80 flex items-center justify-center z-50 overflow-y-auto"
-      onClick={handleOverlayClick}
+    <StyledDialog
+      open={isOpen}
+      onClose={onClose}
+      slotProps={{ paper: { sx: { width, maxWidth: "none" } } }}
     >
-      <div className={`${size} ${height} bg-white rounded-md p-4 my-auto`}>
-        <div className="flex flex-row items-center justify-between">
-          <p className="text-lg font-semibold">{title}</p>
-          <button onClick={onClose} className="cursor-pointer p-0">
-            <XMarkIcon className="size-6 text-slate-600" />
-          </button>
-        </div>
-        <div className="mt-4">
-          {children}
-        </div>
-      </div>
-    </div>
-  )
-}
+      <StyledDialogTitle>
+        {title}
+        <CloseButton onClick={onClose} disableRipple>
+          <X size={24} />
+        </CloseButton>
+      </StyledDialogTitle>
+      <Divider />
+      <StyledDialogContent>{children}</StyledDialogContent>
+    </StyledDialog>
+  );
+};
 
 export default Modal;

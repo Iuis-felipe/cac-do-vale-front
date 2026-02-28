@@ -4,7 +4,7 @@ import AgendamentoDetail from "../pages/Detail";
 import AgendamentoList from "../pages/List";
 import AgendamentoRapido from "../pages/AdicionarRapido";
 
-export const ScheduleRoutes = [
+export const scheduleRoutes = [
   {
     path: "",
     element: <AgendamentoList />
