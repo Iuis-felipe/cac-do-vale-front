@@ -60,3 +60,14 @@ export const getAllClinics = async () => {
     throw error
   }
 }
+
+export const updateCalendarLimit = async (id: string, isAvailable: boolean) => {
+  try {
+    const response = await api.put(`/clinic/time-availability/${id}`, { isAvailable })
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
