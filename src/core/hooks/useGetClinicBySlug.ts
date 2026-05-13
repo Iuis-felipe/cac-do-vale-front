@@ -1,19 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { getClinic } from "../services/clinic";
-import clinicStore from "../store/clinic";
 
 const useGetClinicBySlug = () => {
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, data } = useMutation({
     mutationKey: ['clinic', 'slug'],
     mutationFn: (slug: string) => getClinic(slug),
-    retry: false,
-    onSuccess: (data) => {
-      const setClinic = clinicStore.getState().setClinic;
-      setClinic(data);
-    }
+    retry: false
   });
 
-  return { mutate, isPending };
+  return { mutate, isPending, data };
 }
 
 export default useGetClinicBySlug;

@@ -45,15 +45,12 @@ const Scheduling = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
 
-  const { mutate: getClinicBySlug } = useGetClinicBySlug();
+  const { mutate: getClinicBySlug, data: clinic } = useGetClinicBySlug();
 
   useEffect(() => {
     if (!slug) return;
 
     getClinicBySlug(slug);
-
-    clinicStore.getState().logout();
-    localStorage.removeItem("clinic");
 
     const colorBySlug: Record<string, string> = {
       "cac-do-vale": "#101F59",
@@ -187,7 +184,7 @@ const Scheduling = () => {
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
           {currentPage === 1 && <WelcomeFrame setCurrentPage={setCurrentPage} />}
           {currentPage === 2 && (
-            <DaySelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
+            <DaySelectionFrame clinic={clinic} data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
           {currentPage === 3 && (
             <HourSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />

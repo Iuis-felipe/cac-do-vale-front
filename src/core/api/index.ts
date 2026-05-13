@@ -1,5 +1,8 @@
 import axios from "axios";
 
+//const api_url = 'http://localhost:8080/api/v1';
+
+
 const api = axios.create({
   baseURL: 'https://api.cacdovale.com.br/api/v1',
 });
