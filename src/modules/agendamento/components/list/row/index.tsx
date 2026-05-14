@@ -5,9 +5,10 @@ import { format } from "date-fns";
 import { useDeleteSchedule } from "../../../hook/useDeleteSchedule";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { ISchedule } from "@/core/models";
 
 interface ITableRowProps {
-  data: any;
+  data: ISchedule;
   handleActions: (id: string) => void;
 }
 

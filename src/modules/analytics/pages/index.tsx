@@ -88,7 +88,7 @@ const AnalyticsPage = () => {
         <PageTitle title="Analytics & Insights" subtitle="Análises e estatísticas dos agendamentos" />
         <button
           onClick={handleRefresh}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors cursor-pointer"
           disabled={isLoadingAll}
         >
           <RefreshCw className={`size-4 ${isLoadingAll ? 'animate-spin' : ''}`} />

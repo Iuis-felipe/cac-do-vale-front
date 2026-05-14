@@ -7,18 +7,17 @@ import Filter from "../../components/filter";
 import Table from "../../components/list/table";
 import ActionModal from "../../components/modal";
 import { useNavigate } from "react-router-dom";
-import userStore from "@/core/store/user";
+import { ISchedule } from "@/core/models";
 
 const AgendamentoList = () => {
   const navigate = useNavigate()
-  const user = userStore(state => state.user)
   const { mutate, isPending, data } = useGetSchedule()
 
   const [order, setOrder] = useState<string | undefined>();
   const [search, setSearch] = useState<string | undefined>();
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [schedules, setSchedules] = useState<any[]>([])
+  const [schedules, setSchedules] = useState<ISchedule[]>([])
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [actionId, setActionId] = useState<string | undefined>();
 
@@ -85,15 +84,13 @@ const AgendamentoList = () => {
             <PlusIcon className="size-5"/>
             <p className="text-sm font-semibold">Adicionar</p>
           </button>
-          {user?.role === 'admin' && (
-            <button 
-              onClick={handleAddQuickSchedule}
-              className="py-2 px-4 cursor-pointer bg-amber-500 hover:bg-amber-600 transition-colors text-white rounded-md flex flex-row items-center gap-2"
-            >
-              <BoltIcon className="size-5"/>
-              <p className="text-sm font-semibold">Rápido</p>
-            </button>
-          )}
+          <button 
+            onClick={handleAddQuickSchedule}
+            className="py-2 px-4 cursor-pointer bg-amber-500 hover:bg-amber-600 transition-colors text-white rounded-md flex flex-row items-center gap-2"
+          >
+            <BoltIcon className="size-5"/>
+            <p className="text-sm font-semibold">Rápido</p>
+          </button>
         </div>
       </div>
       <Table 

@@ -51,10 +51,10 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
     if (!handleValidation()) {
       return;
     }
-    const newSchedule = { ...data };
+
+    const newSchedule = { ...data, clinicSlug: slug };
     const [hours, minutes] = data.horario.split(':').map(Number);
     newSchedule.dia = set(new Date(data.dia), { hours, minutes });
-    newSchedule.clinicSlug = slug;
     
     mutate(newSchedule);
   };

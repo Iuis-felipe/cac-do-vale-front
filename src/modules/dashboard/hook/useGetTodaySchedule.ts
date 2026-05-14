@@ -4,7 +4,7 @@ import { getDashboardSchedules } from "../services";
 const useGetTodaySchedule = () => {
   const { data, isPending } = useQuery({
     queryKey: ['today-schedules'],
-    queryFn: getDashboardSchedules,
+    queryFn: () => getDashboardSchedules(),
   });
 
   return { data, isPending };
