@@ -23,8 +23,6 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
       return false;
     }
 
-    console.log('1', data);
-
     const requiredFields = ['dia', 'horario', 'email', 'telefone', 'cpf', 'nome_civil', 'cep', 'logradouro', 'numero', 'bairro', 'cidade', 'estado', 'tipo_exame', 'categoria', 'forma_pagamento'];
     const hasError = []
 

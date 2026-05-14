@@ -10,20 +10,20 @@ import { useMutation } from "@tanstack/react-query";
 import api from "@/core/api";
 import DaySelector from "../../components/daySelector";
 import { isValidCpf, isValidPhone } from "@/core/utils/validation";
+import clinicStore from "@/core/store/clinic";
+import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 
 const AgendamentoRapido = () => {
     const navigate = useNavigate();
 
+    const { clinic } = clinicStore();
+
     const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
         mutationKey: ['get-available-hours-quick'],
-        mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+        mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}&clinicSlug=${clinic?.slug}`).then(res => res.data),
     });
     const { mutate: createSchedule, isPending: loadingCreateSchedule, isSuccess } = useCreateSchedule();
-    const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useMutation({
-        mutationKey: ['get-appointment-hours-quick'],
-        mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
-    });
-
+    const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
     const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined);
     const [validationErrors, setValidationErrors] = useState<{ cpf?: string; telefone?: string }>({});
@@ -62,7 +62,7 @@ const AgendamentoRapido = () => {
         if (date) {
             const formatted = format(date, 'yyyy-MM-dd');
             getAvailableHours(formatted);
-            getAppointmentHours(formatted);
+            getAppointmentHours({ date: formatted, clinicSlug: clinic?.slug });
         }
     };
 
