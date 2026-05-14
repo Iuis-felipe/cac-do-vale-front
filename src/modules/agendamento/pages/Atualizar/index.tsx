@@ -12,10 +12,13 @@ import { useMutation } from "@tanstack/react-query";
 import api from "@/core/api";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 import DaySelector from "../../components/daySelector";
+import clinicStore from "@/core/store/clinic";
 
 const AgendamentoUpdate = () => {
   const { scheduleId } = useParams();
   const navigate = useNavigate();
+
+  const { clinic } = clinicStore();
 
   const {
     mutate: getAvailableHours,
@@ -23,7 +26,7 @@ const AgendamentoUpdate = () => {
     data: unavailableHours,
   } = useMutation({
     mutationKey: ["get-available-hours"],
-    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then((res) => res.data),
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}&clinicSlug=${clinic?.slug}`).then((res) => res.data),
   });
   const { mutate: updateSchedule, isPending: loadingUpdateSchedule, isSuccess } = useUpdateSchedule();
   const { data: schedule, isPending: loadingGetSchedule } = useLoadSchedule(scheduleId || "");
@@ -84,7 +87,7 @@ const AgendamentoUpdate = () => {
 
       const formattedDate = format(schedule.dia, "yyyy-MM-dd");
       getAvailableHours(formattedDate);
-      getAppointmentHours({ date: formattedDate });
+      getAppointmentHours({ date: formattedDate, clinicSlug: clinic?.slug });
     }
   }, [schedule]);
 
@@ -94,7 +97,7 @@ const AgendamentoUpdate = () => {
     if (date) {
       const formattedDate = format(date, "yyyy-MM-dd");
       getAvailableHours(formattedDate);
-      getAppointmentHours({ date: formattedDate });
+      getAppointmentHours({ date: formattedDate, clinicSlug: clinic?.slug });
 
       setUpdatedFields({
         ...updatedFields,
