@@ -3,7 +3,6 @@ import { isSaturday, isSunday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 import { useParams } from "react-router-dom";
-import clinicStore from "@/core/store/clinic";
 
 import Pagination from "../components/schduling/pagination";
 import WelcomeFrame from "../components/schduling/frames/page-1";
@@ -14,6 +13,29 @@ import AddressFrame from "../components/schduling/frames/page-5";
 import FinishFrame from "../components/schduling/frames/page-6";
 import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
 import useGetClinicBySlug from "@/core/hooks/useGetClinicBySlug";
+
+interface SchedulingFormData {
+  dia: Date | undefined;
+  horario: string;
+  email: string;
+  telefone: string;
+  cpf: string;
+  nome_civil: string;
+  nome_social: string;
+  cep: string;
+  logradouro: string;
+  numero: string;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
+  tipo_exame: string;
+  origem: string;
+  categoria: string;
+  forma_pagamento: string;
+  clinicSlug: string;
+  clinicId: string;
+}
 
 const initialFormData = {
   dia: undefined,
@@ -43,17 +65,14 @@ const Scheduling = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState(initialFormData);
-  const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<any | null>(null);
+  const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<SchedulingFormData | null>(null);
 
-  const { mutate: getClinicBySlug } = useGetClinicBySlug();
+  const { mutate: getClinicBySlug, data: clinic } = useGetClinicBySlug();
 
   useEffect(() => {
     if (!slug) return;
 
     getClinicBySlug(slug);
-
-    clinicStore.getState().logout();
-    localStorage.removeItem("clinic");
 
     const colorBySlug: Record<string, string> = {
       "cac-do-vale": "#101F59",
@@ -83,7 +102,7 @@ const Scheduling = () => {
     root.style.setProperty("--sidebar-primary", clinicColor);
     root.style.setProperty("--primary-foreground", foregroundColor);
     root.style.setProperty("--sidebar-primary-foreground", foregroundColor);
-  }, [slug]);
+  }, [getClinicBySlug, slug]);
 
   const totalPages = 6;
 
@@ -187,7 +206,7 @@ const Scheduling = () => {
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
           {currentPage === 1 && <WelcomeFrame setCurrentPage={setCurrentPage} />}
           {currentPage === 2 && (
-            <DaySelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
+            <DaySelectionFrame clinic={clinic} data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
           {currentPage === 3 && (
             <HourSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
