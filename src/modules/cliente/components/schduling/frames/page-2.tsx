@@ -8,11 +8,12 @@ import { useParams } from "react-router-dom";
 
 interface DaySelectionFrameProps {
   data: any;
+  clinic: any;
   setData: (data: any) => void;
   setCurrentPage: (page: number) => void;
 }
 
-const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
+const DaySelectionFrame = ({ data, clinic, setData, setCurrentPage }: DaySelectionFrameProps) => {
   const { slug } = useParams();
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(data.dia ? new Date(data.dia) : undefined);
@@ -45,7 +46,9 @@ const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameP
     const dateString = format(date, "yyyy-MM-dd");
     const isClosedDay = closedDays.includes(dateString);
 
-    return date < today || date > maxDate || isSaturday(date) || isSunday(date) || isClosedDay;
+    const isAfterMaxDate = clinic.isCalendarLimitActive ? date > maxDate : false;
+
+    return date < today || isAfterMaxDate || isSaturday(date) || isSunday(date) || isClosedDay;
   };
 
   return (

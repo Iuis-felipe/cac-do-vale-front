@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { CheckCircleIcon, CalendarIcon, UserIcon, MapPinIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import { translateTypeExame } from '@/core/utils/transforms';
+import { useParams } from 'react-router-dom';
 
 const DetailItem = ({ icon: Icon, label, value }: { icon: React.ElementType, label: string, value: string | undefined }) => (
   <div className="flex items-start">
@@ -15,6 +16,8 @@ const DetailItem = ({ icon: Icon, label, value }: { icon: React.ElementType, lab
 );
 
 const ConfirmationFrame = ({ data }: { data: any }) => {
+  const { slug } = useParams();
+
   if (!data) {
     return (
       <div className="text-center">
@@ -24,7 +27,12 @@ const ConfirmationFrame = ({ data }: { data: any }) => {
   }
 
   const handleFinish = () => {
-    window.location.href = 'https://cacdovale.com.br/';
+    const urlMap: Record<string, string> = {
+      "cac-do-vale": "https://cacdovale.com.br/",
+      "cac-blumed": "https://cacblumed.com.br/",
+    };
+    const url = urlMap[slug || "cac-do-vale"];
+    window.location.href = url;
   };
 
   const fullAddress = `${data.logradouro}, ${data.numero} - ${data.bairro}, ${data.cidade} - ${data.estado}, CEP: ${data.cep}`;
