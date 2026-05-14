@@ -11,14 +11,18 @@ import DaySelector from "../../components/daySelector";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/core/api";
+import clinicStore from "@/core/store/clinic";
 
 const AgendamentoForm = () => {
   const navigate = useNavigate();
 
+  const { clinic } = clinicStore();
+
   const { mutate: getAvailableHours, isPending: loadingHours, data: unavailableHours } = useMutation({
     mutationKey: ['get-available-hours'],
-    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}`).then(res => res.data),
+    mutationFn: (date: string) => api.get(`/schedule/available/hours?dia=${date}&clinicSlug=${clinic?.slug}`).then(res => res.data),
   });
+
   const { mutate: createSchedule, isPending: loadingCreateSchedule, isSuccess } = useCreateSchedule();
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
 
@@ -67,7 +71,7 @@ const AgendamentoForm = () => {
     if (date) {
       const formattedDate = format(date, "yyyy-MM-dd");
       getAvailableHours(formattedDate);
-      getAppointmentHours({ date: formattedDate });
+      getAppointmentHours({ date: formattedDate, clinicSlug: clinic?.slug });
     }
   }
 

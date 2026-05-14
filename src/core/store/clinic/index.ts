@@ -5,6 +5,7 @@ interface ClinicModel {
   id: string;
   name: string;
   cor: string;
+  slug: string;
 }
 
 interface ClinicStore {
