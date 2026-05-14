@@ -6,7 +6,6 @@ interface ClinicModel {
   name: string;
   slug: string;
   cor: string;
-  slug: string;
 }
 
 interface ClinicStore {
