@@ -15,4 +15,5 @@ export interface IClinic {
   email: string;
   cor: string;
   cnpj?: string;
+  isCalendarLimitActive: boolean;
 }
