@@ -18,6 +18,7 @@ export const getAvailableHours = async (date: string, clinicSlug?: string) => {
     if (clinicSlug) {
       url += `&clinicSlug=${clinicSlug}`;
     }
+    
     const { data } = await api.get(url);
 
     return data;

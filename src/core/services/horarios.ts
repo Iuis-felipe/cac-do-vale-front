@@ -7,6 +7,7 @@ export const getAppointmentAvailableHours = async (date: string, clinicSlug?: st
     if (clinicSlug) {
       url += `?clinicSlug=${clinicSlug}`;
     }
+    
     const { data } = await api.get(url);
 
     return data;

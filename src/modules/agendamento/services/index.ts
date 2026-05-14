@@ -50,7 +50,15 @@ export const getScheduleById = async (id: string) => {
 
 export const getScheduleByDate = async (date: string) => {
   try {
-    const { data } = await api.get(`/schedule/available/hours?dia=${date}`)
+    const clinic = clinicStore.getState().clinic;
+
+    if(!clinic) {
+      throw new Error('Clinica não encontrada');
+    }
+
+    const url = `/schedule/available/hours?dia=${date}&clinicSlug=${clinic.slug}`;
+
+    const { data } = await api.get(url)
 
     return data;
   } catch(e: any) {
