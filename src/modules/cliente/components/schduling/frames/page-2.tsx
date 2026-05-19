@@ -1,59 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { format, addDays, isSaturday, isSunday } from "date-fns";
+import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import useGetUnavailableDays from "@/core/hooks/useGetUnavailableDays";
 import { Loader } from "lucide-react";
 import { useParams } from "react-router-dom";
+import { useGetSchedulingAvailableDays } from "@/modules/cliente/hook/useGetAvailableDays";
 
 interface DaySelectionFrameProps {
   data: any;
-  clinic: any;
   setData: (data: any) => void;
   setCurrentPage: (page: number) => void;
 }
 
-const DaySelectionFrame = ({ data, clinic, setData, setCurrentPage }: DaySelectionFrameProps) => {
+const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
   const { slug } = useParams();
+  const { availableDays, isLoading } = useGetSchedulingAvailableDays(slug || '');
 
-  const [selectedDay, setSelectedDay] = useState<Date | undefined>(data.dia ? new Date(data.dia) : undefined);
-  const [closedDays, setClosedDays] = useState<string[]>([]);
-  const { mutate: getUnavailableDays, data: unavailableDays, isPending } = useGetUnavailableDays();
-
-  useEffect(() => {
-    getUnavailableDays(slug);
-  }, []);
-
-  useEffect(() => {
-    if (unavailableDays) {
-      setClosedDays(unavailableDays);
-    }
-  }, [unavailableDays]);
-
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>();
+  
   const handleDaySelect = (date: Date | undefined) => {
     if (!date) return;
-    if (isDateDisabled(date)) return;
+
     setSelectedDay(date);
     setData({ ...data, dia: date });
   };
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const maxDate = addDays(today, 14);
-
-  const isDateDisabled = (date: Date) => {
-    const dateString = format(date, "yyyy-MM-dd");
-    const isClosedDay = closedDays.includes(dateString);
-
-    const isAfterMaxDate = clinic.isCalendarLimitActive ? date > maxDate : false;
-
-    return date < today || isAfterMaxDate || isSaturday(date) || isSunday(date) || isClosedDay;
-  };
+  const dataset = new Set(availableDays || []);
 
   return (
     <div className="w-full h-full flex flex-col lg:flex-row gap-8 justify-center items-center p-4">
-      {isPending ? (
+      {isLoading ? (
         <div className="w-full max-w-sm flex justify-center">
           <Loader className="w-12 h-12 animate-spin" />
         </div>
@@ -65,7 +41,12 @@ const DaySelectionFrame = ({ data, clinic, setData, setCurrentPage }: DaySelecti
             selected={selectedDay}
             onSelect={handleDaySelect}
             className="rounded-lg border shadow-sm"
-            disabled={isDateDisabled}
+            disabled={(date) => {
+              const formatted = format(date, "yyyy-MM-dd")
+
+              // disable everything NOT in the available list
+              return !dataset.has(formatted)
+            }}
           />
         </div>
       )}
@@ -84,7 +65,7 @@ const DaySelectionFrame = ({ data, clinic, setData, setCurrentPage }: DaySelecti
         <button
           className="w-full max-w-xs mt-4 py-3 bg-blue-800 text-white font-semibold rounded-lg shadow-md hover:bg-blue-900 transition-colors cursor-pointer disabled:opacity-50"
           onClick={() => setCurrentPage(3)}
-          disabled={!selectedDay || isDateDisabled(selectedDay)}
+          disabled={!selectedDay}
         >
           Selecionar horário
         </button>
