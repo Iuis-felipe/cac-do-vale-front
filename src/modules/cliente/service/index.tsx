@@ -26,3 +26,13 @@ export const getAvailableHours = async (date: string, clinicSlug?: string) => {
     throw new Error(e)
   }
 }
+
+export const getSchedulingAvailableDays = async (clinicSlug: string): Promise<string[]> => {
+  try {
+    const { data } = await api.get(`availability/scheduling/${clinicSlug}`);
+
+    return data;
+  } catch(e: any) {
+    throw new Error(e)
+  }
+}
