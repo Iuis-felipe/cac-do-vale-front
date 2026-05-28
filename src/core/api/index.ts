@@ -3,6 +3,7 @@ import axios from "axios";
 // const api_url = 'http://localhost:3000/api/v1';
 const api_url = 'https://api.cacdovale.com.br/api/v1';
 
+console.log("API URL:", api_url);
 
 const api = axios.create({
   baseURL: api_url,
