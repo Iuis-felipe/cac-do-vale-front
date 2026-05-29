@@ -206,7 +206,7 @@ const Scheduling = () => {
         <main className="p-6 sm:p-8 flex-grow min-h-[50vh] flex items-center justify-center">
           {currentPage === 1 && <WelcomeFrame setCurrentPage={setCurrentPage} />}
           {currentPage === 2 && (
-            <DaySelectionFrame clinic={clinic} data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
+            <DaySelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
           )}
           {currentPage === 3 && (
             <HourSelectionFrame data={formData} setData={setFormData} setCurrentPage={setCurrentPage} />
