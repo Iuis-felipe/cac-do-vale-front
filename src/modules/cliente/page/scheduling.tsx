@@ -67,7 +67,7 @@ const Scheduling = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<SchedulingFormData | null>(null);
 
-  const { mutate: getClinicBySlug, data: clinic } = useGetClinicBySlug();
+  const { mutate: getClinicBySlug } = useGetClinicBySlug();
 
   useEffect(() => {
     if (!slug) return;
