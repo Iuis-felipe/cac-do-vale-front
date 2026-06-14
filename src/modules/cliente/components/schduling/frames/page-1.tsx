@@ -1,15 +1,16 @@
 import { ArrowRightIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
 
 interface WelcomeFrameProps {
   setCurrentPage: (page: number) => void;
 }
 
 const WelcomeFrame = ({ setCurrentPage }: WelcomeFrameProps) => {
-  const { slug } = useParams();
+  const domain = window.location.hostname;
 
   const clinicName = useMemo(() => {
+    const slug = domain.includes("blumed") ? "cac-blumed" : "cac-do-vale";
+
     if (!slug) return "";
 
     const slugMap: Record<string, string> = {
@@ -28,7 +29,7 @@ const WelcomeFrame = ({ setCurrentPage }: WelcomeFrameProps) => {
         return lower.charAt(0).toUpperCase() + lower.slice(1);
       })
       .join(" ");
-  }, [slug]);
+  }, [domain]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center text-center p-4">
