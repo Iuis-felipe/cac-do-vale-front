@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { isSaturday, isSunday } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { isValidCpf, isValidEmail, isValidPhone } from "@/core/utils/validation";
-import { useParams } from "react-router-dom";
 
 import Pagination from "../components/schduling/pagination";
 import WelcomeFrame from "../components/schduling/frames/page-1";
@@ -12,7 +11,6 @@ import PersonalDataFrame from "../components/schduling/frames/page-4";
 import AddressFrame from "../components/schduling/frames/page-5";
 import FinishFrame from "../components/schduling/frames/page-6";
 import ConfirmationFrame from "../../../components/frames/ConfirmationFrame";
-import useGetClinicBySlug from "@/core/hooks/useGetClinicBySlug";
 
 interface SchedulingFormData {
   dia: Date | undefined;
@@ -61,18 +59,20 @@ const initialFormData = {
 };
 
 const Scheduling = () => {
-  const { slug } = useParams();
+  const domain = window.location.hostname;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState(initialFormData);
   const [confirmedAppointmentData, setConfirmedAppointmentData] = useState<SchedulingFormData | null>(null);
 
-  const { mutate: getClinicBySlug } = useGetClinicBySlug();
-
   useEffect(() => {
-    if (!slug) return;
+    if (!domain) return;
 
-    getClinicBySlug(slug);
+    let slug = 'cac-do-vale'; // default slug
+
+    if(domain.includes("blumed")) {
+      slug = 'cac-blumed';
+    }
 
     const colorBySlug: Record<string, string> = {
       "cac-do-vale": "#101F59",
@@ -80,6 +80,7 @@ const Scheduling = () => {
     };
 
     const clinicColor = colorBySlug[slug];
+
     if (!clinicColor) return;
 
     const root = document.documentElement;
@@ -102,7 +103,7 @@ const Scheduling = () => {
     root.style.setProperty("--sidebar-primary", clinicColor);
     root.style.setProperty("--primary-foreground", foregroundColor);
     root.style.setProperty("--sidebar-primary-foreground", foregroundColor);
-  }, [getClinicBySlug, slug]);
+  }, [domain]);
 
   const totalPages = 6;
 
@@ -147,12 +148,6 @@ const Scheduling = () => {
         return false;
     }
   };
-
-  // const handleReset = () => {
-  //   setConfirmedAppointmentData(null);
-  //   setFormData(initialFormData);
-  //   setCurrentPage(1);
-  // };
 
   const BackButton = () => (
     <button
