@@ -3,7 +3,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Loader } from "lucide-react";
-import { useParams } from "react-router-dom";
 import { useGetSchedulingAvailableDays } from "@/modules/cliente/hook/useGetAvailableDays";
 
 interface DaySelectionFrameProps {
@@ -13,8 +12,10 @@ interface DaySelectionFrameProps {
 }
 
 const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
-  const { slug } = useParams();
-  const { availableDays, isLoading } = useGetSchedulingAvailableDays(slug || '');
+  const domain = window.location.hostname;
+  const { availableDays, isLoading } = useGetSchedulingAvailableDays(
+    domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale"
+  );
 
   const [selectedDay, setSelectedDay] = useState<Date | undefined>();
   

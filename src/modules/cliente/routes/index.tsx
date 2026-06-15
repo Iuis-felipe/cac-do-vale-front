@@ -2,7 +2,7 @@ import Scheduling from "../page/scheduling";
 
 const clientRoutes = [
   {
-    path: "agendar/:slug",
+    path: "agendar",
     element: <Scheduling />
   }
 ];
