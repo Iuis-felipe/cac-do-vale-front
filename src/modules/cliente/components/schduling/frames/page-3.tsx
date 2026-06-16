@@ -6,7 +6,6 @@ import { ptBR } from "date-fns/locale";
 import useGetAppointmentHours from "@/core/hooks/useGetAppointmentHours";
 import useGetDefaultHours from "@/core/hooks/useGetDefaultHours";
 import { XCircle } from "lucide-react";
-import { useParams } from "react-router-dom";
 
 interface HourSelectionFrameProps {
   data: any;
