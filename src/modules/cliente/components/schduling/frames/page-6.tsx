@@ -4,7 +4,6 @@ import { set } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useParams } from "react-router-dom";
 
 interface FinishFrameProps {
   data: any;
@@ -12,7 +11,8 @@ interface FinishFrameProps {
 }
 
 const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
-  const { slug } = useParams();
+  const domain = window.location.hostname;
+
   const { mutate, isPending, isSuccess, isError: isMutationError, error } = useCreateClientSchedule();
 
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -52,7 +52,7 @@ const FinishFrame: React.FC<FinishFrameProps> = ({ data, onSuccess }) => {
       return;
     }
 
-    const newSchedule = { ...data, clinicSlug: slug };
+    const newSchedule = { ...data, clinicSlug: domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale" };
     const [hours, minutes] = data.horario.split(':').map(Number);
     newSchedule.dia = set(new Date(data.dia), { hours, minutes });
     
