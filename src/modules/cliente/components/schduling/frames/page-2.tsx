@@ -13,6 +13,7 @@ interface DaySelectionFrameProps {
 
 const DaySelectionFrame = ({ data, setData, setCurrentPage }: DaySelectionFrameProps) => {
   const domain = window.location.hostname;
+  
   const { availableDays, isLoading } = useGetSchedulingAvailableDays(
     domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale"
   );

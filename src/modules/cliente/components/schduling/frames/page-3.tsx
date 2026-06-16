@@ -15,7 +15,7 @@ interface HourSelectionFrameProps {
 }
 
 const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFrameProps) => {
-  const { slug } = useParams();
+  const domain = window.location.hostname;
 
   const { mutate, isPending, data: availableHours } = useGetAvailableHours();
   const { mutate: getAppointmentHours, isPending: loadingAppointmentHours, data: appointmentHours } = useGetAppointmentHours()
@@ -23,9 +23,9 @@ const HourSelectionFrame = ({ data, setData, setCurrentPage }: HourSelectionFram
 
   useEffect(() => {
     if (data.dia) {
-      mutate({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: slug });
-      getAppointmentHours({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: slug });
-      getDefaultHours(slug);
+      mutate({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale" });
+      getAppointmentHours({ date: format(data.dia, "yyyy-MM-dd"), clinicSlug: domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale" });
+      getDefaultHours(domain ? domain.includes("blumed") ? "cac-blumed" : "cac-do-vale" : "cac-do-vale");
     }
   }, [data.dia]);
 
